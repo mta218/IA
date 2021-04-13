@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void goToSettings(){
-        Intent intent = new Intent((MainActivity) this.getActivity(), SettingsActivity.class);
+        Intent intent = new Intent(this.getActivity(), SettingsActivity.class);
         startActivity(intent);
     }
 

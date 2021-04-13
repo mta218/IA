@@ -6,6 +6,7 @@ import com.example.habitapp.enums.Goal;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.UUID;
 
 public class Habit {
     String ID;
@@ -19,6 +20,15 @@ public class Habit {
     Calendar lastUpdated;
     ArrayList<String> tags;
 
+    public Habit(String title, Frequency freq, int goal, Calendar goalDate, Goal goalType, ArrayList<String> tags) {
+        ID = UUID.randomUUID().toString();
+        this.title = title;
+        this.freq = freq;
+        this.goal = goal;
+        this.goalDate = goalDate;
+        this.goalType = goalType;
+        this.tags = tags;
+    }
 
     public void addTag(String newTag){
         tags.add(newTag);
@@ -83,5 +93,85 @@ public class Habit {
         int targetMonth = lastUpdated.get(Calendar.MONTH);
         int targetYear = lastUpdated.get(Calendar.YEAR);
         return month == targetMonth && year == targetYear;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Frequency getFreq() {
+        return freq;
+    }
+
+    public void setFreq(Frequency freq) {
+        this.freq = freq;
+    }
+
+    public int getTrackedCount() {
+        return trackedCount;
+    }
+
+    public void setTrackedCount(int trackedCount) {
+        this.trackedCount = trackedCount;
+    }
+
+    public int getGoal() {
+        return goal;
+    }
+
+    public void setGoal(int goal) {
+        this.goal = goal;
+    }
+
+    public Calendar getGoalDate() {
+        return goalDate;
+    }
+
+    public void setGoalDate(Calendar goalDate) {
+        this.goalDate = goalDate;
+    }
+
+    public Goal getGoalType() {
+        return goalType;
+    }
+
+    public void setGoalType(Goal goalType) {
+        this.goalType = goalType;
+    }
+
+    public int getStreak() {
+        return streak;
+    }
+
+    public void setStreak(int streak) {
+        this.streak = streak;
+    }
+
+    public Calendar getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(Calendar lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
     }
 }

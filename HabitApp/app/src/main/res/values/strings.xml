@@ -3,4 +3,18 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string-array name="frequencies">
+        <item>None</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+    </string-array>
+
+    <string-array name="goal_types">
+        <item>None</item>
+        <item>Streak</item>
+        <item>Amount</item>
+        <item>Date</item>
+    </string-array>
 </resources>

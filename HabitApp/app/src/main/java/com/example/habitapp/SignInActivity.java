@@ -150,7 +150,8 @@ public class SignInActivity extends AppCompatActivity {
 
                         } else {
                             // If sign in fails, display a message to the user.
-                            System.out.println("FAILED PEE PEE POO POO! " + task.getException());
+                            Toast.makeText(getApplicationContext(), "Sign in failed.\n"+task.getException(),
+                                    Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
                     }
