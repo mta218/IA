@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,11 +19,16 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.habitapp.MainActivity;
 import com.example.habitapp.R;
 import com.example.habitapp.SettingsActivity;
+import com.example.habitapp.models.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private Button goToSettingsButton;
+    private Button goToSettingsButton, testButton;
+
+    FirebaseFirestore fRef;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -38,6 +44,7 @@ public class HomeFragment extends Fragment {
         });
 
         goToSettingsButton = root.findViewById(R.id.settingsButton);
+        testButton = root.findViewById(R.id.testButton);
 
         View.OnClickListener goToSettingsListener = new View.OnClickListener() {
             @Override
@@ -47,6 +54,21 @@ public class HomeFragment extends Fragment {
         };
         goToSettingsButton.setOnClickListener(goToSettingsListener);
 
+        View.OnClickListener testListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fRef = FirebaseFirestore.getInstance();
+                fRef.collection("Users").document("TESTTEST").set(new User("test man haha")).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        System.out.println("EROR? " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                });;
+            }
+        };
+        testButton.setOnClickListener(testListener);
+
         return root;
     }
 
@@ -54,6 +76,8 @@ public class HomeFragment extends Fragment {
         Intent intent = new Intent((MainActivity) this.getActivity(), SettingsActivity.class);
         startActivity(intent);
     }
+
+
 
 
 }

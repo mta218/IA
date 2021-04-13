@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
+import com.example.habitapp.models.User;
+import com.example.habitapp.utils.HabitConstants;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -14,18 +17,23 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignInActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 11; //might need to change this?
     GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore fRef;
 
 
     @Override
@@ -40,6 +48,7 @@ public class SignInActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         mAuth = FirebaseAuth.getInstance();
+        fRef = FirebaseFirestore.getInstance();
 
         SignInButton signInButton = findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +74,7 @@ public class SignInActivity extends AppCompatActivity {
     public void updateUI(FirebaseUser currentUser) {
         //when has user, move to next screen
         if(currentUser != null){
+            //System.out.println("already signed in and user id be like: " + currentUser.getUid());
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
@@ -86,11 +96,11 @@ public class SignInActivity extends AppCompatActivity {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                System.out.println("SUCKSESS SISTERSS!! ID:" + account.getId());
+                Toast.makeText(getApplicationContext(), "Success! Welcome!",
+                        Toast.LENGTH_SHORT).show();
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                System.out.println("FAILED PEE PEE POO POO!! eggnog!!" + task.getException());
                 e.printStackTrace();
             }
         }
@@ -104,9 +114,40 @@ public class SignInActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            System.out.println("SUCKSESS SISTERSS YASS!!");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+
+                            fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            FirebaseUser user = mAuth.getCurrentUser();
+                                            updateUI(user);
+                                        } else {
+                                            fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).set(new User(mAuth.getCurrentUser().getEmail().split("@")[0])).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(getApplicationContext(), "Failed:\n"+e.getMessage(),
+                                                            Toast.LENGTH_SHORT).show();
+                                                }
+                                            }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    //TODO: might wanna direct them to a welcome page because new account innit bruv
+                                                    FirebaseUser user = mAuth.getCurrentUser();
+                                                    updateUI(user);
+                                                }
+                                            });
+                                        }
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Failed:\n Could not update properly",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+
+
                         } else {
                             // If sign in fails, display a message to the user.
                             System.out.println("FAILED PEE PEE POO POO! " + task.getException());
