@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.habitapp.R;
 
-public class HabitFragment extends Fragment {
+public class NotificationsFragment extends Fragment {
 
     private HabitViewModel habitViewModel;
 

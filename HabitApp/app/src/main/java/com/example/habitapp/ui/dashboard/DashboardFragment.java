@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.habitapp.R;
 
-public class SocialFragment extends Fragment {
+public class DashboardFragment extends Fragment {
 
     private SocialViewModel socialViewModel;
 

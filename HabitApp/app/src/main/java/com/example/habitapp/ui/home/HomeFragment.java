@@ -1,9 +1,11 @@
 package com.example.habitapp.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,11 +15,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.habitapp.MainActivity;
 import com.example.habitapp.R;
+import com.example.habitapp.SettingsActivity;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    private Button goToSettingsButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -31,6 +36,24 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        goToSettingsButton = root.findViewById(R.id.settingsButton);
+
+        View.OnClickListener goToSettingsListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToSettings();
+            }
+        };
+        goToSettingsButton.setOnClickListener(goToSettingsListener);
+
         return root;
     }
+
+    private void goToSettings(){
+        Intent intent = new Intent((MainActivity) this.getActivity(), SettingsActivity.class);
+        startActivity(intent);
+    }
+
+
 }
