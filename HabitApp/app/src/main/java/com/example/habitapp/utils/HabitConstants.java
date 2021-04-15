@@ -5,5 +5,7 @@ public class HabitConstants {
     public static final String USER_PATH = "Users";
     public static final String HABIT_PATH = "Habits";
 
-    public static final String[] FREQ_ARRAY = {"None","Daily","Weekly","Monthly"};
+    //Recycler View Tags
+    public static final String URGENT_HABIT_RECYCLER_VIEW = "UrgentHabit";
+    public static final String ALL_HABIT_RECYCLER_VIEW = "AllHabit";
 }

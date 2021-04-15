@@ -195,8 +195,4 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
         return list;
     }
 
-    private void closeActivity(){
-        finish();
-    }
-
 }

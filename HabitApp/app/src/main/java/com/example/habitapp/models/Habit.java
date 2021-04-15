@@ -3,6 +3,7 @@ package com.example.habitapp.models;
 import com.example.habitapp.enums.Frequency;
 import com.example.habitapp.enums.Goal;
 
+import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -173,5 +174,30 @@ public class Habit {
 
     public void setTags(ArrayList<String> tags) {
         this.tags = tags;
+    }
+
+    public String lastUpdatedString(){
+        long days = Duration.between(lastUpdated.toInstant(), Calendar.getInstance().toInstant()).toDays();
+        if(days < 7){
+            return "Last updated " + days + " days ago";
+        }
+        else if(days < 14){
+            return "Last updated a week ago";
+        }
+        else if(days <= 28){
+            return "Last updated " + Math.round(((int)days)/7.0) + " weeks ago";
+        }
+        else if(days <= 31){
+            return "Last updated a month ago";
+        }
+        else if(days < 365){
+            return "Last updated " + Math.round(((int)days)/30.5) + " months ago";
+        }
+        else if(days < 547){
+            return "Last updated a year ago";
+        }
+        else {
+            return "Last updated " + Math.round(((int)days)/365) + " years ago";
+        }
     }
 }
