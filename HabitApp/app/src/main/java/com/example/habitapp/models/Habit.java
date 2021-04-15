@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 public class Habit {
@@ -15,13 +16,13 @@ public class Habit {
     Frequency freq;
     int trackedCount;
     int goal;
-    Calendar goalDate;
+    Date goalDate;
     Goal goalType;
     int streak;
-    Calendar lastUpdated;
+    Date lastUpdated;
     ArrayList<String> tags;
 
-    public Habit(String title, Frequency freq, int goal, Calendar goalDate, Goal goalType, ArrayList<String> tags) {
+    public Habit(String title, Frequency freq, int goal, Date goalDate, Goal goalType, ArrayList<String> tags) {
         ID = UUID.randomUUID().toString();
         this.title = title;
         this.freq = freq;
@@ -29,20 +30,26 @@ public class Habit {
         this.goalDate = goalDate;
         this.goalType = goalType;
         this.tags = tags;
+        lastUpdated = Calendar.getInstance().getTime();
+    }
+
+    public Habit() {
     }
 
     public void addTag(String newTag){
         tags.add(newTag);
     }
 
-    public boolean isGoalReached(){
+    public boolean goalReached(){
         if(goalType == Goal.AMOUNT){
             return trackedCount == goal;
         }
         else if(goalType == Goal.DATE){
             //https://stackoverflow.com/questions/5046771/how-to-get-todays-date
             Calendar today = Calendar.getInstance();
-            return today.get(Calendar.YEAR) == goalDate.get(Calendar.YEAR) && today.get(Calendar.DATE) == goalDate.get(Calendar.DATE) &&  today.get(Calendar.MONTH) == goalDate.get(Calendar.MONTH);
+            Calendar goalDateAsCal = Calendar.getInstance()
+            goalDateAsCal.setTime(goalDate);
+            return today.get(Calendar.YEAR) ==  goalDateAsCal.get(Calendar.YEAR) && today.get(Calendar.DATE) == goalDateAsCal.get(Calendar.DATE) &&  today.get(Calendar.MONTH) == goalDateAsCal.get(Calendar.MONTH);
         }
         else if(goalType == Goal.STREAK){
             return streak == goal;
@@ -140,7 +147,7 @@ public class Habit {
         return goalDate;
     }
 
-    public void setGoalDate(Calendar goalDate) {
+    public void setGoalDate(Date goalDate) {
         this.goalDate = goalDate;
     }
 
@@ -160,11 +167,11 @@ public class Habit {
         this.streak = streak;
     }
 
-    public Calendar getLastUpdated() {
+    public Date getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(Calendar lastUpdated) {
+    public void setLastUpdated(Date lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 

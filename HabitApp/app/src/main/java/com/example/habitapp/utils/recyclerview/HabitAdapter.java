@@ -130,7 +130,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
      *
      * @param habitsToAdd Arraylist of habits to add
      */
-    public void addVehicles(ArrayList<Habit> habitsToAdd) {
+    public void addHabits(ArrayList<Habit> habitsToAdd) {
         this.habitsToDisplay.addAll(habitsToAdd);
     }
 

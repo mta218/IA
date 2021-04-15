@@ -15,6 +15,9 @@ public class User {
         settings = new Settings();
     }
 
+    public User() {
+    }
+
     public String getDisplayName() {
         return displayName;
     }

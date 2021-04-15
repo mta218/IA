@@ -21,24 +21,21 @@ import com.example.habitapp.models.User;
 import com.example.habitapp.utils.HabitConstants;
 import com.example.habitapp.utils.recyclerview.HabitAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
 public class NotificationsFragment extends Fragment implements HabitAdapter.OnHabitListener {
     //for habits
     Button createButton;
-    RecyclerView urgentHabitRecyclerView;
+    RecyclerView urgentHabitRecyclerView, allHabitRecyclerView;
     FirebaseFirestore fRef;
     FirebaseAuth mAuth;
+    ArrayList<Habit> urgentPendingArrayList, allPendingArrayList;
+    User user;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +44,9 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
 
         fRef = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+
+        allPendingArrayList = new ArrayList<>();
+        urgentPendingArrayList = new ArrayList<>();
 
         createButton = root.findViewById(R.id.createButton);
         View.OnClickListener createListener = new View.OnClickListener() {
@@ -57,13 +57,21 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
         };
         createButton.setOnClickListener(createListener);
 
-        urgentHabitRecyclerView = root.findViewById(R.id.urgentHabitRecyclerView);
+        allHabitRecyclerView = root.findViewById(R.id.allHabitRecyclerView);
         HabitAdapter adapter1 = new HabitAdapter(new ArrayList<Habit>(), this, HabitConstants.ALL_HABIT_RECYCLER_VIEW);
-        urgentHabitRecyclerView.setAdapter(adapter1);
-        urgentHabitRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        allHabitRecyclerView.setAdapter(adapter1);
+        allHabitRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+
 
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        refresh();
     }
 
     void addHabit() {
@@ -81,15 +89,25 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
             //intent.putExtra(HabitConstants.USER_ID, user.getId());
             startActivity(intent);
         }
+        else if (tag.equals(HabitConstants.ALL_HABIT_RECYCLER_VIEW)) {
+            Intent intent = new Intent(this.getActivity(), HabitProfileActivity.class);
+            Habit habit = ((HabitAdapter) allHabitRecyclerView.getAdapter()).getHabit(position);
+
+            //intent.putExtra(HabitConstants.VEHICLE_TYPE_EXTRA, type);
+            //intent.putExtra(HabitConstants.USER_ID, user.getId());
+            startActivity(intent);
+        }
     }
 
     private void refresh() {
+        ((HabitAdapter) allHabitRecyclerView.getAdapter()).clearArrayList();
+        allPendingArrayList.clear();
         fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    User user = document.toObject(User.class);
+                    user = document.toObject(User.class);
 
                     for (String habitID : user.getHabits()) {
                         fRef.collection(HabitConstants.HABIT_PATH)
@@ -101,10 +119,11 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
                                         if (task.isSuccessful()) {
                                             DocumentSnapshot document = task.getResult();
                                             Habit habit = document.toObject(Habit.class);
-                                            addToRecyclerView(HabitConstants.ALL_HABIT_RECYCLER_VIEW , habit);
-
+                                            addPending(HabitConstants.ALL_HABIT_RECYCLER_VIEW , habit);
                                         } else {
-
+                                            Toast.makeText(getContext(), "Failed:\n Could not update properly",
+                                                    Toast.LENGTH_SHORT).show();
+                                            //TODO: display something in place of the recycler view because its empty?
                                         }
                                     }
                                 });
@@ -116,11 +135,16 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
                 }
             }
         });
+
     }
 
-    void addToRecyclerView(String tag, Habit habitToAdd){
-        if(tag.equals(((HabitAdapter) urgentHabitRecyclerView.getAdapter()).getTag())){
-            ((HabitAdapter) urgentHabitRecyclerView.getAdapter()).addHabit(habitToAdd);
+    void addPending(String tag, Habit habitToAdd){
+        if(tag.equals(HabitConstants.ALL_HABIT_RECYCLER_VIEW)){
+            allPendingArrayList.add(habitToAdd);
+            if(allPendingArrayList.size() == user.getHabits().size()){
+                ((HabitAdapter) allHabitRecyclerView.getAdapter()).addHabits(allPendingArrayList);
+                allHabitRecyclerView.getAdapter().notifyDataSetChanged();
+            }
         }
     }
 
