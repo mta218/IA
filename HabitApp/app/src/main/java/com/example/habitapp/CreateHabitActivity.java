@@ -96,15 +96,10 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
                 case 1:
                     goal = Goal.STREAK;
                     goalInput.setVisibility(View.VISIBLE);
-                    dateInput.setVisibility(View.INVISIBLE);
+                    dateInput.setVisibility(View.VISIBLE);
                     break;
                 case 2:
                     goal = Goal.AMOUNT;
-                    goalInput.setVisibility(View.VISIBLE);
-                    dateInput.setVisibility(View.INVISIBLE);
-                    break;
-                case 3:
-                    goal = Goal.DATE;
                     goalInput.setVisibility(View.VISIBLE);
                     dateInput.setVisibility(View.VISIBLE);
                     break;
@@ -125,43 +120,39 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
         if (titleString.equals("")) {
             Toast.makeText(getApplicationContext(), "Please enter a title",
                     Toast.LENGTH_SHORT).show();
-        } else if (goal == Goal.DATE) {
-            if (dateString.equals("") || goalString.equals("")) {
-                Toast.makeText(getApplicationContext(), "Please enter all required information",
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                try {
-                    Date goalDate = new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
-
-                    //https://alvinalexander.com/java/java-today-get-todays-date-now/
-                    if (goalDate.compareTo(Calendar.getInstance().getTime()) < 0) {
-                        throw new Exception();
-                    }
-
-                    updateDatabase(new Habit(titleString, freq, Integer.parseInt(goalString), goalDate, goal ,getTags(), mAuth.getUid()));
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Please enter a valid date",
-                            Toast.LENGTH_SHORT).show();
-                }
-
-            }
         } else if (goal == Goal.AMOUNT || goal == Goal.STREAK) {
             if (goalString.equals("")) {
                 Toast.makeText(getApplicationContext(), "Please enter goal information",
                         Toast.LENGTH_SHORT).show();
             } else {
-                updateDatabase(new Habit(titleString, freq, Integer.parseInt(goalString), null, goal ,getTags(), mAuth.getUid()));
+                if (dateString.equals("")) {
+                    updateDatabase(new Habit(titleString, freq, Integer.parseInt(goalString), null, goal, getTags(), mAuth.getUid()));
+                } else {
+                    try {
+                        Date goalDate = new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
+
+                        //https://alvinalexander.com/java/java-today-get-todays-date-now/
+                        if (goalDate.compareTo(Calendar.getInstance().getTime()) < 0) {
+                            throw new Exception();
+                        }
+
+                        updateDatabase(new Habit(titleString, freq, Integer.parseInt(goalString), goalDate, goal, getTags(), mAuth.getUid()));
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Please enter a valid date",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         }
     }
 
-    void updateDatabase(final Habit habit){
+    void updateDatabase(final Habit habit) {
         FirebaseFirestore fRef = FirebaseFirestore.getInstance();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         fRef.collection(HabitConstants.HABIT_PATH).document(habit.getID()).set(habit).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "Failed:\n"+e.getMessage(),
+                Toast.makeText(getApplicationContext(), "Failed:\n" + e.getMessage(),
                         Toast.LENGTH_SHORT).show();
             }
         }).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -172,13 +163,13 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
                 fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).update("habits", FieldValue.arrayUnion(habit.getID())).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Failed:\n"+e.getMessage(),
+                        Toast.makeText(getApplicationContext(), "Failed:\n" + e.getMessage(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 }).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(getApplicationContext(), "\""+habit.getTitle()+"\" was Successfully Created",
+                        Toast.makeText(getApplicationContext(), "\"" + habit.getTitle() + "\" was Successfully Created",
                                 Toast.LENGTH_SHORT).show();
                         finish();
                     }
@@ -188,10 +179,10 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
 
     }
 
-    private ArrayList<String> getTags(){
+    private ArrayList<String> getTags() {
         ArrayList<String> list = new ArrayList<String>();
         String[] temp = tagsInput.getText().toString().trim().replaceAll("\\s+", "").split(",");
-        for(int i = 0; i < temp.length; i++){
+        for (int i = 0; i < temp.length; i++) {
             temp[i] = temp[i].toLowerCase();
         }
         Collections.addAll(list, temp);

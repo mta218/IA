@@ -54,7 +54,6 @@ public class HabitProfileActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     habit = task.getResult().toObject(Habit.class);
-
                     update();
                 }
             }
@@ -64,7 +63,12 @@ public class HabitProfileActivity extends AppCompatActivity {
 
     void update() {
         titleText.setText(habit.getTitle());
-        if(habit.getGoalType() != Goal.NONE){
+        isOwner = false;
+        if(habit.getOwnerID().equals(mAuth.getUid())){
+            isOwner = true;
+        }
+
+        if(habit.getGoalType() != Goal.NONE && isOwner){
             lastUpdatedText.setText(habit.lastUpdatedString()+"\nKeep updating this habit to reach your goal!");
         }
         else{
@@ -74,14 +78,23 @@ public class HabitProfileActivity extends AppCompatActivity {
 
         int percentage = 0;
 
-        if (habit.getGoalType() == Goal.AMOUNT || habit.getGoalType() == Goal.DATE) {
+        if (habit.getGoalType() == Goal.AMOUNT) {
             percentage = (int) Math.round((100.0 * habit.getTrackedCount()) / habit.getGoal());
         } else if (habit.getGoalType() == Goal.STREAK) {
             percentage = (int) Math.round((100.0 * habit.getStreak()) / habit.getGoal());
         }
 
-        progressText.setText("You have reached " + percentage + "% of your goal");
+        //TODO: add thing for date / no date
+
+        if(isOwner){
+            progressText.setText("You have reached " + percentage + "% of your goal");
+        }
+        else{   //TODO: make this change for not same user
+            progressText.setText("You have reached " + percentage + "% of your goal");
+        }
+
 
         progressBar.setProgress(percentage); //percentage
+
     }
 }

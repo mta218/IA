@@ -4,11 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class UpdateHabitActivity extends AppCompatActivity {
+public class EditHabitActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_habit);
+        setContentView(R.layout.activity_edit_habit);
     }
 }
