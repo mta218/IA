@@ -12,6 +12,7 @@ import java.util.UUID;
 
 public class Habit {
     String ID;
+    String ownerID;
     String title;
     Frequency freq;
     int trackedCount;
@@ -22,7 +23,7 @@ public class Habit {
     Date lastUpdated;
     ArrayList<String> tags;
 
-    public Habit(String title, Frequency freq, int goal, Date goalDate, Goal goalType, ArrayList<String> tags) {
+    public Habit(String title, Frequency freq, int goal, Date goalDate, Goal goalType, ArrayList<String> tags, String ownerID) {
         ID = UUID.randomUUID().toString();
         this.title = title;
         this.freq = freq;
@@ -31,6 +32,7 @@ public class Habit {
         this.goalType = goalType;
         this.tags = tags;
         lastUpdated = Calendar.getInstance().getTime();
+        this.ownerID = ownerID;
     }
 
     public Habit() {
@@ -47,7 +49,7 @@ public class Habit {
         else if(goalType == Goal.DATE){
             //https://stackoverflow.com/questions/5046771/how-to-get-todays-date
             Calendar today = Calendar.getInstance();
-            Calendar goalDateAsCal = Calendar.getInstance()
+            Calendar goalDateAsCal = Calendar.getInstance();
             goalDateAsCal.setTime(goalDate);
             return today.get(Calendar.YEAR) ==  goalDateAsCal.get(Calendar.YEAR) && today.get(Calendar.DATE) == goalDateAsCal.get(Calendar.DATE) &&  today.get(Calendar.MONTH) == goalDateAsCal.get(Calendar.MONTH);
         }
@@ -86,20 +88,24 @@ public class Habit {
     private boolean updatedThisWeek(){
         //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
         Calendar today = Calendar.getInstance();
+        Calendar lastUpdatedAsCal = Calendar.getInstance();
+        lastUpdatedAsCal.setTime(lastUpdated);
         int week = today.get(Calendar.WEEK_OF_YEAR);
         int year = today.get(Calendar.YEAR);
-        int targetWeek = lastUpdated.get(Calendar.WEEK_OF_YEAR);
-        int targetYear = lastUpdated.get(Calendar.YEAR);
+        int targetWeek = lastUpdatedAsCal.get(Calendar.WEEK_OF_YEAR);
+        int targetYear = lastUpdatedAsCal.get(Calendar.YEAR);
         return week == targetWeek && year == targetYear;
     }
 
     private boolean updatedThisMonth(){
         //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
         Calendar today = Calendar.getInstance();
+        Calendar lastUpdatedAsCal = Calendar.getInstance();
+        lastUpdatedAsCal.setTime(lastUpdated);
         int month = today.get(Calendar.MONTH);
         int year = today.get(Calendar.YEAR);
-        int targetMonth = lastUpdated.get(Calendar.MONTH);
-        int targetYear = lastUpdated.get(Calendar.YEAR);
+        int targetMonth = lastUpdatedAsCal.get(Calendar.MONTH);
+        int targetYear = lastUpdatedAsCal.get(Calendar.YEAR);
         return month == targetMonth && year == targetYear;
     }
 
@@ -143,7 +149,7 @@ public class Habit {
         this.goal = goal;
     }
 
-    public Calendar getGoalDate() {
+    public Date getGoalDate() {
         return goalDate;
     }
 
@@ -185,14 +191,21 @@ public class Habit {
 
     public String lastUpdatedString(){
         long days = Duration.between(lastUpdated.toInstant(), Calendar.getInstance().toInstant()).toDays();
-        if(days < 7){
+        if(days == 0){
+            return "Last updated today";
+        }
+        else if(days < 7){
+            if(days == 1){
+                return "Last updated a day ago";
+            }
             return "Last updated " + days + " days ago";
         }
-        else if(days < 14){
-            return "Last updated a week ago";
-        }
         else if(days <= 28){
-            return "Last updated " + Math.round(((int)days)/7.0) + " weeks ago";
+            int weeks = (int) Math.round(((int)days)/7.0);
+            if(weeks == 1){
+                return "Last updated a week ago";
+            }
+            return "Last updated " + weeks + " weeks ago";
         }
         else if(days <= 31){
             return "Last updated a month ago";
@@ -200,11 +213,20 @@ public class Habit {
         else if(days < 365){
             return "Last updated " + Math.round(((int)days)/30.5) + " months ago";
         }
-        else if(days < 547){
-            return "Last updated a year ago";
-        }
         else {
-            return "Last updated " + Math.round(((int)days)/365) + " years ago";
+            int years = (int) Math.round(((int)days)/365);
+            if(years == 1){
+                return "Last updated a year ago";
+            }
+            return "Last updated " + years + " years ago";
         }
+    }
+
+    public String getOwnerID() {
+        return ownerID;
+    }
+
+    public void setOwnerID(String ownerID) {
+        this.ownerID = ownerID;
     }
 }

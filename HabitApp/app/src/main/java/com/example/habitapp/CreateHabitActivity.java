@@ -34,11 +34,13 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
     Goal goal;
     EditText dateInput, goalInput, titleInput, tagsInput;
     Button submitButton;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_habit);
+        mAuth = FirebaseAuth.getInstance();
 
         dateInput = findViewById(R.id.dateInput);
         goalInput = findViewById(R.id.goalInput);
@@ -124,24 +126,22 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
             Toast.makeText(getApplicationContext(), "Please enter a title",
                     Toast.LENGTH_SHORT).show();
         } else if (goal == Goal.DATE) {
-            if (goalString.equals("")) {
-                Toast.makeText(getApplicationContext(), "Please enter goal information",
+            if (dateString.equals("")) {
+                Toast.makeText(getApplicationContext(), "Please enter a date",
                         Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     Date goalDate = new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
 
-                    Calendar goalDateAsCal = Calendar.getInstance();
-                    goalDateAsCal.setTime(goalDate);
 
                     //https://alvinalexander.com/java/java-today-get-todays-date-now/
-                    if (goalDateAsCal.before(Calendar.getInstance().getTime())) {
+                    if (goalDate.compareTo(Calendar.getInstance().getTime()) < 0) {
                         throw new Exception();
                     }
 
-                    updateDatabase(new Habit(titleString, freq, 0, goalDateAsCal, goal ,getTags()));
+                    updateDatabase(new Habit(titleString, freq, 0, goalDate, goal ,getTags(), mAuth.getUid()));
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Failed:\nInvalid Date",
+                    Toast.makeText(getApplicationContext(), "Please enter a valid date",
                             Toast.LENGTH_SHORT).show();
                 }
 
@@ -151,7 +151,7 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
                 Toast.makeText(getApplicationContext(), "Please enter goal information",
                         Toast.LENGTH_SHORT).show();
             } else {
-                updateDatabase(new Habit(titleString, freq, Integer.parseInt(goalString), null, goal ,getTags()));
+                updateDatabase(new Habit(titleString, freq, Integer.parseInt(goalString), null, goal ,getTags(), mAuth.getUid()));
             }
         }
     }

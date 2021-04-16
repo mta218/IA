@@ -81,22 +81,17 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
 
     @Override
     public void onHabitClick(int position, String tag) {
+        Intent intent = new Intent(this.getActivity(), HabitProfileActivity.class);
+        Habit habit = null;
         if (tag.equals(HabitConstants.URGENT_HABIT_RECYCLER_VIEW)) {
-            Intent intent = new Intent(this.getActivity(), HabitProfileActivity.class);
-            Habit habit = ((HabitAdapter) urgentHabitRecyclerView.getAdapter()).getHabit(position);
-
-            //intent.putExtra(HabitConstants.VEHICLE_TYPE_EXTRA, type);
-            //intent.putExtra(HabitConstants.USER_ID, user.getId());
-            startActivity(intent);
+            habit = ((HabitAdapter) urgentHabitRecyclerView.getAdapter()).getHabit(position);
         }
         else if (tag.equals(HabitConstants.ALL_HABIT_RECYCLER_VIEW)) {
-            Intent intent = new Intent(this.getActivity(), HabitProfileActivity.class);
-            Habit habit = ((HabitAdapter) allHabitRecyclerView.getAdapter()).getHabit(position);
-
-            //intent.putExtra(HabitConstants.VEHICLE_TYPE_EXTRA, type);
-            //intent.putExtra(HabitConstants.USER_ID, user.getId());
-            startActivity(intent);
+            habit = ((HabitAdapter) allHabitRecyclerView.getAdapter()).getHabit(position);
         }
+
+        intent.putExtra(HabitConstants.HABIT_ID_INTENT, habit.getID());
+        startActivity(intent);
     }
 
     private void refresh() {
