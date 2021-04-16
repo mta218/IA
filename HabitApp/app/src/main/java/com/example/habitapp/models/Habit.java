@@ -31,7 +31,7 @@ public class Habit {
         this.goalDate = goalDate;
         this.goalType = goalType;
         this.tags = tags;
-        lastUpdated = Calendar.getInstance().getTime();
+        lastUpdated = null;
         this.ownerID = ownerID;
     }
 
@@ -46,13 +46,6 @@ public class Habit {
         if(goalType == Goal.AMOUNT){
             return trackedCount == goal;
         }
-        else if(goalType == Goal.DATE){
-            //https://stackoverflow.com/questions/5046771/how-to-get-todays-date
-            Calendar today = Calendar.getInstance();
-            Calendar goalDateAsCal = Calendar.getInstance();
-            goalDateAsCal.setTime(goalDate);
-            return today.get(Calendar.YEAR) ==  goalDateAsCal.get(Calendar.YEAR) && today.get(Calendar.DATE) == goalDateAsCal.get(Calendar.DATE) &&  today.get(Calendar.MONTH) == goalDateAsCal.get(Calendar.MONTH);
-        }
         else if(goalType == Goal.STREAK){
             return streak == goal;
         }
@@ -65,6 +58,10 @@ public class Habit {
         today.set(Calendar.HOUR,0);
         today.set(Calendar.MINUTE,0);
         today.set(Calendar.SECOND,0);
+
+        if(lastUpdated == null){
+            streak++;
+        }
 
         int daysBetween = (int) ChronoUnit.DAYS.between(today.toInstant(), lastUpdated.toInstant());
 
@@ -83,6 +80,8 @@ public class Habit {
                 streak++;
             }
         }
+
+        lastUpdated = today.getTime();
     }
 
     private boolean updatedThisWeek(){
