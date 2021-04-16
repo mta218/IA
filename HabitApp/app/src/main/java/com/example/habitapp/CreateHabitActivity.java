@@ -105,7 +105,7 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
                     break;
                 case 3:
                     goal = Goal.DATE;
-                    goalInput.setVisibility(View.INVISIBLE);
+                    goalInput.setVisibility(View.VISIBLE);
                     dateInput.setVisibility(View.VISIBLE);
                     break;
             }
@@ -126,20 +126,19 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
             Toast.makeText(getApplicationContext(), "Please enter a title",
                     Toast.LENGTH_SHORT).show();
         } else if (goal == Goal.DATE) {
-            if (dateString.equals("")) {
-                Toast.makeText(getApplicationContext(), "Please enter a date",
+            if (dateString.equals("") || goalString.equals("")) {
+                Toast.makeText(getApplicationContext(), "Please enter all required information",
                         Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     Date goalDate = new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
-
 
                     //https://alvinalexander.com/java/java-today-get-todays-date-now/
                     if (goalDate.compareTo(Calendar.getInstance().getTime()) < 0) {
                         throw new Exception();
                     }
 
-                    updateDatabase(new Habit(titleString, freq, 0, goalDate, goal ,getTags(), mAuth.getUid()));
+                    updateDatabase(new Habit(titleString, freq, Integer.parseInt(goalString), goalDate, goal ,getTags(), mAuth.getUid()));
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Please enter a valid date",
                             Toast.LENGTH_SHORT).show();
@@ -191,7 +190,11 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
 
     private ArrayList<String> getTags(){
         ArrayList<String> list = new ArrayList<String>();
-        Collections.addAll(list, tagsInput.getText().toString().trim().replaceAll("\\s+", "").split(","));
+        String[] temp = tagsInput.getText().toString().trim().replaceAll("\\s+", "").split(",");
+        for(int i = 0; i < temp.length; i++){
+            temp[i] = temp[i].toLowerCase();
+        }
+        Collections.addAll(list, temp);
         return list;
     }
 

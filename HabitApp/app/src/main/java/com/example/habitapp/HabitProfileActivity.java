@@ -4,7 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.example.habitapp.enums.Goal;
 import com.example.habitapp.models.Habit;
 import com.example.habitapp.utils.HabitConstants;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -14,6 +18,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.time.Duration;
+import java.util.Calendar;
+
 public class HabitProfileActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
@@ -22,6 +29,9 @@ public class HabitProfileActivity extends AppCompatActivity {
     String habitID;
     Habit habit;
     String ownerID;
+    Button updateButton, editButton, copyButton;
+    ProgressBar progressBar;
+    TextView titleText, progressText, lastUpdatedText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +42,10 @@ public class HabitProfileActivity extends AppCompatActivity {
         ownerID = mAuth.getUid();
 
         habitID = getIntent().getStringExtra(HabitConstants.HABIT_ID_INTENT);
+        progressBar = findViewById(R.id.progressBar);
+        titleText = findViewById(R.id.titleText);
+        progressText = findViewById(R.id.progressText);
+        lastUpdatedText = findViewById(R.id.lastUpdatedText);
 
         fRef = FirebaseFirestore.getInstance();
 
@@ -48,7 +62,26 @@ public class HabitProfileActivity extends AppCompatActivity {
         });
     }
 
-    void update(){
+    void update() {
+        titleText.setText(habit.getTitle());
+        if(habit.getGoalType() != Goal.NONE){
+            lastUpdatedText.setText(habit.lastUpdatedString()+"\nKeep updating this habit to reach your goal!");
+        }
+        else{
+            lastUpdatedText.setText(habit.lastUpdatedString());
+        }
 
+
+        int percentage = 0;
+
+        if (habit.getGoalType() == Goal.AMOUNT || habit.getGoalType() == Goal.DATE) {
+            percentage = (int) Math.round((100.0 * habit.getTrackedCount()) / habit.getGoal());
+        } else if (habit.getGoalType() == Goal.STREAK) {
+            percentage = (int) Math.round((100.0 * habit.getStreak()) / habit.getGoal());
+        }
+
+        progressText.setText("You have reached " + percentage + "% of your goal");
+
+        progressBar.setProgress(percentage); //percentage
     }
 }
