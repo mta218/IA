@@ -3,6 +3,7 @@ package com.example.habitapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -55,11 +56,19 @@ public class HabitProfileActivity extends AppCompatActivity {
         progressText = findViewById(R.id.progressText);
         lastUpdatedText = findViewById(R.id.lastUpdatedText);
 
+        editButton = findViewById(R.id.editButton);
+
         fRef = FirebaseFirestore.getInstance();
 
         updateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 updateHabit();
+            }
+        });
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                goToEditActivity();
             }
         });
     }
@@ -156,6 +165,10 @@ public class HabitProfileActivity extends AppCompatActivity {
 
     }
 
-
+    private void goToEditActivity(){
+        Intent intent = new Intent(this, EditHabitActivity.class);
+        intent.putExtra(HabitConstants.HABIT_ID_INTENT, habit.getID());
+        startActivity(intent);
+    }
 
 }

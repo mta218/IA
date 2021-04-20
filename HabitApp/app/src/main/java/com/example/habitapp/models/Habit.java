@@ -61,6 +61,8 @@ public class Habit {
 
         if(lastUpdated == null){
             streak++;
+            lastUpdated = today.getTime();
+            return;
         }
 
         int daysBetween = (int) ChronoUnit.DAYS.between(today.toInstant(), lastUpdated.toInstant());
@@ -189,6 +191,9 @@ public class Habit {
     }
 
     public String lastUpdatedString(){
+        if(lastUpdated == null){
+            return "Last updated today";
+        }
         long days = Duration.between(lastUpdated.toInstant(), Calendar.getInstance().toInstant()).toDays();
         if(days == 0){
             return "Last updated today";

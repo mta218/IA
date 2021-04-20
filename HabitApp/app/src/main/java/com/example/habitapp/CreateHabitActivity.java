@@ -144,6 +144,9 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
                 }
             }
         }
+        else{
+            updateDatabase(new Habit(titleString, freq, 0, null, Goal.NONE, getTags(), mAuth.getUid()));
+        }
     }
 
     void updateDatabase(final Habit habit) {

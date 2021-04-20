@@ -26,7 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private Button goToSettingsButton, testButton;
+    private Button goToSettingsButton;
 
     FirebaseFirestore fRef;
 
@@ -44,7 +44,6 @@ public class HomeFragment extends Fragment {
         });
 
         goToSettingsButton = root.findViewById(R.id.settingsButton);
-        testButton = root.findViewById(R.id.testButton);
 
         View.OnClickListener goToSettingsListener = new View.OnClickListener() {
             @Override
@@ -54,20 +53,6 @@ public class HomeFragment extends Fragment {
         };
         goToSettingsButton.setOnClickListener(goToSettingsListener);
 
-        View.OnClickListener testListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fRef = FirebaseFirestore.getInstance();
-                fRef.collection("Users").document("TESTTEST").set(new User("test man haha")).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        System.out.println("EROR? " + e.getMessage());
-                        e.printStackTrace();
-                    }
-                });;
-            }
-        };
-        testButton.setOnClickListener(testListener);
 
         return root;
     }
