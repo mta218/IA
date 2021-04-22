@@ -22,21 +22,6 @@
         app:layout_constraintTop_toBottomOf="@+id/editTitle" />
 
     <EditText
-        android:id="@+id/editDateInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:hint="Change Goal"
-        android:inputType="date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goalSpinner" />
-
-    <EditText
         android:id="@+id/editGoalInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -44,11 +29,26 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
-        android:hint="Change Date"
+        android:hint="Change Goal"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editDateInput" />
+        app:layout_constraintTop_toBottomOf="@+id/goalSpinner" />
+
+    <EditText
+        android:id="@+id/editDateInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:hint="Change Date"
+        android:inputType="date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editGoalInput" />
 
     <TextView
         android:id="@+id/editTitle"
@@ -81,7 +81,7 @@
         app:layout_constraintEnd_toStartOf="@+id/deleteDateButton"
         app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toEndOf="@+id/deleteGoalButton"
-        app:layout_constraintTop_toBottomOf="@+id/editGoalInput" />
+        app:layout_constraintTop_toBottomOf="@+id/editDateInput" />
 
     <Button
         android:id="@+id/deleteDateButton"
@@ -89,8 +89,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Delete Date"
-        app:layout_constraintEnd_toEndOf="@+id/editGoalInput"
-        app:layout_constraintTop_toBottomOf="@+id/editGoalInput" />
+        app:layout_constraintEnd_toEndOf="@+id/editDateInput"
+        app:layout_constraintTop_toBottomOf="@+id/editDateInput" />
 
     <Button
         android:id="@+id/deleteGoalButton"
@@ -98,6 +98,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Delete Goal"
-        app:layout_constraintStart_toStartOf="@+id/editGoalInput"
-        app:layout_constraintTop_toBottomOf="@+id/editGoalInput" />
+        app:layout_constraintStart_toStartOf="@+id/editDateInput"
+        app:layout_constraintTop_toBottomOf="@+id/editDateInput" />
 </androidx.constraintlayout.widget.ConstraintLayout>
