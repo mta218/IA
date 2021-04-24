@@ -233,4 +233,9 @@ public class Habit {
     public void setOwnerID(String ownerID) {
         this.ownerID = ownerID;
     }
+
+    public Habit copy(){
+        //https://www.codevscolor.com/java-copy-string
+        return new Habit(String.copyValueOf(title.toCharArray()), freq, goal, (Date) goalDate.clone(), goalType, new ArrayList<>(tags), String.copyValueOf(ownerID.toCharArray()));
+    }
 }

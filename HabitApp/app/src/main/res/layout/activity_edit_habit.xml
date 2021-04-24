@@ -87,7 +87,7 @@
         android:id="@+id/deleteDateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:text="Delete Date"
         app:layout_constraintEnd_toEndOf="@+id/editDateInput"
         app:layout_constraintTop_toBottomOf="@+id/editDateInput" />
@@ -96,8 +96,21 @@
         android:id="@+id/deleteGoalButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:text="Delete Goal"
         app:layout_constraintStart_toStartOf="@+id/editDateInput"
         app:layout_constraintTop_toBottomOf="@+id/editDateInput" />
+
+    <Button
+        android:id="@+id/confirmButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:autoSizeTextType="uniform"
+        android:text="CONFIRM CHANGES"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deleteHabitButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>
