@@ -129,7 +129,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
 
     private void updateUI() {
         editTitleInput.setText(habit.getTitle());
-        editTagsInput.setText(habit.getTagsAsString());
+        editTagsInput.setText(habit.tagsAsString());
 
         if (habitGoal == Goal.NONE) {
             editGoalInput.setVisibility(View.INVISIBLE);
@@ -192,7 +192,26 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
 
     public void confirmChanges(){
         try{
-            Habit newHabit = new Habit(habitID,editTitleInput.getText().toString(),habitFreq, Integer.parseInt(editGoalInput.getText().toString()), new SimpleDateFormat("dd/MM/yyyy").parse(editGoalInput.getText().toString()), habitGoal, getTags(), habit.getOwnerID());
+            Date newDate;
+
+            if(editDateInput.getText().toString().equals("")){
+                newDate = null;
+            }else{
+                newDate = new SimpleDateFormat("dd/MM/yyyy").parse(editDateInput.getText().toString());
+            }
+
+            int goalInputNum;
+
+            if(editGoalInput.getText().toString().equals("")){
+                goalInputNum = 0;
+            }
+            else{
+                goalInputNum = Integer.parseInt(editGoalInput.getText().toString());
+            }
+
+            Habit newHabit = new Habit(habitID,editTitleInput.getText().toString(),habitFreq, goalInputNum, newDate, habitGoal, getTags(), habit.getOwnerID());
+            newHabit.setStreak(habit.getStreak());
+            newHabit.setTrackedCount(habit.getTrackedCount());
             fRef.collection(HabitConstants.HABIT_PATH).document(habitID).set(newHabit).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
@@ -204,6 +223,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
                 public void onSuccess(Void aVoid) {
                     Toast.makeText(getApplicationContext(), "Successfully Updated",
                             Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             });
 

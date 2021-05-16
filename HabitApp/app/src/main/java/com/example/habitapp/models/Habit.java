@@ -36,14 +36,14 @@ public class Habit {
     }
 
     public Habit(String ID, String title, Frequency freq, int goal, Date goalDate, Goal goalType, ArrayList<String> tags, String ownerID) {
-        ID = UUID.randomUUID().toString();
+        this.ID = ID;
         this.title = title;
         this.freq = freq;
         this.goal = goal;
         this.goalDate = goalDate;
         this.goalType = goalType;
         this.tags = tags;
-        lastUpdated = null;
+        lastUpdated = new Date();
         this.ownerID = ownerID;
     }
 
@@ -251,7 +251,7 @@ public class Habit {
         return new Habit(String.copyValueOf(title.toCharArray()), freq, goal, (Date) goalDate.clone(), goalType, new ArrayList<>(tags), String.copyValueOf(ownerID.toCharArray()));
     }
 
-    public String getTagsAsString(){
+    public String tagsAsString(){
         String temp = "";
         for(String tag : tags){
             temp += tag + ",";
