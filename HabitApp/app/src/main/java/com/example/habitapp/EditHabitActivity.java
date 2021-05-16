@@ -28,7 +28,7 @@ import java.util.Date;
 public class EditHabitActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Button deleteGoalButton, deleteHabitButton, deleteDateButton, confirmButton;
-    Spinner goalSpinner;
+    Spinner goalSpinner, freqSpinner;
     EditText editTitleInput, editDateInput, editGoalInput;
     TextView editTitle;
     FirebaseAuth mAuth;
@@ -36,6 +36,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
     String habitID;
     Habit habit;
     Frequency habitFreq;
+    Goal habitGoal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,12 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
         goalAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         goalSpinner.setAdapter(goalAdapter);
         goalSpinner.setOnItemSelectedListener(this);
+
+        freqSpinner = findViewById(R.id.freqSpinner);
+        ArrayAdapter<CharSequence> freqAdapter = ArrayAdapter.createFromResource(this, R.array.frequencies, android.R.layout.simple_spinner_item);
+        freqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        freqSpinner.setAdapter(freqAdapter);
+        freqSpinner.setOnItemSelectedListener(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -80,19 +87,32 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
                     habitFreq = habit.getFreq();
                     switch (habitFreq){
                         case NONE:
-                            goalSpinner.setSelection(0);
+                            freqSpinner.setSelection(0);
                             break;
                         case DAILY:
-                            goalSpinner.setSelection(1);
+                            freqSpinner.setSelection(1);
                             break;
                         case WEEKLY:
-                            goalSpinner.setSelection(2);
+                            freqSpinner.setSelection(2);
                             break;
                         case MONTHLY:
-                            goalSpinner.setSelection(3);
+                            freqSpinner.setSelection(3);
                             break;
                     }
 
+                    habitGoal = habit.getGoalType();
+
+                    switch (habitGoal){
+                        case NONE:
+                            goalSpinner.setSelection(0);
+                            break;
+                        case STREAK:
+                            goalSpinner.setSelection(1);
+                            break;
+                        case AMOUNT:
+                            goalSpinner.setSelection(2);
+                            break;
+                    }
                     updateUI();
                 }
             }
@@ -103,39 +123,57 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
     private void updateUI() {
         editTitleInput.setText(habit.getTitle());
 
-        if (habit.getGoalType() == Goal.NONE) {
+        if (habitGoal == Goal.NONE) {
             editGoalInput.setVisibility(View.INVISIBLE);
-        } else {
-            deleteGoalButton.setVisibility(View.VISIBLE);
+            editDateInput.setVisibility(View.INVISIBLE);
+        } else if(habitGoal == Goal.AMOUNT || (habitGoal == Goal.STREAK)){
             editGoalInput.setText(habit.getGoal() + "");
             //System.out.println("peepeepoopoo " + habit.getGoal());
         }
-
-        if (habit.getGoalDate() == null) {
-            editDateInput.setVisibility(View.INVISIBLE);
-        } else {
-            deleteDateButton.setVisibility(View.VISIBLE);
+        else{
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             editDateInput.setText(formatter.format(habit.getGoalDate()));
         }
+
     }
 
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        switch (i) {
-            case 0:
-                habitFreq = Frequency.NONE;
-                break;
-            case 1:
-                habitFreq = Frequency.DAILY;
-                break;
-            case 2:
-                habitFreq = Frequency.WEEKLY;
-                break;
-            case 3:
-                habitFreq = Frequency.MONTHLY;
-                break;
+        if (adapterView.getId() == R.id.goalSpinner) {
+            switch (i) {
+                case 0:
+                    habitGoal = Goal.NONE;
+                    goalInput.setVisibility(View.INVISIBLE);
+                    dateInput.setVisibility(View.INVISIBLE);
+                    break;
+                case 1:
+                    habitGoal = Goal.STREAK;
+                    goalInput.setVisibility(View.VISIBLE);
+                    dateInput.setVisibility(View.VISIBLE);
+                    break;
+                case 2:
+                    habitGoal = Goal.AMOUNT;
+                    goalInput.setVisibility(View.VISIBLE);
+                    dateInput.setVisibility(View.VISIBLE);
+                    break;
+            }
+        }
+        else if(adapterView.getId() == R.id.freqSpinner){
+            switch (i) {
+                case 0:
+                    habitFreq = Frequency.NONE;
+                    break;
+                case 1:
+                    habitFreq = Frequency.DAILY;
+                    break;
+                case 2:
+                    habitFreq = Frequency.WEEKLY;
+                    break;
+                case 3:
+                    habitFreq = Frequency.MONTHLY;
+                    break;
+            }
         }
     }
 
