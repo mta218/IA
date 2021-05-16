@@ -3,6 +3,8 @@ package com.example.habitapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,25 +13,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.habitapp.enums.Frequency;
 import com.example.habitapp.enums.Goal;
 import com.example.habitapp.models.Habit;
 import com.example.habitapp.utils.HabitConstants;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class EditHabitActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    Button deleteGoalButton, deleteHabitButton, deleteDateButton, confirmButton;
+    Button deleteHabitButton, confirmButton;
     Spinner goalSpinner, freqSpinner;
-    EditText editTitleInput, editDateInput, editGoalInput;
+    EditText editTitleInput, editDateInput, editGoalInput, editTagsInput;
     TextView editTitle;
     FirebaseAuth mAuth;
     FirebaseFirestore fRef;
@@ -44,14 +52,13 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
         setContentView(R.layout.activity_edit_habit);
 
         editDateInput = findViewById(R.id.editDateInput);
-        deleteGoalButton = findViewById(R.id.deleteGoalButton);
         deleteHabitButton = findViewById(R.id.deleteHabitButton);
-        deleteDateButton = findViewById(R.id.deleteDateButton);
         goalSpinner = findViewById(R.id.goalSpinner);
         editTitleInput = findViewById(R.id.editTitleInput);
         editGoalInput = findViewById(R.id.editGoalInput);
         editTitle = findViewById(R.id.editTitle);
         confirmButton = findViewById(R.id.confirmButton);
+        editTagsInput = findViewById(R.id.editTagsInput);
 
         Spinner goalSpinner = findViewById(R.id.goalSpinner);
         ArrayAdapter<CharSequence> goalAdapter = ArrayAdapter.createFromResource(this, R.array.goal_types, android.R.layout.simple_spinner_item);
@@ -122,6 +129,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
 
     private void updateUI() {
         editTitleInput.setText(habit.getTitle());
+        editTagsInput.setText(habit.getTagsAsString());
 
         if (habitGoal == Goal.NONE) {
             editGoalInput.setVisibility(View.INVISIBLE);
@@ -130,10 +138,13 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
             editGoalInput.setText(habit.getGoal() + "");
             //System.out.println("peepeepoopoo " + habit.getGoal());
         }
-        else{
+
+        if(habit.getGoalDate() != null){
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             editDateInput.setText(formatter.format(habit.getGoalDate()));
         }
+
+
 
     }
 
@@ -144,18 +155,15 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
             switch (i) {
                 case 0:
                     habitGoal = Goal.NONE;
-                    goalInput.setVisibility(View.INVISIBLE);
-                    dateInput.setVisibility(View.INVISIBLE);
+                    editGoalInput.setVisibility(View.INVISIBLE);
                     break;
                 case 1:
                     habitGoal = Goal.STREAK;
-                    goalInput.setVisibility(View.VISIBLE);
-                    dateInput.setVisibility(View.VISIBLE);
+                    editGoalInput.setVisibility(View.VISIBLE);
                     break;
                 case 2:
                     habitGoal = Goal.AMOUNT;
-                    goalInput.setVisibility(View.VISIBLE);
-                    dateInput.setVisibility(View.VISIBLE);
+                    editGoalInput.setVisibility(View.VISIBLE);
                     break;
             }
         }
@@ -184,10 +192,125 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
 
     public void confirmChanges(){
         try{
-            Habit newHabit = new Habit(editTitleInput.getText().toString(),habitFreq, Integer.parseInt(editGoalInput.getText().toString()), new SimpleDateFormat("dd/MM/yyyy").parse(editGoalInput.getText().toString()), Goal goalType, ArrayList<String> tags, String ownerID);
+            Habit newHabit = new Habit(habitID,editTitleInput.getText().toString(),habitFreq, Integer.parseInt(editGoalInput.getText().toString()), new SimpleDateFormat("dd/MM/yyyy").parse(editGoalInput.getText().toString()), habitGoal, getTags(), habit.getOwnerID());
+            fRef.collection(HabitConstants.HABIT_PATH).document(habitID).set(newHabit).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(), "Failed:\n" + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(getApplicationContext(), "Successfully Updated",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+
         }catch (Exception e){
             e.printStackTrace();
         }
 
     }
+
+
+    private ArrayList<String> getTags() {
+        ArrayList<String> list = new ArrayList<String>();
+        String[] temp = editTagsInput.getText().toString().trim().replaceAll("\\s+", "").split(",");
+        for (int i = 0; i < temp.length; i++) {
+            temp[i] = temp[i].toLowerCase();
+        }
+        Collections.addAll(list, temp);
+        return list;
+    }
+
+
+    private void deleteHabit(){
+        //https://stackoverflow.com/questions/36747369/how-to-show-a-pop-up-in-android-studio-to-confirm-an-order
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Delete Habit?");
+        builder.setMessage("You are about to delete a habit.\nThis action cannot be undone.");
+        builder.setPositiveButton("Confirm",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //confirm
+
+                        FirebaseFirestore fRef = FirebaseFirestore.getInstance();
+                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+                        fRef.collection(HabitConstants.HABIT_PATH).document(habit.getID()).delete().addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(), "Could not delete the Habit:\n" + e.getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                FirebaseFirestore fRef = FirebaseFirestore.getInstance();
+                                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                                fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).update("habits", FieldValue.arrayRemove(habit.getID())).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getApplicationContext(), "Could not update the user data:\n" + e.getMessage(),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(getApplicationContext(), "\"" + habit.getTitle() + "\" was Successfully Deleted",
+                                                Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //cancel
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Close Activity?");
+        builder.setMessage("Any unsaved changes will be lost.");
+        builder.setPositiveButton("Confirm",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        closeActivity();
+                    }
+                });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //cancel
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
+
+    private void closeActivity() {
+        finish();
+    }
+
 }

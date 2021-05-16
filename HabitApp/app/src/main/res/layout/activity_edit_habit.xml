@@ -6,6 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".EditHabitActivity">
 
+    <EditText
+        android:id="@+id/editTagsInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:hint="Enter tags seperated by comma"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTitleInput" />
+
     <Spinner
         android:id="@+id/freqSpinner"
         android:layout_width="0dp"
@@ -84,7 +99,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTitleInput" />
+        app:layout_constraintTop_toBottomOf="@+id/editTagsInput" />
 
     <Button
         android:id="@+id/deleteHabitButton"
@@ -92,8 +107,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:text="Delete Habit"
-        app:layout_constraintTop_toBottomOf="@+id/editDateInput"
-        tools:layout_editor_absoluteX="153dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editDateInput" />
 
     <Button
         android:id="@+id/confirmButton"

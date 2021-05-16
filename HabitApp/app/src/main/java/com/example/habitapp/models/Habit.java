@@ -35,6 +35,18 @@ public class Habit {
         this.ownerID = ownerID;
     }
 
+    public Habit(String ID, String title, Frequency freq, int goal, Date goalDate, Goal goalType, ArrayList<String> tags, String ownerID) {
+        ID = UUID.randomUUID().toString();
+        this.title = title;
+        this.freq = freq;
+        this.goal = goal;
+        this.goalDate = goalDate;
+        this.goalType = goalType;
+        this.tags = tags;
+        lastUpdated = null;
+        this.ownerID = ownerID;
+    }
+
     public Habit() {
     }
 
@@ -238,4 +250,13 @@ public class Habit {
         //https://www.codevscolor.com/java-copy-string
         return new Habit(String.copyValueOf(title.toCharArray()), freq, goal, (Date) goalDate.clone(), goalType, new ArrayList<>(tags), String.copyValueOf(ownerID.toCharArray()));
     }
+
+    public String getTagsAsString(){
+        String temp = "";
+        for(String tag : tags){
+            temp += tag + ",";
+        }
+        return temp.substring(0,temp.length()-1);
+    }
+
 }
