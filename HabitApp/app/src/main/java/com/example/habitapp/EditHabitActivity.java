@@ -79,6 +79,12 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
                 confirmChanges();
             }
         });
+
+        deleteHabitButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                deleteHabit();
+            }
+        });
     }
 
     @Override
@@ -143,7 +149,6 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             editDateInput.setText(formatter.format(habit.getGoalDate()));
         }
-
 
 
     }
@@ -284,6 +289,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
                                     public void onSuccess(Void aVoid) {
                                         Toast.makeText(getApplicationContext(), "\"" + habit.getTitle() + "\" was Successfully Deleted",
                                                 Toast.LENGTH_SHORT).show();
+                                        closeCallingActivity();
                                         finish();
                                     }
                                 });
@@ -331,6 +337,10 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
 
     private void closeActivity() {
         finish();
+    }
+
+    private void closeCallingActivity(){
+        finishActivity(1001); //?? idk but I got this from this one dude https://stackoverflow.com/questions/10379134/finish-an-activity-from-another-activity its like one of the last replies
     }
 
 }

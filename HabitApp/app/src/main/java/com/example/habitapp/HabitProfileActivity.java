@@ -1,6 +1,7 @@
 package com.example.habitapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -168,7 +169,17 @@ public class HabitProfileActivity extends AppCompatActivity {
     private void goToEditActivity(){
         Intent intent = new Intent(this, EditHabitActivity.class);
         intent.putExtra(HabitConstants.HABIT_ID_INTENT, habit.getID());
-        startActivity(intent);
+        startActivityForResult(intent,1001);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1001){
+            finish();
+        }
+
     }
 
 }
