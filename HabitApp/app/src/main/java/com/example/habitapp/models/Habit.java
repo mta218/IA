@@ -35,7 +35,7 @@ public class Habit {
         this.ownerID = ownerID;
     }
 
-    public Habit(String ID, String title, Frequency freq, int goal, Date goalDate, Goal goalType, ArrayList<String> tags, String ownerID) {
+    public Habit(String ID, String title, Frequency freq, int goal, Date goalDate, Goal goalType, ArrayList<String> tags, String ownerID, Date lastUpated, int streak, int trackedCount) {
         this.ID = ID;
         this.title = title;
         this.freq = freq;
@@ -43,62 +43,87 @@ public class Habit {
         this.goalDate = goalDate;
         this.goalType = goalType;
         this.tags = tags;
-        lastUpdated = new Date();
         this.ownerID = ownerID;
+
+        this.lastUpdated = lastUpated;
+        this.streak = streak;
+        this.trackedCount = trackedCount;
     }
 
     public Habit() {
     }
 
-    public void addTag(String newTag){
+    public void addTag(String newTag) {
         tags.add(newTag);
     }
 
-    public boolean goalReached(){
-        if(goalType == Goal.AMOUNT){
+    public boolean goalReached() {
+        if (goalType == Goal.AMOUNT) {
             return trackedCount == goal;
-        }
-        else if(goalType == Goal.STREAK){
+        } else if (goalType == Goal.DAILY_STREAK || goalType == Goal.MONTHLY_STREAK || goalType == Goal.WEEKLY_STREAK) {
             return streak == goal;
         }
         return false;
     }
 
-    public void updateHabit(int addAmount){
+    public void updateHabit(int addAmount) {
         trackedCount += addAmount;
-        Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR,0);
-        today.set(Calendar.MINUTE,0);
-        today.set(Calendar.SECOND,0);
 
-        if(lastUpdated == null){
+
+        if (lastUpdated == null) {
             streak++;
-            lastUpdated = today.getTime();
-            return;
+        } else {
+            updateStreak();
         }
 
-        int daysBetween = (int) ChronoUnit.DAYS.between(today.toInstant(), lastUpdated.toInstant());
-
-        if(freq == Frequency.DAILY){
-            if(daysBetween == 1) {
-                streak++;
-            }
-        }
-        else if(freq == Frequency.WEEKLY){
-            if(!updatedThisWeek()) {
-                streak++;
-            }
-        }
-        else if(freq == Frequency.MONTHLY){
-            if(!updatedThisMonth()) {
-                streak++;
-            }
-        }
-
-        lastUpdated = today.getTime();
+        lastUpdated = new Date();
     }
 
-    private boolean updatedThisWeek(){
+    private void updateStreak() {
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+
+        if(lastUpdated != null){
+            int daysBetween = (int) ChronoUnit.DAYS.between(today.toInstant(), lastUpdated.toInstant());
+
+            if (goalType == Goal.DAILY_STREAK) {
+                if (daysBetween == 1) {
+                    streak++;
+                } else if (daysBetween > 0) {
+                    streak = 0;
+                }
+            } else if (goalType == Goal.WEEKLY_STREAK) {
+                if (updatedLastWeek()) {
+                    streak++;
+                } else if (!updatedThisWeek()) {
+                    streak = 0;
+                }
+            } else if (goalType == Goal.MONTHLY_STREAK) {
+                if (updatedLastMonth()) {
+                    streak++;
+                } else if (!updatedThisMonth()) {
+                    streak = 0;
+                }
+            }
+        }
+    }
+
+    private boolean updatedLastWeek() {
+        //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
+        Calendar aWeekAgo = Calendar.getInstance();
+        aWeekAgo.add(Calendar.DATE, -7);
+        Calendar lastUpdatedAsCal = Calendar.getInstance();
+        lastUpdatedAsCal.setTime(lastUpdated);
+        int week = aWeekAgo.get(Calendar.WEEK_OF_YEAR);
+        int year = aWeekAgo.get(Calendar.YEAR);
+        int targetWeek = lastUpdatedAsCal.get(Calendar.WEEK_OF_YEAR);
+        int targetYear = lastUpdatedAsCal.get(Calendar.YEAR);
+        return week == targetWeek && year == targetYear;
+    }
+
+    private boolean updatedThisWeek() {
         //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
         Calendar today = Calendar.getInstance();
         Calendar lastUpdatedAsCal = Calendar.getInstance();
@@ -110,7 +135,20 @@ public class Habit {
         return week == targetWeek && year == targetYear;
     }
 
-    private boolean updatedThisMonth(){
+    private boolean updatedLastMonth() {
+        //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
+        Calendar aMonthAgo = Calendar.getInstance();
+        aMonthAgo.add(Calendar.MONTH, -1);
+        Calendar lastUpdatedAsCal = Calendar.getInstance();
+        lastUpdatedAsCal.setTime(lastUpdated);
+        int month = aMonthAgo.get(Calendar.MONTH);
+        int year = aMonthAgo.get(Calendar.YEAR);
+        int targetMonth = lastUpdatedAsCal.get(Calendar.MONTH);
+        int targetYear = lastUpdatedAsCal.get(Calendar.YEAR);
+        return month == targetMonth && year == targetYear;
+    }
+
+    private boolean updatedThisMonth() {
         //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
         Calendar today = Calendar.getInstance();
         Calendar lastUpdatedAsCal = Calendar.getInstance();
@@ -202,36 +240,31 @@ public class Habit {
         this.tags = tags;
     }
 
-    public String lastUpdatedString(){
-        if(lastUpdated == null){
+    public String lastUpdatedString() {
+        if (lastUpdated == null) {
             return "Last updated today";
         }
         long days = Duration.between(lastUpdated.toInstant(), Calendar.getInstance().toInstant()).toDays();
-        if(days == 0){
+        if (days == 0) {
             return "Last updated today";
-        }
-        else if(days < 7){
-            if(days == 1){
+        } else if (days < 7) {
+            if (days == 1) {
                 return "Last updated a day ago";
             }
             return "Last updated " + days + " days ago";
-        }
-        else if(days <= 28){
-            int weeks = (int) Math.round(((int)days)/7.0);
-            if(weeks == 1){
+        } else if (days <= 28) {
+            int weeks = (int) Math.round(((int) days) / 7.0);
+            if (weeks == 1) {
                 return "Last updated a week ago";
             }
             return "Last updated " + weeks + " weeks ago";
-        }
-        else if(days <= 31){
+        } else if (days <= 31) {
             return "Last updated a month ago";
-        }
-        else if(days < 365){
-            return "Last updated " + Math.round(((int)days)/30.5) + " months ago";
-        }
-        else {
-            int years = (int) Math.round(((int)days)/365);
-            if(years == 1){
+        } else if (days < 365) {
+            return "Last updated " + Math.round(((int) days) / 30.5) + " months ago";
+        } else {
+            int years = (int) Math.round(((int) days) / 365);
+            if (years == 1) {
                 return "Last updated a year ago";
             }
             return "Last updated " + years + " years ago";
@@ -246,17 +279,17 @@ public class Habit {
         this.ownerID = ownerID;
     }
 
-    public Habit copy(){
+    public Habit copy() {
         //https://www.codevscolor.com/java-copy-string
         return new Habit(String.copyValueOf(title.toCharArray()), freq, goal, (Date) goalDate.clone(), goalType, new ArrayList<>(tags), String.copyValueOf(ownerID.toCharArray()));
     }
 
-    public String tagsAsString(){
+    public String tagsAsString() {
         String temp = "";
-        for(String tag : tags){
+        for (String tag : tags) {
             temp += tag + ",";
         }
-        return temp.substring(0,temp.length()-1);
+        return temp.substring(0, temp.length() - 1);
     }
 
 }

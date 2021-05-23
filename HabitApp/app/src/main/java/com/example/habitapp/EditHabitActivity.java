@@ -214,9 +214,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
                 goalInputNum = Integer.parseInt(editGoalInput.getText().toString());
             }
 
-            Habit newHabit = new Habit(habitID,editTitleInput.getText().toString(),habitFreq, goalInputNum, newDate, habitGoal, getTags(), habit.getOwnerID());
-            newHabit.setStreak(habit.getStreak());
-            newHabit.setTrackedCount(habit.getTrackedCount());
+            Habit newHabit = new Habit(habitID,editTitleInput.getText().toString(),habitFreq, goalInputNum, newDate, habitGoal, getTags(), habit.getOwnerID(), habit.getLastUpdated(),habit.getStreak(),habit.getTrackedCount());
             fRef.collection(HabitConstants.HABIT_PATH).document(habitID).set(newHabit).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {

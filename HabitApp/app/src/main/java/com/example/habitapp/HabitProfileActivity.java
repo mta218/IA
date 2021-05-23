@@ -28,6 +28,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.time.Duration;
 import java.util.Calendar;
+import java.util.Date;
 
 public class HabitProfileActivity extends AppCompatActivity {
 
@@ -39,7 +40,7 @@ public class HabitProfileActivity extends AppCompatActivity {
     String ownerID;
     Button updateButton, editButton, copyButton;
     ProgressBar progressBar;
-    TextView titleText, progressText, lastUpdatedText;
+    TextView titleText, progressText, lastUpdatedText, dateText;
     EditText updateInput;
 
     @Override
@@ -56,6 +57,7 @@ public class HabitProfileActivity extends AppCompatActivity {
         titleText = findViewById(R.id.titleText);
         progressText = findViewById(R.id.progressText);
         lastUpdatedText = findViewById(R.id.lastUpdatedText);
+        dateText = findViewById(R.id.dateText);
 
         editButton = findViewById(R.id.editButton);
 
@@ -115,6 +117,42 @@ public class HabitProfileActivity extends AppCompatActivity {
         }
 
         //TODO: add thing for date / no date
+       if(habit.getGoalDate() != null){
+           if(habit.getGoalDate().compareTo(new Date()) < 0){
+               dateText.setText("Goal date has passed");
+           }
+
+           long days = Duration.between(Calendar.getInstance().toInstant(), habit.getGoalDate().toInstant()).toDays();
+           if(days == 0){
+               dateText.setText("Goal date is today.");
+           }
+           else if(days < 7){
+               if(days == 1){
+                   dateText.setText("1 day until Goal Date");
+               }
+               dateText.setText(days + " days until Goal Date");
+           }
+           else if(days <= 28){
+               int weeks = (int) Math.round(((int)days)/7.0);
+               if(weeks == 1){
+                   dateText.setText("1 week until Goal Date");
+               }
+               dateText.setText(weeks + " weeks until Goal Date");
+           }
+           else if(days <= 31){
+               dateText.setText("1 month until Goal Date");
+           }
+           else if(days < 365){
+               dateText.setText(Math.round(((int)days)/30.5) + " months until Goal Date");
+           }
+           else {
+               int years = (int) Math.round(((int)days)/365);
+               if(years == 1){
+                   dateText.setText("1 year until Goal Date");
+               }
+               dateText.setText(years + " years until Goal Date");
+           }
+       }
 
         if(isOwner){
             progressText.setText("You have reached " + percentage + "% of your goal");

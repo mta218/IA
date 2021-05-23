@@ -1,6 +1,6 @@
 package com.example.habitapp.enums;
 
 public enum Goal {
-    STREAK, AMOUNT, NONE;
+    DAILY_STREAK, WEEKLY_STREAK, MONTHLY_STREAK, AMOUNT, NONE;
 
     }
