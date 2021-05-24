@@ -67,7 +67,7 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
         allHabitRecyclerView.setAdapter(adapter1);
         allHabitRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
-        sorterSpinner = root.findViewById(R.id.freqSpinner);
+        sorterSpinner = root.findViewById(R.id.sorterSpinner);
         ArrayAdapter<CharSequence> sorterAdapter = ArrayAdapter.createFromResource(this.getContext(), R.array.sorting_types, android.R.layout.simple_spinner_item);
         sorterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sorterSpinner.setAdapter(sorterAdapter);
@@ -154,24 +154,26 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+        HabitAdapter habitAdapter = ((HabitAdapter) allHabitRecyclerView.getAdapter());
         switch (i) {
             case 0: //Urgency
-                //sort(List<T> list, Comparator<? super T> c)
+                habitAdapter.sortUrgency();
                 break;
             case 1: //Name
-
+                habitAdapter.sortAlphabetically();
                 break;
             case 2: //Goal (percentage)
-
+                habitAdapter.sortGoal();
                 break;
             case 3: //Tags
 
                 break;
             case 4: //Last Updated
-
+                habitAdapter.sortLastUpdated();
                 break;
         }
+
+        habitAdapter.notifyDataSetChanged();
     }
 
     @Override
