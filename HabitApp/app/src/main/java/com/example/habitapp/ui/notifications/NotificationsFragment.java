@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.habitapp.CreateHabitActivity;
 import com.example.habitapp.HabitProfileActivity;
 import com.example.habitapp.R;
+import com.example.habitapp.enums.Goal;
 import com.example.habitapp.models.Habit;
 import com.example.habitapp.models.User;
 import com.example.habitapp.utils.HabitConstants;
@@ -28,7 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-public class NotificationsFragment extends Fragment implements HabitAdapter.OnHabitListener {
+public class NotificationsFragment extends Fragment implements HabitAdapter.OnHabitListener, AdapterView.OnItemSelectedListener{
     //for habits
     Button createButton;
     RecyclerView urgentHabitRecyclerView, allHabitRecyclerView;
@@ -36,6 +40,7 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
     FirebaseAuth mAuth;
     ArrayList<Habit> urgentPendingArrayList, allPendingArrayList;
     User user;
+    Spinner sorterSpinner;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -62,7 +67,11 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
         allHabitRecyclerView.setAdapter(adapter1);
         allHabitRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
-
+        sorterSpinner = root.findViewById(R.id.freqSpinner);
+        ArrayAdapter<CharSequence> sorterAdapter = ArrayAdapter.createFromResource(this.getContext(), R.array.sorting_types, android.R.layout.simple_spinner_item);
+        sorterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sorterSpinner.setAdapter(sorterAdapter);
+        sorterSpinner.setOnItemSelectedListener(this);
 
         return root;
     }
@@ -143,4 +152,30 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
         }
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+        switch (i) {
+            case 0: //Urgency
+                //sort(List<T> list, Comparator<? super T> c)
+                break;
+            case 1: //Name
+
+                break;
+            case 2: //Goal (percentage)
+
+                break;
+            case 3: //Tags
+
+                break;
+            case 4: //Last Updated
+
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }

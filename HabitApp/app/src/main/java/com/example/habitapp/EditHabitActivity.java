@@ -119,11 +119,17 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
                         case NONE:
                             goalSpinner.setSelection(0);
                             break;
-                        case STREAK:
+                        case DAILY_STREAK:
                             goalSpinner.setSelection(1);
                             break;
-                        case AMOUNT:
+                        case WEEKLY_STREAK:
                             goalSpinner.setSelection(2);
+                            break;
+                        case MONTHLY_STREAK:
+                            goalSpinner.setSelection(3);
+                            break;
+                        case AMOUNT:
+                            goalSpinner.setSelection(4);
                             break;
                     }
                     updateUI();
@@ -140,7 +146,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
         if (habitGoal == Goal.NONE) {
             editGoalInput.setVisibility(View.INVISIBLE);
             editDateInput.setVisibility(View.INVISIBLE);
-        } else if(habitGoal == Goal.AMOUNT || (habitGoal == Goal.STREAK)){
+        } else{
             editGoalInput.setText(habit.getGoal() + "");
             //System.out.println("peepeepoopoo " + habit.getGoal());
         }
@@ -163,10 +169,18 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
                     editGoalInput.setVisibility(View.INVISIBLE);
                     break;
                 case 1:
-                    habitGoal = Goal.STREAK;
+                    habitGoal = Goal.DAILY_STREAK;
                     editGoalInput.setVisibility(View.VISIBLE);
                     break;
                 case 2:
+                    habitGoal = Goal.WEEKLY_STREAK;
+                    editGoalInput.setVisibility(View.VISIBLE);
+                    break;
+                case 3:
+                    habitGoal = Goal.MONTHLY_STREAK;
+                    editGoalInput.setVisibility(View.VISIBLE);
+                    break;
+                case 4:
                     habitGoal = Goal.AMOUNT;
                     editGoalInput.setVisibility(View.VISIBLE);
                     break;

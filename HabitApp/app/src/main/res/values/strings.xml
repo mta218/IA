@@ -13,7 +13,17 @@
 
     <string-array name="goal_types">
         <item>None</item>
-        <item>Streak</item>
+        <item>Daily Streak</item>
+        <item>Weekly Streak</item>
+        <item>Monthly Streak</item>
         <item>Amount</item>
+    </string-array>
+
+    <string-array name="sorting_types">
+        <item>Urgency</item>
+        <item>Name</item>
+        <item>Goal</item>
+        <item>Tags</item>
+        <item>Last Updated</item>
     </string-array>
 </resources>

@@ -15,12 +15,14 @@ import android.widget.Toast;
 
 import com.example.habitapp.enums.Goal;
 import com.example.habitapp.models.Habit;
+import com.example.habitapp.models.User;
 import com.example.habitapp.utils.HabitConstants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -86,6 +88,7 @@ public class HabitProfileActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     habit = task.getResult().toObject(Habit.class);
+                    habit.updateStreak();
                     updateUI();
                 }
             }
@@ -107,14 +110,8 @@ public class HabitProfileActivity extends AppCompatActivity {
             lastUpdatedText.setText(habit.lastUpdatedString());
         }
 
+       getPercentage();
 
-        int percentage = 0;
-
-        if (habit.getGoalType() == Goal.AMOUNT) {
-            percentage = (int) Math.round((100.0 * habit.getTrackedCount()) / habit.getGoal());
-        } else if (habit.getGoalType() == Goal.STREAK) {
-            percentage = (int) Math.round((100.0 * habit.getStreak()) / habit.getGoal());
-        }
 
         //TODO: add thing for date / no date
        if(habit.getGoalDate() != null){
@@ -155,14 +152,42 @@ public class HabitProfileActivity extends AppCompatActivity {
        }
 
         if(isOwner){
-            progressText.setText("You have reached " + percentage + "% of your goal");
+            progressText.setText("You have reached " + getPercentage() + "% of your goal");
         }
         else{   //TODO: make this change for not same user
-            progressText.setText("You have reached " + percentage + "% of your goal");
+            fRef.collection(HabitConstants.USER_PATH).document(habit.getOwnerID()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            progressText.setText(document.toObject(User.class).getDisplayName() + " have reached " + getPercentage() + "% of your goal");
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Failed:\n Could not update properly",
+                                    Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Failed:\n Could not update properly",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+        progressBar.setProgress(getPercentage()); //percentage
+
+    }
+
+    private int getPercentage(){
+        int percentage = 0;
+
+        if (habit.getGoalType() == Goal.AMOUNT) {
+            percentage = (int) Math.round((100.0 * habit.getTrackedCount()) / habit.getGoal());
+        } else if (habit.getGoalType() != Goal.NONE) {
+            percentage = (int) Math.round((100.0 * habit.getStreak()) / habit.getGoal());
         }
 
-        progressBar.setProgress(percentage); //percentage
-
+        return percentage;
     }
 
     void updateHabit(){

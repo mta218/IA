@@ -9,7 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.habitapp.models.Habit;
 
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
 
 import com.example.habitapp.R;
 
@@ -143,6 +147,54 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
 
     public String getTag(){
         return tag;
+    }
+
+    public void sortAlphabetically(){
+        habitsToDisplay.sort(new Comparator<Habit>() {
+            @Override
+            public int compare(Habit h1, Habit h2) {
+                return h1.getTitle().compareTo(h2.getTitle());
+            }
+        });
+
+    }
+    public void sortUrgency(){
+        habitsToDisplay.sort(new Comparator<Habit>() {
+            @Override
+            public int compare(Habit h1, Habit h2) {
+                //difference in days to goal date
+                Calendar today = Calendar.getInstance();
+
+                if(h1.getGoalDate() == null && h1.getGoalDate() == null){
+                    return 0;
+                }
+                else if(h1.getGoalDate() != null && h1.getGoalDate() == null){
+                    return 1;
+                }
+                else if(h1.getGoalDate() == null && h1.getGoalDate() != null){
+                    return -1;
+                }
+
+                int daysBetween1 = (int) ChronoUnit.DAYS.between(today.toInstant(), h1.getGoalDate().toInstant());
+                int daysBetween2 = (int) ChronoUnit.DAYS.between(today.toInstant(), h2.getGoalDate().toInstant());
+
+                return daysBetween1 - daysBetween2;
+
+            }
+        });
+    }
+    public void sortGoal(){
+        habitsToDisplay.sort(new Comparator<Habit>() {
+            @Override
+            public int compare(Habit h1, Habit h2) {
+                //difference in percentage
+                return (int) Math.round(h1.percentage() - h2.percentage());
+            }
+        });
+    }
+
+    public void sortLastUpdated(){
+
     }
 }
 

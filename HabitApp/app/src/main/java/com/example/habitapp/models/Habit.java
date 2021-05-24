@@ -79,7 +79,7 @@ public class Habit {
         lastUpdated = new Date();
     }
 
-    private void updateStreak() {
+    public void updateStreak() {
         Calendar today = Calendar.getInstance();
         today.set(Calendar.HOUR, 0);
         today.set(Calendar.MINUTE, 0);
@@ -290,6 +290,16 @@ public class Habit {
             temp += tag + ",";
         }
         return temp.substring(0, temp.length() - 1);
+    }
+
+    public double percentage(){
+        if (getGoalType() == Goal.AMOUNT) {
+            return  getTrackedCount() / ((double)getGoal());
+        } else if (getGoalType() != Goal.NONE) {
+            return getStreak() / ((double)getGoal());
+        }
+
+        return 1;
     }
 
 }

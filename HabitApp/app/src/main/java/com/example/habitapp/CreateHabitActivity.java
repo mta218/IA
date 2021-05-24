@@ -94,11 +94,21 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
                     dateInput.setVisibility(View.INVISIBLE);
                     break;
                 case 1:
-                    goal = Goal.STREAK;
+                    goal = Goal.DAILY_STREAK;
                     goalInput.setVisibility(View.VISIBLE);
                     dateInput.setVisibility(View.VISIBLE);
                     break;
                 case 2:
+                    goal = Goal.WEEKLY_STREAK;
+                    goalInput.setVisibility(View.VISIBLE);
+                    dateInput.setVisibility(View.VISIBLE);
+                    break;
+                case 3:
+                    goal = Goal.MONTHLY_STREAK;
+                    goalInput.setVisibility(View.VISIBLE);
+                    dateInput.setVisibility(View.VISIBLE);
+                    break;
+                case 4:
                     goal = Goal.AMOUNT;
                     goalInput.setVisibility(View.VISIBLE);
                     dateInput.setVisibility(View.VISIBLE);
@@ -120,7 +130,7 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
         if (titleString.equals("")) {
             Toast.makeText(getApplicationContext(), "Please enter a title",
                     Toast.LENGTH_SHORT).show();
-        } else if (goal == Goal.AMOUNT || goal == Goal.STREAK) {
+        } else if (goal == Goal.AMOUNT || goal == Goal.DAILY_STREAK || goal == Goal.WEEKLY_STREAK || goal == Goal.MONTHLY_STREAK) {
             if (goalString.equals("")) {
                 Toast.makeText(getApplicationContext(), "Please enter goal information",
                         Toast.LENGTH_SHORT).show();
