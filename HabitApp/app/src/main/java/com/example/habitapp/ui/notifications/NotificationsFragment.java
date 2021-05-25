@@ -42,6 +42,8 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
     User user;
     Spinner sorterSpinner;
 
+    int sorted = 0;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -72,7 +74,6 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
         sorterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sorterSpinner.setAdapter(sorterAdapter);
         sorterSpinner.setOnItemSelectedListener(this);
-
         return root;
     }
 
@@ -81,6 +82,8 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
         super.onResume();
 
         refresh();
+
+
     }
 
     void addHabit() {
@@ -146,8 +149,23 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
         if(tag.equals(HabitConstants.ALL_HABIT_RECYCLER_VIEW)){
             allPendingArrayList.add(habitToAdd);
             if(allPendingArrayList.size() == user.getHabits().size()){
-                ((HabitAdapter) allHabitRecyclerView.getAdapter()).addHabits(allPendingArrayList);
-                allHabitRecyclerView.getAdapter().notifyDataSetChanged();
+                HabitAdapter habitAdapter = ((HabitAdapter) allHabitRecyclerView.getAdapter());
+                habitAdapter.addHabits(allPendingArrayList);
+                switch (sorted) {
+                    case 0: //Urgency
+                        habitAdapter.sortUrgency();
+                        break;
+                    case 1: //Name
+                        habitAdapter.sortAlphabetically();
+                        break;
+                    case 2: //Goal (percentage)
+                        habitAdapter.sortGoal();
+                        break;
+                    case 3: //Last Updated
+                        habitAdapter.sortLastUpdated();
+                        break;
+                }
+                habitAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -155,6 +173,10 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         HabitAdapter habitAdapter = ((HabitAdapter) allHabitRecyclerView.getAdapter());
+
+
+        sorted = i;
+
         switch (i) {
             case 0: //Urgency
                 habitAdapter.sortUrgency();
@@ -165,10 +187,7 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
             case 2: //Goal (percentage)
                 habitAdapter.sortGoal();
                 break;
-            case 3: //Tags
-
-                break;
-            case 4: //Last Updated
+            case 3: //Last Updated
                 habitAdapter.sortLastUpdated();
                 break;
         }

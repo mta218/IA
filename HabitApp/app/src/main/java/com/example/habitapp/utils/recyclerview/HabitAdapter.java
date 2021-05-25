@@ -169,10 +169,10 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
                     return 0;
                 }
                 else if(h1.getGoalDate() != null && h2.getGoalDate() == null){
-                    return 1;
+                    return -1;
                 }
                 else if(h1.getGoalDate() == null && h2.getGoalDate() != null){
-                    return -1;
+                    return 1;
                 }
 
                 int daysBetween1 = (int) ChronoUnit.DAYS.between(today.toInstant(), h1.getGoalDate().toInstant());
@@ -201,7 +201,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
 
                 Calendar today = Calendar.getInstance();
                 Date h1Date = h1.getLastUpdated();
-                Date h2Date = h1.getLastUpdated();
+                Date h2Date = h2.getLastUpdated();
 
                 if(h1Date == null ){
                     h1Date = new Date();
@@ -211,10 +211,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
                 }
 
                 int daysBetween1 = (int) ChronoUnit.DAYS.between(today.toInstant(), h1Date.toInstant());
-                System.out.println("1 be like: " + daysBetween1);
                 int daysBetween2 = (int) ChronoUnit.DAYS.between(today.toInstant(), h2Date.toInstant());
-                System.out.println("2 be like: " + daysBetween1);
-                System.out.println("diff be like " + (daysBetween1 - daysBetween2));
 
                 return daysBetween1 - daysBetween2;
             }

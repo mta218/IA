@@ -23,7 +23,6 @@
         <item>Urgency</item>
         <item>Name</item>
         <item>Goal</item>
-        <item>Tags</item>
         <item>Last Updated</item>
     </string-array>
 </resources>
