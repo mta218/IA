@@ -28,6 +28,13 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
+/**
+ * This is the CreateHabitActivity class, it contains the UI and functionality that enables the user to create new habits.
+ *
+ * @author Maximilian Ta
+ * @version 0.1
+ */
+
 public class CreateHabitActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Frequency freq;

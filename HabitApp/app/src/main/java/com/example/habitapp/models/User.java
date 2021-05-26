@@ -2,6 +2,13 @@ package com.example.habitapp.models;
 
 import java.util.ArrayList;
 
+/**
+ * This is the User class, it stores all information about each user
+ *
+ * @author Maximilian Ta
+ * @version 0.1
+ */
+
 public class User {
     //String username;
     String displayName;
@@ -46,6 +53,11 @@ public class User {
         return friendRequest;
     }
 
+    /**
+     * This is not yet implement
+     *
+     * @param friendRequest
+     */
     public void setFriendRequest(ArrayList<String> friendRequest) {
         this.friendRequest = friendRequest;
     }

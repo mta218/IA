@@ -10,6 +10,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * This is the habit class, it stores all information about a user's habit and has functionality to manipulate the data.
+ *
+ * @author Maximilian Ta
+ * @version 0.1
+ */
+
 public class Habit {
     String ID;
     String ownerID;
@@ -53,10 +60,19 @@ public class Habit {
     public Habit() {
     }
 
+    /**
+     * adds a tag to the tags arraylist
+     *
+     * @param newTag a String containing the new tag
+     */
     public void addTag(String newTag) {
         tags.add(newTag);
     }
 
+    /**
+     * returns true or false indicating whether the goal has been reached
+     *
+     */
     public boolean goalReached() {
         if (goalType == Goal.AMOUNT) {
             return trackedCount == goal;
@@ -66,9 +82,13 @@ public class Habit {
         return false;
     }
 
+    /**
+     * adds a value to the trackedCount of the habit and checks for streaks
+     *
+     * @param addAmount an integer storing the amount to add to trackedCount
+     */
     public void updateHabit(int addAmount) {
         trackedCount += addAmount;
-
 
         if (lastUpdated == null) {
             streak++;
@@ -79,6 +99,11 @@ public class Habit {
         lastUpdated = new Date();
     }
 
+    /**
+     * checks the current date against the last updated date to see if the habit still maintains its streak,
+     * updates the streak value accordingly
+     *
+     */
     public void updateStreak() {
         Calendar today = Calendar.getInstance();
         today.set(Calendar.HOUR, 0);
@@ -110,6 +135,10 @@ public class Habit {
         }
     }
 
+    /**
+     * called by updateStreak returns if the habit was updated in the previous week
+     *
+     */
     private boolean updatedLastWeek() {
         //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
         Calendar aWeekAgo = Calendar.getInstance();
@@ -123,6 +152,10 @@ public class Habit {
         return week == targetWeek && year == targetYear;
     }
 
+    /**
+     * called by updateStreak returns if the habit was updated in the current week
+     *
+     */
     private boolean updatedThisWeek() {
         //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
         Calendar today = Calendar.getInstance();
@@ -135,6 +168,10 @@ public class Habit {
         return week == targetWeek && year == targetYear;
     }
 
+    /**
+     * called by updateStreak returns if the habit was updated in the previous month
+     *
+     */
     private boolean updatedLastMonth() {
         //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
         Calendar aMonthAgo = Calendar.getInstance();
@@ -148,6 +185,10 @@ public class Habit {
         return month == targetMonth && year == targetYear;
     }
 
+    /**
+     * called by updateStreak returns if the habit was updated in the current month
+     *
+     */
     private boolean updatedThisMonth() {
         //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
         Calendar today = Calendar.getInstance();
@@ -240,6 +281,10 @@ public class Habit {
         this.tags = tags;
     }
 
+    /**
+     * returns a String stating when the habit was last updated
+     *
+     */
     public String lastUpdatedString() {
         if (lastUpdated == null) {
             return "Last updated today";
@@ -279,11 +324,19 @@ public class Habit {
         this.ownerID = ownerID;
     }
 
+    /**
+     * Returns a copy of the habit
+     *
+     */
     public Habit copy() {
         //https://www.codevscolor.com/java-copy-string
         return new Habit(String.copyValueOf(title.toCharArray()), freq, goal, (Date) goalDate.clone(), goalType, new ArrayList<>(tags), String.copyValueOf(ownerID.toCharArray()));
     }
 
+    /**
+     * Returns the tags as a single string separated by commas
+     *
+     */
     public String tagsAsString() {
         String temp = "";
         for (String tag : tags) {
@@ -292,6 +345,10 @@ public class Habit {
         return temp.substring(0, temp.length() - 1);
     }
 
+    /**
+     * returns the how much of the goal has been completed as a decimal or 1 if there is no goal.
+     *
+     */
     public double percentage(){
         if (getGoalType() == Goal.AMOUNT) {
             return  getTrackedCount() / ((double)getGoal());
