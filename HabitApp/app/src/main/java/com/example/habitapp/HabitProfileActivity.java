@@ -113,14 +113,14 @@ public class HabitProfileActivity extends AppCompatActivity {
        getPercentage();
 
 
-        //TODO: add thing for date / no date
        if(habit.getGoalDate() != null){
-           if(habit.getGoalDate().compareTo(new Date()) < 0){
-               dateText.setText("Goal date has passed");
-           }
-
            long days = Duration.between(Calendar.getInstance().toInstant(), habit.getGoalDate().toInstant()).toDays();
-           if(days == 0){
+            System.out.println("true or false (or fralse lol): "+ (days < 0));
+
+           if(days < 0){
+               dateText.setText("The Goal Date has passed\nYou may edit this Habit to change or remove the Goal Date");
+           }
+           else if(days == 0){
                dateText.setText("Goal date is today.");
            }
            else if(days < 7){
@@ -149,6 +149,9 @@ public class HabitProfileActivity extends AppCompatActivity {
                }
                dateText.setText(years + " years until Goal Date");
            }
+       }
+       else{
+           dateText.setText("");
        }
 
         if(isOwner){

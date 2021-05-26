@@ -147,7 +147,6 @@ public class SignInActivity extends AppCompatActivity {
                             });
 
 
-
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(getApplicationContext(), "Sign in failed.\n"+task.getException(),

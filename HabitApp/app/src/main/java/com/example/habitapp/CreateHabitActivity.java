@@ -62,7 +62,6 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
         submitButton = findViewById(R.id.submitButton);
         submitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
                 addHabit();
             }
         });

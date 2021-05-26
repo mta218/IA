@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.habitapp.CreateHabitActivity;
 import com.example.habitapp.HabitProfileActivity;
 import com.example.habitapp.R;
+import com.example.habitapp.SearchHabitActivity;
 import com.example.habitapp.enums.Goal;
 import com.example.habitapp.models.Habit;
 import com.example.habitapp.models.User;
@@ -31,14 +33,15 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class NotificationsFragment extends Fragment implements HabitAdapter.OnHabitListener, AdapterView.OnItemSelectedListener{
     //for habits
-    Button createButton;
+    Button createButton, searchButton;
     RecyclerView urgentHabitRecyclerView, allHabitRecyclerView;
     FirebaseFirestore fRef;
     FirebaseAuth mAuth;
-    ArrayList<Habit> urgentPendingArrayList, allPendingArrayList;
+    ArrayList<Habit> allPendingArrayList;
     User user;
     Spinner sorterSpinner;
 
@@ -53,7 +56,6 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
         mAuth = FirebaseAuth.getInstance();
 
         allPendingArrayList = new ArrayList<>();
-        urgentPendingArrayList = new ArrayList<>();
 
         createButton = root.findViewById(R.id.createButton);
         View.OnClickListener createListener = new View.OnClickListener() {
@@ -63,6 +65,15 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
             }
         };
         createButton.setOnClickListener(createListener);
+
+        searchButton = root.findViewById(R.id.searchButton);
+        View.OnClickListener searchListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToSearch();
+            }
+        };
+        searchButton.setOnClickListener(searchListener);
 
         allHabitRecyclerView = root.findViewById(R.id.allHabitRecyclerView);
         HabitAdapter adapter1 = new HabitAdapter(new ArrayList<Habit>(), this, HabitConstants.ALL_HABIT_RECYCLER_VIEW);
@@ -82,7 +93,6 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
         super.onResume();
 
         refresh();
-
 
     }
 
@@ -173,8 +183,6 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         HabitAdapter habitAdapter = ((HabitAdapter) allHabitRecyclerView.getAdapter());
-
-
         sorted = i;
 
         switch (i) {
@@ -199,4 +207,11 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
+    private void goToSearch(){
+        Intent intent = new Intent(this.getActivity(), SearchHabitActivity.class);
+        startActivity(intent);
+    }
+
+
 }
