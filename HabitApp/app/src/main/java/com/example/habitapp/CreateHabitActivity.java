@@ -75,6 +75,15 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
 
     }
 
+    /**
+     * This is the method called when a spinner is clicked. It will update the appropriate value of the habit
+     * (either the frequency or goal type) depending on which spinner clicked.
+     *
+     * @param adapterView
+     * @param view
+     * @param i
+     * @param l
+     */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         if (adapterView.getId() == R.id.freqSpinner) {
@@ -128,6 +137,11 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
 
     }
 
+    /**
+     * This will validate the inputs, then create a habit object with the details the user entered and add it to Firebase.
+     * Displays an appropriate error message if something breaks.
+     *
+     */
     private void addHabit() {
         String titleString = titleInput.getText().toString();
         String goalString = goalInput.getText().toString();
@@ -165,7 +179,12 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
         }
     }
 
-    void updateDatabase(final Habit habit) {
+    /**
+     * Called by addHabit, adds the habit entered through the parameter to Firebase.
+     *
+     * @param habit the Habit object to add to Firebase
+     */
+    private void updateDatabase(final Habit habit) {
         FirebaseFirestore fRef = FirebaseFirestore.getInstance();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         fRef.collection(HabitConstants.HABIT_PATH).document(habit.getID()).set(habit).addOnFailureListener(new OnFailureListener() {
@@ -198,6 +217,11 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
 
     }
 
+    /**
+     * Converts the string entered into the tagsInput editText into an ArrayList of tags.
+     *
+     * @return an ArrayList of Strings, each representing a tag for the habit
+     */
     private ArrayList<String> getTags() {
         ArrayList<String> list = new ArrayList<String>();
         String[] temp = tagsInput.getText().toString().trim().replaceAll("\\s+", "").split(",");

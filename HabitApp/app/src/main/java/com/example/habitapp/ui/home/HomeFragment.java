@@ -57,6 +57,10 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Takes the user to the SettingsActivity
+     *
+     */
     private void goToSettings(){
         Intent intent = new Intent(this.getActivity(), SettingsActivity.class);
         startActivity(intent);
