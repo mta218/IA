@@ -96,6 +96,10 @@ public class HabitProfileActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Refreshes the UI with the latest data of the habit
+     *
+     */
    private void updateUI() {
         titleText.setText(habit.getTitle());
         isOwner = false;
@@ -111,7 +115,6 @@ public class HabitProfileActivity extends AppCompatActivity {
         }
 
        getPercentage();
-
 
        if(habit.getGoalDate() != null){
            long days = Duration.between(Calendar.getInstance().toInstant(), habit.getGoalDate().toInstant()).toDays();
@@ -181,6 +184,11 @@ public class HabitProfileActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Called when getting the value for the progress bar, returns the percentage of the goal completion to the nearest int
+     *
+     * @return An integer representing the percentage of the goal completion
+     */
     private int getPercentage(){
         int percentage = 0;
 
@@ -193,6 +201,11 @@ public class HabitProfileActivity extends AppCompatActivity {
         return percentage;
     }
 
+    /**
+     * Increments the trackedCount value of the habit by the value entered into the updateInput EditText,
+     * displays a success/error message on completion.
+     *
+     */
     void updateHabit(){
         String input = updateInput.getText().toString();
         if(input.equals("")){
@@ -232,12 +245,23 @@ public class HabitProfileActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Opens EditHabitActivity
+     *
+     */
     private void goToEditActivity(){
         Intent intent = new Intent(this, EditHabitActivity.class);
         intent.putExtra(HabitConstants.HABIT_ID_INTENT, habit.getID());
         startActivityForResult(intent,1001);
     }
 
+    /**
+     * Called by EditHabitActivity to close this activity
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -31,13 +31,19 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * This is the SearchHabitActivity, this is where users can search through habits they own.
+ *
+ * @author Maximilian Ta
+ * @version 0.1
+ */
 public class SearchHabitActivity extends AppCompatActivity implements HabitAdapter.OnHabitListener, AdapterView.OnItemSelectedListener{
 
     Button createButton, searchButton;
     RecyclerView searchHabitRecyclerView;
     FirebaseFirestore fRef;
     FirebaseAuth mAuth;
-    ArrayList<Habit> allPendingArrayList;
+    ArrayList<Habit> allPendingArrayList, toBeFilteredArrayList;
     User user;
     Spinner sorterSpinner;
     EditText editSearchTags, editSearchTitle;
@@ -79,6 +85,10 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
         sorterSpinner.setOnItemSelectedListener(this);
     }
 
+    /**
+     * Called when search button is pressed, and calls the appropriate search function
+     *
+     */
     private void searchButtonPressed(){
         ((HabitAdapter) searchHabitRecyclerView.getAdapter()).clearArrayList();
         allPendingArrayList.clear();
@@ -102,6 +112,12 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
 
     }
 
+    /**
+     * NOT YET COMPLETE
+     *
+     * Searches and displays habits with the appropriate tag
+     *
+     */
     private void searchForTag(){
         fRef.collection(HabitConstants.HABIT_PATH).whereEqualTo("ownerID", mAuth.getUid()).whereArrayContainsAny("tags", getTags()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -120,6 +136,13 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
         });
     }
 
+    /**
+     * NOT YET IMPLEMENTED
+     *
+     * Searches and displays habits with the appropriate title
+     *
+     * @param title
+     */
     private void searchForTitle(String title){
         fRef.collection(HabitConstants.HABIT_PATH).whereEqualTo("ownerID", mAuth.getUid()).whereEqualTo("title", title).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -137,7 +160,13 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
             }
         });
     }
-
+    /**
+     * NOT YET IMPLEMENTED
+     *
+     * Searches and displays habits with the appropriate title and tags
+     *
+     * @param title
+     */
     private void searchBoth(String title){
         fRef.collection(HabitConstants.HABIT_PATH).whereEqualTo("ownerID", mAuth.getUid()).whereEqualTo("title", title).whereArrayContainsAny("tags", getTags()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -156,13 +185,21 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
         });
     }
 
+    /**
+     * Returns the current instance of the SearchHabitActivity running
+     *
+     * @return
+     */
     private Activity getActivity(){
         return this;
     }
 
 
-
-
+    /**
+     * Adds the habits to the recycler view and sort them
+     *
+     * @param habits
+     */
     private void addHabits(ArrayList<Habit> habits){
         HabitAdapter habitAdapter = ((HabitAdapter) searchHabitRecyclerView.getAdapter());
         habitAdapter.addHabits(habits);
@@ -183,6 +220,14 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
         habitAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * This is the method called when a spinner is clicked. It will change the method of sorting of the Recycler view.
+     *
+     * @param adapterView
+     * @param view
+     * @param i
+     * @param l
+     */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         HabitAdapter habitAdapter = ((HabitAdapter) searchHabitRecyclerView.getAdapter());
@@ -215,6 +260,11 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
 
     }
 
+    /**
+     * Converts the string entered into the editSearchTags editText into an ArrayList of tags.
+     *
+     * @return an ArrayList of Strings, each representing a tag for the habit
+     */
     private ArrayList<String> getTags() {
         ArrayList<String> list = new ArrayList<String>();
         String[] temp = editSearchTags.getText().toString().trim().replaceAll("\\s+", "").split(",");
@@ -223,5 +273,23 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
         }
         Collections.addAll(list, temp);
         return list;
+    }
+
+    private void getAllHabits(){
+        fRef.collection(HabitConstants.HABIT_PATH).whereEqualTo("ownerID", mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    ArrayList<Habit> habits = new ArrayList();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        habits.add(document.toObject(Habit.class));
+                    }
+                    addHabits(habits);
+                } else {
+                    Toast.makeText(getActivity(), "Please enter a title or tags",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

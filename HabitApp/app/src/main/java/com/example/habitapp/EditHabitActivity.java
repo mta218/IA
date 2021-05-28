@@ -33,6 +33,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
+/**
+ * This is the EditHabitActivity, this is where Users can edit the details of the habit and delete them.
+ *
+ * @author Maximilian Ta
+ * @version 0.1
+ */
+
 public class EditHabitActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Button deleteHabitButton, confirmButton;
@@ -139,6 +146,10 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
         });
     }
 
+    /**
+     * Refreshes the UI with the latest data of the habit
+     *
+     */
     private void updateUI() {
         editTitleInput.setText(habit.getTitle());
         editTagsInput.setText(habit.tagsAsString());
@@ -160,6 +171,15 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
     }
 
 
+    /**
+     * This is the method called when a spinner is clicked. It will update the appropriate value of the habit
+     * (either the frequency or goal type) depending on which spinner clicked.
+     *
+     * @param adapterView
+     * @param view
+     * @param i
+     * @param l
+     */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         if (adapterView.getId() == R.id.goalSpinner) {
@@ -209,6 +229,10 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
 
     }
 
+    /**
+     * Creates a new Habit from the new information entered and updates Firebase.
+     *
+     */
     public void confirmChanges(){
         try{
             Date newDate;
@@ -253,6 +277,11 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
     }
 
 
+    /**
+     * Converts the string entered into the editTagsInput editText into an ArrayList of tags.
+     *
+     * @return an ArrayList of Strings, each representing a tag for the habit
+     */
     private ArrayList<String> getTags() {
         ArrayList<String> list = new ArrayList<String>();
         String[] temp = editTagsInput.getText().toString().trim().replaceAll("\\s+", "").split(",");
@@ -264,6 +293,10 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
     }
 
 
+    /**
+     * Called when the delete button is pressed, attempts to remove the habit from Firebase. If unsuccessful, displays an error message.
+     *
+     */
     private void deleteHabit(){
         //https://stackoverflow.com/questions/36747369/how-to-show-a-pop-up-in-android-studio-to-confirm-an-order
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -321,6 +354,11 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
         dialog.show();
     }
 
+    /**
+     * Called when the back button is pressed, prompts the user with a dialogue stating that
+     * unsaved changes will be lost.
+     *
+     */
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -347,10 +385,18 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
 
     }
 
+    /**
+     * Calls finish()
+     *
+     */
     private void closeActivity() {
         finish();
     }
 
+    /**
+     * Called when habit is deleted to close the HabitProfileActivity
+     *
+     */
     private void closeCallingActivity(){
         finishActivity(1001); //?? idk but I got this from this one dude https://stackoverflow.com/questions/10379134/finish-an-activity-from-another-activity its like one of the last replies
     }

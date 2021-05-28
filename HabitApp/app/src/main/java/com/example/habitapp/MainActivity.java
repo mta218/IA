@@ -12,6 +12,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+/**
+ * This is the MainActivity, has the AppBar used to hold the fragments
+ *
+ * @author Maximilian Ta
+ * @version 0.1
+ */
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser user;
@@ -38,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Returns the user to the SignInActivity if they are not logged in.
+     *
+     */
     @Override
     protected void onResume() {
         if(mAuth.getCurrentUser() == null){

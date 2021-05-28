@@ -27,7 +27,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
+/**
+ * This is the SignInActivity, handles Google sign in
+ *
+ * @author Maximilian Ta
+ * @version 0.1
+ */
 public class SignInActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 11; //might need to change this?

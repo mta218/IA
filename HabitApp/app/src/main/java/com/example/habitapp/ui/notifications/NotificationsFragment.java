@@ -36,7 +36,8 @@ import java.util.ArrayList;
 
 /**
  * This is the HabitFragment, it contains all UI that allows for users to view, edit and update their habits.
- *
+ * @author Maximilian Ta
+ * @version 0.1
  */
 public class NotificationsFragment extends Fragment implements HabitAdapter.OnHabitListener, AdapterView.OnItemSelectedListener{
     //for habits

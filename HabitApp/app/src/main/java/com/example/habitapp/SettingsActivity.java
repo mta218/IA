@@ -15,6 +15,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+/**
+ * This is the SettingsActivity, this is where users can edit the settings of their account
+ *
+ * @author Maximilian Ta
+ * @version 0.1
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     Switch darkModeSwitch;
