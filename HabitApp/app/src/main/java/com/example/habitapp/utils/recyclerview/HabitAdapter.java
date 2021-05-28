@@ -18,7 +18,7 @@ import java.util.Date;
 import com.example.habitapp.R;
 
 /**
- * The CarpoolAdapter is the adapter class for the CarpoolRecyclerView, it holds
+ * The HabitAdapter is the adapter class for the HabitRecyclerView, it holds
  * the habits that the recycler view displays as well as some other functionality.
  *
  * @author Maximilian Ta
@@ -139,16 +139,21 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
     }
 
     /**
-     * clears vehiclesToDisplay
+     * clears habitsToDisplay
      */
     public void clearArrayList() {
         this.habitsToDisplay.clear();
     }
 
+
     public String getTag(){
         return tag;
     }
 
+    /**
+     * Sorts the habitsToDisplay in alphabetical order of title of habits
+     *
+     */
     public void sortAlphabetically(){
         habitsToDisplay.sort(new Comparator<Habit>() {
             @Override
@@ -158,6 +163,10 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
         });
 
     }
+
+    /**
+     * Sorts the habitsToDisplay in alphabetical order days until the goal date in ascending order
+     */
     public void sortUrgency(){
         habitsToDisplay.sort(new Comparator<Habit>() {
             @Override
@@ -183,6 +192,10 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
             }
         });
     }
+
+    /**
+     * Sorts the habitsToDisplay by habit percentage (see Habit.percentage)
+     */
     public void sortGoal(){
         habitsToDisplay.sort(new Comparator<Habit>() {
             @Override
@@ -193,6 +206,9 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
         });
     }
 
+    /**
+     * Sorts by days from the lastUpdated date
+     */
     public void sortLastUpdated(){
         habitsToDisplay.sort(new Comparator<Habit>() {
             @Override

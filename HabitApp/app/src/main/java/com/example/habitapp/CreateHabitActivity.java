@@ -106,27 +106,22 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
                 case 0:
                     goal = Goal.NONE;
                     goalInput.setVisibility(View.INVISIBLE);
-                    dateInput.setVisibility(View.INVISIBLE);
                     break;
                 case 1:
                     goal = Goal.DAILY_STREAK;
                     goalInput.setVisibility(View.VISIBLE);
-                    dateInput.setVisibility(View.VISIBLE);
                     break;
                 case 2:
                     goal = Goal.WEEKLY_STREAK;
                     goalInput.setVisibility(View.VISIBLE);
-                    dateInput.setVisibility(View.VISIBLE);
                     break;
                 case 3:
                     goal = Goal.MONTHLY_STREAK;
                     goalInput.setVisibility(View.VISIBLE);
-                    dateInput.setVisibility(View.VISIBLE);
                     break;
                 case 4:
                     goal = Goal.AMOUNT;
                     goalInput.setVisibility(View.VISIBLE);
-                    dateInput.setVisibility(View.VISIBLE);
                     break;
             }
         }
@@ -156,7 +151,7 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
                         Toast.LENGTH_SHORT).show();
             } else {
                 if (dateString.equals("")) {
-                    updateDatabase(new Habit(titleString, freq, Integer.parseInt(goalString), null, goal, getTags(), mAuth.getUid()));
+                    updateDatabase(new Habit(titleString.trim(), freq, Integer.parseInt(goalString), null, goal, getTags(), mAuth.getUid()));
                 } else {
                     try {
                         Date goalDate = new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
@@ -166,7 +161,7 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
                             throw new Exception();
                         }
 
-                        updateDatabase(new Habit(titleString, freq, Integer.parseInt(goalString), goalDate, goal, getTags(), mAuth.getUid()));
+                        updateDatabase(new Habit(titleString.trim(), freq, Integer.parseInt(goalString), goalDate, goal, getTags(), mAuth.getUid()));
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Please enter a valid date",
                                 Toast.LENGTH_SHORT).show();

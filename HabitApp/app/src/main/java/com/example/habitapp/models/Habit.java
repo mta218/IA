@@ -90,10 +90,10 @@ public class Habit {
     public void updateHabit(int addAmount) {
         trackedCount += addAmount;
 
-        if (lastUpdated == null) {
+        if (lastUpdated == null || streak == 0) {
             streak++;
         } else {
-            updateStreak();
+            updateStreak(true);
         }
 
         lastUpdated = new Date();
@@ -104,35 +104,62 @@ public class Habit {
      * updates the streak value accordingly
      *
      */
-    public void updateStreak() {
+    public void updateStreak(boolean increaseStreak) {
         Calendar today = Calendar.getInstance();
         today.set(Calendar.HOUR, 0);
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
+        boolean shouldIncrease = false;
 
         if(lastUpdated != null){
-            int daysBetween = (int) ChronoUnit.DAYS.between(today.toInstant(), lastUpdated.toInstant());
 
             if (goalType == Goal.DAILY_STREAK) {
-                if (daysBetween == 1) {
-                    streak++;
-                } else if (daysBetween > 0) {
+                if (updatedYesterday()) {
+                    shouldIncrease = true;
+                } else if (!updatedToday()) {
                     streak = 0;
                 }
             } else if (goalType == Goal.WEEKLY_STREAK) {
                 if (updatedLastWeek()) {
-                    streak++;
+                    shouldIncrease = true;
                 } else if (!updatedThisWeek()) {
                     streak = 0;
                 }
             } else if (goalType == Goal.MONTHLY_STREAK) {
                 if (updatedLastMonth()) {
-                    streak++;
+                    shouldIncrease = true;
                 } else if (!updatedThisMonth()) {
                     streak = 0;
                 }
             }
         }
+
+        if(shouldIncrease && increaseStreak){
+            streak++;
+        }
+    }
+
+    private boolean updatedYesterday() {
+        Calendar aWeekAgo = Calendar.getInstance();
+        aWeekAgo.add(Calendar.DATE, -1);
+        Calendar lastUpdatedAsCal = Calendar.getInstance();
+        lastUpdatedAsCal.setTime(lastUpdated);
+        int day = aWeekAgo.get(Calendar.DAY_OF_YEAR);
+        int year = aWeekAgo.get(Calendar.YEAR);
+        int targetDay = lastUpdatedAsCal.get(Calendar.DAY_OF_YEAR);
+        int targetYear = lastUpdatedAsCal.get(Calendar.YEAR);
+        return day == targetDay && year == targetYear;
+    }
+
+    private boolean updatedToday() {
+        Calendar aWeekAgo = Calendar.getInstance();
+        Calendar lastUpdatedAsCal = Calendar.getInstance();
+        lastUpdatedAsCal.setTime(lastUpdated);
+        int day = aWeekAgo.get(Calendar.DAY_OF_YEAR);
+        int year = aWeekAgo.get(Calendar.YEAR);
+        int targetDay = lastUpdatedAsCal.get(Calendar.DAY_OF_YEAR);
+        int targetYear = lastUpdatedAsCal.get(Calendar.YEAR);
+        return day == targetDay && year == targetYear;
     }
 
     /**

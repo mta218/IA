@@ -8,6 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.habitapp.R;
 
+/**
+ * The HabitViewHolder is the ViewHolder class for the HabitRecyclerView, it represents
+ * a single item of the HabitRecyclerView, displaying information on one habit.
+ *
+ * @author Maximilian Ta
+ * @version 0.1
+ */
 public class HabitViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
     protected TextView titleText, updatedText;

@@ -88,7 +88,7 @@ public class HabitProfileActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     habit = task.getResult().toObject(Habit.class);
-                    habit.updateStreak();
+                    habit.updateStreak(false);
                     updateUI();
                 }
             }

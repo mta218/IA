@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,7 +40,7 @@ import java.util.Collections;
  */
 public class SearchHabitActivity extends AppCompatActivity implements HabitAdapter.OnHabitListener, AdapterView.OnItemSelectedListener{
 
-    Button createButton, searchButton;
+    Button searchButton;
     RecyclerView searchHabitRecyclerView;
     FirebaseFirestore fRef;
     FirebaseAuth mAuth;
@@ -90,100 +91,90 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
      *
      */
     private void searchButtonPressed(){
-        ((HabitAdapter) searchHabitRecyclerView.getAdapter()).clearArrayList();
-        allPendingArrayList.clear();
+        fRef.collection(HabitConstants.HABIT_PATH).whereEqualTo("ownerID", mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    toBeFilteredArrayList = new ArrayList();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        toBeFilteredArrayList.add(document.toObject(Habit.class));
+                    }
+                    search();
+                } else {
+                    Toast.makeText(getActivity(), "Please enter a title or tags",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        searchButtonPressed();
+    }
+
+    private void search(){
+        HabitAdapter adapter =  ((HabitAdapter) searchHabitRecyclerView.getAdapter());
+        adapter.clearArrayList();
+
         String titleString = editSearchTitle.getText().toString();
         String tagsString = editSearchTags.getText().toString();
 
-        if(!titleString.equals("") && !tagsString.equals("")){
-            searchBoth(titleString);
-        }
-        else if(titleString.equals("") && !tagsString.equals("")){
-            searchForTag();
-        }
-        else if(!titleString.equals("") && tagsString.equals("")){
-            searchForTitle(titleString);
+
+        if(tagsString.equals("") && titleString.equals("")){
+
+                Toast.makeText(this, "Please enter a title or tags",
+                        Toast.LENGTH_SHORT).show();
+
         }
         else{
-            Toast.makeText(this, "Please enter a title or tags",
-                    Toast.LENGTH_SHORT).show();
+            if(!tagsString.equals("")){
+                searchForTag();
+            }
+            if(!titleString.equals("")){
+                searchForTitle(titleString);
+            }
+
+            adapter.addHabits(toBeFilteredArrayList);
+            adapter.notifyDataSetChanged();
+
         }
+
 
 
     }
 
     /**
-     * NOT YET COMPLETE
      *
      * Searches and displays habits with the appropriate tag
      *
      */
     private void searchForTag(){
-        fRef.collection(HabitConstants.HABIT_PATH).whereEqualTo("ownerID", mAuth.getUid()).whereArrayContainsAny("tags", getTags()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    ArrayList<Habit> habits = new ArrayList();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        habits.add(document.toObject(Habit.class));
-                    }
-                    addHabits(habits);
-                } else {
-                    Toast.makeText(getActivity(), "Please enter a title or tags",
-                            Toast.LENGTH_SHORT).show();
-                }
+        ArrayList<Habit> tempArrayList = new ArrayList<>(toBeFilteredArrayList);
+        for(Habit habit : tempArrayList){
+            if(!habit.getTags().containsAll(getTags())){
+                toBeFilteredArrayList.remove(habit);
             }
-        });
+        }
     }
 
     /**
-     * NOT YET IMPLEMENTED
      *
-     * Searches and displays habits with the appropriate title
+     * Searches and displays habits with a title that has the first few characters which matches the letters entered
      *
-     * @param title
+     * @param title the title to be searched
      */
     private void searchForTitle(String title){
-        fRef.collection(HabitConstants.HABIT_PATH).whereEqualTo("ownerID", mAuth.getUid()).whereEqualTo("title", title).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    ArrayList<Habit> habits = new ArrayList();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        habits.add(document.toObject(Habit.class));
-                    }
-                    addHabits(habits);
-                } else {
-                    Toast.makeText(getActivity(), "Please enter a title or tags",
-                            Toast.LENGTH_SHORT).show();
-                }
+        ArrayList<Habit> tempArrayList = new ArrayList<>(toBeFilteredArrayList);
+        for(Habit habit : tempArrayList){
+            if(!habit.getTitle().toLowerCase().substring(0,title.length()).equals(title.toLowerCase().trim())){
+                toBeFilteredArrayList.remove(habit);
             }
-        });
+        }
     }
-    /**
-     * NOT YET IMPLEMENTED
-     *
-     * Searches and displays habits with the appropriate title and tags
-     *
-     * @param title
-     */
-    private void searchBoth(String title){
-        fRef.collection(HabitConstants.HABIT_PATH).whereEqualTo("ownerID", mAuth.getUid()).whereEqualTo("title", title).whereArrayContainsAny("tags", getTags()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    ArrayList<Habit> habits = new ArrayList();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        habits.add(document.toObject(Habit.class));
-                    }
-                    addHabits(habits);
-                } else {
-                    Toast.makeText(getActivity(), "Please enter a title or tags",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
+
 
     /**
      * Returns the current instance of the SearchHabitActivity running
@@ -257,7 +248,11 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
 
     @Override
     public void onHabitClick(int position, String tag) {
+        Intent intent = new Intent(this.getActivity(), HabitProfileActivity.class);
+        Habit habit = ((HabitAdapter) searchHabitRecyclerView.getAdapter()).getHabit(position);
 
+        intent.putExtra(HabitConstants.HABIT_ID_INTENT, habit.getID());
+        startActivity(intent);
     }
 
     /**
@@ -275,21 +270,6 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
         return list;
     }
 
-    private void getAllHabits(){
-        fRef.collection(HabitConstants.HABIT_PATH).whereEqualTo("ownerID", mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    ArrayList<Habit> habits = new ArrayList();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        habits.add(document.toObject(Habit.class));
-                    }
-                    addHabits(habits);
-                } else {
-                    Toast.makeText(getActivity(), "Please enter a title or tags",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
+
+
 }
