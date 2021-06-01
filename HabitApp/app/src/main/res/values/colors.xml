@@ -8,4 +8,5 @@
     <color name="textColor">#000000</color>
     <color name="recyclerViewTextColor">#707070</color>
     <color name="buttonColor">#808080</color>
+    <color name="navBarIconColor">#3a3a3a</color>
 </resources>
