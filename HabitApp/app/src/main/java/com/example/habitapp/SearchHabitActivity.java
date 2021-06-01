@@ -80,7 +80,7 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
         searchHabitRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         sorterSpinner = findViewById(R.id.searchSorterSpinner);
-        ArrayAdapter<CharSequence> sorterAdapter = ArrayAdapter.createFromResource(this, R.array.sorting_types, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> sorterAdapter = ArrayAdapter.createFromResource(this, R.array.sorting_types, R.layout.spinner_item);
         sorterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sorterSpinner.setAdapter(sorterAdapter);
         sorterSpinner.setOnItemSelectedListener(this);

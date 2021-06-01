@@ -19,7 +19,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:background="@color/backgroundColor"
+        >
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -31,7 +34,9 @@
         android:text="add new habit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/textColor"
+        android:background="@color/buttonColor"/>
 
     <TextView
         android:id="@+id/textView"
@@ -44,7 +49,8 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/allHabitRecyclerView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/textColor"/>
 
     <Spinner
         android:id="@+id/sorterSpinner"
@@ -55,7 +61,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        android:textColor="@color/textColor"/>
 
     <Button
         android:id="@+id/searchButton"
@@ -64,5 +71,7 @@
         android:text="SEARCH"
         app:layout_constraintBottom_toBottomOf="@+id/createButton"
         app:layout_constraintStart_toStartOf="@+id/allHabitRecyclerView"
-        app:layout_constraintTop_toTopOf="@+id/createButton" />
+        app:layout_constraintTop_toTopOf="@+id/createButton"
+        android:textColor="@color/textColor"
+        android:background="@color/buttonColor"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

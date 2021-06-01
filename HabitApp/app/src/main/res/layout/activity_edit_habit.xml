@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     tools:context=".EditHabitActivity">
 
     <EditText
@@ -19,7 +20,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTitleInput" />
+        app:layout_constraintTop_toBottomOf="@+id/editTitleInput"
+        android:textColor="@color/textColor"/>
+
 
     <Spinner
         android:id="@+id/freqSpinner"
@@ -31,7 +34,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editDateInput" />
+        app:layout_constraintTop_toBottomOf="@+id/editDateInput"
+        android:textColor="@color/textColor"/>
 
     <EditText
         android:id="@+id/editTitleInput"
@@ -46,7 +50,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/editTitle"
+        android:textColor="@color/textColor"/>
 
     <EditText
         android:id="@+id/editGoalInput"
@@ -61,7 +66,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goalSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/goalSpinner"
+        android:textColor="@color/textColor"/>
 
     <EditText
         android:id="@+id/editDateInput"
@@ -76,7 +82,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editGoalInput" />
+        app:layout_constraintTop_toBottomOf="@+id/editGoalInput"
+        android:textColor="@color/textColor"/>
 
     <TextView
         android:id="@+id/editTitle"
@@ -87,7 +94,8 @@
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/textColor"/>
 
     <Spinner
         android:id="@+id/goalSpinner"
@@ -99,7 +107,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTagsInput" />
+        app:layout_constraintTop_toBottomOf="@+id/editTagsInput"
+        android:textColor="@color/textColor"/>
 
     <Button
         android:id="@+id/deleteHabitButton"
@@ -109,7 +118,9 @@
         android:text="Delete Habit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editDateInput" />
+        app:layout_constraintTop_toBottomOf="@+id/editDateInput"
+        android:textColor="@color/textColor"
+        android:background="@color/buttonColor"/>
 
     <Button
         android:id="@+id/confirmButton"
@@ -122,5 +133,7 @@
         android:text="CONFIRM CHANGES"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deleteHabitButton" />
+        app:layout_constraintTop_toBottomOf="@+id/deleteHabitButton"
+        android:textColor="@color/textColor"
+        android:background="@color/buttonColor"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

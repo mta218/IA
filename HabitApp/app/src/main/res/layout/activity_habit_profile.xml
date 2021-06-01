@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     tools:context=".HabitProfileActivity">
 
     <TextView
@@ -15,7 +16,8 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/textColor"/>
 
     <Button
         android:id="@+id/updateButton"
@@ -25,7 +27,9 @@
         android:text="update"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/textColor"
+        android:background="@color/buttonColor"/>
 
     <Button
         android:id="@+id/editButton"
@@ -34,7 +38,9 @@
         android:text="edit"
         app:layout_constraintBottom_toBottomOf="@+id/updateButton"
         app:layout_constraintEnd_toStartOf="@+id/updateButton"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/textColor"
+        android:background="@color/buttonColor"/>
 
     <Button
         android:id="@+id/copyButton"
@@ -43,7 +49,9 @@
         android:text="make copy"
         app:layout_constraintBottom_toBottomOf="@+id/editButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/updateButton" />
+        app:layout_constraintStart_toEndOf="@+id/updateButton"
+        android:textColor="@color/textColor"
+        android:background="@color/buttonColor"/>
 
     <TextView
         android:id="@+id/progressText"
@@ -55,7 +63,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        android:textColor="@color/textColor"/>
 
     <TextView
         android:id="@+id/lastUpdatedText"
@@ -66,7 +75,8 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressText" />
+        app:layout_constraintTop_toBottomOf="@+id/progressText"
+        android:textColor="@color/textColor"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -78,7 +88,8 @@
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleText" />
+        app:layout_constraintTop_toBottomOf="@+id/titleText"
+        android:textColor="@color/textColor"/>
 
     <EditText
         android:id="@+id/updateInput"
@@ -90,7 +101,8 @@
         android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/updateButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/textColor"/>
 
     <TextView
         android:id="@+id/dateText"
@@ -103,6 +115,7 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastUpdatedText" />
+        app:layout_constraintTop_toBottomOf="@+id/lastUpdatedText"
+        android:textColor="@color/textColor"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

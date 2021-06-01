@@ -84,8 +84,9 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
         allHabitRecyclerView.setAdapter(adapter1);
         allHabitRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
+        //https://stackoverflow.com/questions/9476665/how-to-change-spinner-text-size-and-text-color
         sorterSpinner = root.findViewById(R.id.sorterSpinner);
-        ArrayAdapter<CharSequence> sorterAdapter = ArrayAdapter.createFromResource(this.getContext(), R.array.sorting_types, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> sorterAdapter = ArrayAdapter.createFromResource(this.getContext(), R.array.sorting_types, R.layout.spinner_item);
         sorterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sorterSpinner.setAdapter(sorterAdapter);
         sorterSpinner.setOnItemSelectedListener(this);

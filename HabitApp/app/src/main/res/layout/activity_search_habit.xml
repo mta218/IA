@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     tools:context=".SearchHabitActivity">
 
     <TextView
@@ -17,7 +18,8 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/textColor"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchHabitRecyclerView"
@@ -31,7 +33,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editSearchTags">
+        app:layout_constraintTop_toBottomOf="@+id/editSearchTags"
+        android:textColor="@color/textColor">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -44,7 +47,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/editSearchTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editSearchTitle"
-        app:layout_constraintTop_toTopOf="@+id/editSearchTitle" />
+        app:layout_constraintTop_toTopOf="@+id/editSearchTitle"
+        android:textColor="@color/textColor"/>
 
     <EditText
         android:id="@+id/editSearchTitle"
@@ -56,7 +60,8 @@
         android:hint="Title"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        android:textColor="@color/textColor"/>
 
     <EditText
         android:id="@+id/editSearchTags"
@@ -69,7 +74,8 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="@+id/searchSorterSpinner"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editSearchTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/editSearchTitle"
+        android:textColor="@color/textColor"/>
 
     <Button
         android:id="@+id/searchButton"
@@ -79,6 +85,8 @@
         android:text="search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchHabitRecyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/searchHabitRecyclerView"
+        android:textColor="@color/textColor"
+        android:background="@color/buttonColor"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

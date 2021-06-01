@@ -2,11 +2,20 @@ package com.example.habitapp;
 
 import android.os.Bundle;
 
+import com.example.habitapp.models.Settings;
+import com.example.habitapp.models.User;
+import com.example.habitapp.utils.HabitConstants;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,7 +29,9 @@ import androidx.navigation.ui.NavigationUI;
  */
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
-    FirebaseUser user;
+    FirebaseUser firebaseUser;
+    FirebaseFirestore fRef;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
         mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
+        firebaseUser = mAuth.getCurrentUser();
+        fRef = FirebaseFirestore.getInstance();
 
         //System.out.println("email haa: " + user.getEmail());
         //System.out.println("uid be like? " + user.getUid());
@@ -52,6 +64,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         if(mAuth.getCurrentUser() == null){
             finish();
+        }
+        else{
+            fRef.collection(HabitConstants.USER_PATH).document(firebaseUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        user = task.getResult().toObject(User.class);
+                        Settings settings = user.getSettings();
+                        if(settings.isDarkMode()){
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        }
+                        else{
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                    }
+                }
+
+            });
         }
         super.onResume();
     }

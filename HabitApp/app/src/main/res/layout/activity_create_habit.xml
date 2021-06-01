@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     tools:context=".CreateHabitActivity">
 
     <TextView
@@ -15,7 +16,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/freqSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/freqSpinner"
+        android:textColor="@color/textColor"/>
+
 
     <Spinner
         android:id="@+id/goalSpinner"
@@ -26,7 +29,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goalTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/goalTitle"
+        android:textColor="@color/textColor"/>
 
     <EditText
         android:id="@+id/titleInput"
@@ -40,7 +44,8 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/textColor"/>
 
     <EditText
         android:id="@+id/dateInput"
@@ -56,7 +61,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goalInput" />
+        app:layout_constraintTop_toBottomOf="@+id/goalInput"
+        android:textColor="@color/textColor"/>
 
     <EditText
         android:id="@+id/goalInput"
@@ -71,7 +77,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goalSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/goalSpinner"
+        android:textColor="@color/textColor"/>
 
     <EditText
         android:id="@+id/tagsInput"
@@ -85,7 +92,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleInput" />
+        app:layout_constraintTop_toBottomOf="@+id/titleInput"
+        android:textColor="@color/textColor"/>
 
     <Spinner
         android:id="@+id/freqSpinner"
@@ -96,7 +104,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/freqTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/freqTitle"
+        android:textColor="@color/textColor"/>
 
     <TextView
         android:id="@+id/freqTitle"
@@ -106,7 +115,8 @@
         android:text="I'd like to receive reminders..."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tagsInput" />
+        app:layout_constraintTop_toBottomOf="@+id/tagsInput"
+        android:textColor="@color/textColor"/>
 
     <Button
         android:id="@+id/submitButton"
@@ -116,5 +126,8 @@
         android:text="create habit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateInput" />
+        app:layout_constraintTop_toBottomOf="@+id/dateInput"
+        android:textColor="@color/textColor"
+        android:background="@color/buttonColor"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
