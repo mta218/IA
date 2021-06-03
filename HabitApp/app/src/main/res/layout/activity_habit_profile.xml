@@ -29,7 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textColor="@color/textColor"
-        android:background="@color/buttonColor"/>
+        android:backgroundTint="@color/buttonColor"/>
 
     <Button
         android:id="@+id/editButton"
@@ -40,7 +40,7 @@
         app:layout_constraintEnd_toStartOf="@+id/updateButton"
         app:layout_constraintStart_toStartOf="parent"
         android:textColor="@color/textColor"
-        android:background="@color/buttonColor"/>
+        android:backgroundTint="@color/buttonColor"/>
 
     <Button
         android:id="@+id/copyButton"
@@ -51,7 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/updateButton"
         android:textColor="@color/textColor"
-        android:background="@color/buttonColor"/>
+        android:backgroundTint="@color/buttonColor"/>
 
     <TextView
         android:id="@+id/progressText"

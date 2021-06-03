@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#34c12a</color>
-    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimary">#373737</color>
+    <color name="colorPrimaryDark">#34c12a</color>
     <color name="colorAccent">#03DAC5</color>
 
     <color name="backgroundColor">#212121</color>
@@ -9,4 +9,8 @@
     <color name="recyclerViewTextColor">#FFFFFF</color>
     <color name="buttonColor">#474747</color>
     <color name="navBarIconColor">#FFFFFF</color>
+
+    <style name="Button" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">#474747</item>
+    </style>
 </resources>

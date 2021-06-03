@@ -12,16 +12,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
-        android:hint="Enter tags seperated by comma"
         android:inputType="textPersonName"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTitleInput"
-        android:textColor="@color/textColor"/>
+        app:layout_constraintTop_toBottomOf="@+id/editTitleInput" />
 
 
     <Spinner
@@ -29,13 +28,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="100dp"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editDateInput"
-        android:textColor="@color/textColor"/>
+        app:layout_constraintTop_toBottomOf="@+id/editDateInput" />
 
     <EditText
         android:id="@+id/editTitleInput"
@@ -45,45 +44,42 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
-        android:hint="Change Title"
         android:inputType="textPersonName"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTitle"
-        android:textColor="@color/textColor"/>
+        app:layout_constraintTop_toBottomOf="@+id/editTitle" />
 
     <EditText
         android:id="@+id/editGoalInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
-        android:hint="Change Goal"
         android:inputType="number"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goalSpinner"
-        android:textColor="@color/textColor"/>
+        app:layout_constraintTop_toBottomOf="@+id/goalSpinner" />
 
     <EditText
         android:id="@+id/editDateInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
-        android:hint="Change Date"
         android:inputType="date"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editGoalInput"
-        android:textColor="@color/textColor"/>
+        app:layout_constraintTop_toBottomOf="@+id/editGoalInput" />
 
     <TextView
         android:id="@+id/editTitle"
@@ -102,13 +98,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="100dp"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTagsInput"
-        android:textColor="@color/textColor"/>
+        app:layout_constraintTop_toBottomOf="@+id/editTagsInput" />
 
     <Button
         android:id="@+id/deleteHabitButton"
@@ -120,7 +116,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editDateInput"
         android:textColor="@color/textColor"
-        android:background="@color/buttonColor"/>
+        android:backgroundTint="@color/buttonColor"/>
 
     <Button
         android:id="@+id/confirmButton"
@@ -135,5 +131,55 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/deleteHabitButton"
         android:textColor="@color/textColor"
-        android:background="@color/buttonColor"/>
+        android:backgroundTint="@color/buttonColor"/>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Title"
+        app:layout_constraintBottom_toTopOf="@+id/editTitleInput"
+        app:layout_constraintStart_toStartOf="@+id/editTitleInput" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Tags (Seperated by Commas)"
+        app:layout_constraintBottom_toTopOf="@+id/editTagsInput"
+        app:layout_constraintStart_toStartOf="@+id/editTagsInput" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Goal Type"
+        app:layout_constraintBottom_toTopOf="@+id/goalSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Goal"
+        app:layout_constraintBottom_toTopOf="@+id/editGoalInput"
+        app:layout_constraintStart_toStartOf="@+id/editGoalInput" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Date"
+        app:layout_constraintBottom_toTopOf="@+id/editDateInput"
+        app:layout_constraintStart_toStartOf="@+id/editDateInput" />
+
+    <TextView
+        android:id="@+id/freqTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Frequency"
+        app:layout_constraintBottom_toTopOf="@+id/freqSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,5 +26,7 @@
         android:text="signOut"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/darkModeSwitch" />
+        app:layout_constraintTop_toBottomOf="@+id/darkModeSwitch"
+        android:textColor="@color/textColor"
+        android:backgroundTint="@color/buttonColor"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -36,7 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textColor="@color/textColor"
-        android:background="@color/buttonColor"/>
+        android:backgroundTint="@color/buttonColor"/>
 
     <TextView
         android:id="@+id/textView"
@@ -73,5 +73,5 @@
         app:layout_constraintStart_toStartOf="@+id/allHabitRecyclerView"
         app:layout_constraintTop_toTopOf="@+id/createButton"
         android:textColor="@color/textColor"
-        android:background="@color/buttonColor"/>
+        android:backgroundTint="@color/buttonColor"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

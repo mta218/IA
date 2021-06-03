@@ -29,6 +29,8 @@
         android:text="settings or something"
         app:layout_constraintBottom_toTopOf="@+id/text_home"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/textColor"
+        android:backgroundTint="@color/buttonColor" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
