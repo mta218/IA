@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 public class NotificationsFragment extends Fragment implements HabitAdapter.OnHabitListener, AdapterView.OnItemSelectedListener{
     //for habits
     Button createButton, searchButton;
+    TextView emptyText;
     RecyclerView urgentHabitRecyclerView, allHabitRecyclerView;
     FirebaseFirestore fRef;
     FirebaseAuth mAuth;
@@ -78,6 +80,8 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
             }
         };
         searchButton.setOnClickListener(searchListener);
+
+        emptyText = root.findViewById(R.id.emptyText);
 
         allHabitRecyclerView = root.findViewById(R.id.allHabitRecyclerView);
         HabitAdapter adapter1 = new HabitAdapter(new ArrayList<Habit>(), this, HabitConstants.ALL_HABIT_RECYCLER_VIEW);
@@ -137,6 +141,7 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
      *
      */
     private void refresh() {
+        emptyText.setVisibility(View.GONE);
         ((HabitAdapter) allHabitRecyclerView.getAdapter()).clearArrayList();
         allPendingArrayList.clear();
         fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -145,26 +150,31 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     user = document.toObject(User.class);
-
-                    for (String habitID : user.getHabits()) {
-                        fRef.collection(HabitConstants.HABIT_PATH)
-                                .document(habitID)
-                                .get()
-                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            DocumentSnapshot document = task.getResult();
-                                            Habit habit = document.toObject(Habit.class);
-                                            addPending(HabitConstants.ALL_HABIT_RECYCLER_VIEW , habit);
-                                        } else {
-                                            Toast.makeText(getContext(), "Failed:\n Could not update properly",
-                                                    Toast.LENGTH_SHORT).show();
-                                            //TODO: display something in place of the recycler view because its empty?
+                    if(user.getHabits() != null){
+                        for (String habitID : user.getHabits()) {
+                            fRef.collection(HabitConstants.HABIT_PATH)
+                                    .document(habitID)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                DocumentSnapshot document = task.getResult();
+                                                Habit habit = document.toObject(Habit.class);
+                                                addPending(HabitConstants.ALL_HABIT_RECYCLER_VIEW , habit);
+                                            } else {
+                                                Toast.makeText(getContext(), "Failed:\n Could not update properly",
+                                                        Toast.LENGTH_SHORT).show();
+                                                emptyText.setVisibility(View.VISIBLE);
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                        }
                     }
+                    else{
+                        emptyText.setVisibility(View.VISIBLE);
+                    }
+
 
                 } else {
                     Toast.makeText(getContext(), "Failed:\n Could not update properly",

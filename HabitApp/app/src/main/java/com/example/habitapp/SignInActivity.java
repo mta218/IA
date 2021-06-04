@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 /**
  * This is the SignInActivity, handles Google sign in
  *
@@ -68,27 +69,20 @@ public class SignInActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser, false);
+        updateUI(currentUser);
     }
 
     /**
      * Brings the user to the MainActivity if they have successfully logged in.
      *
      * @param currentUser a FirebaseUser, stores the basic details of the current user. Initialised by through Firebase.
-     * @param newAccount true if it is a new account
      */
-    public void updateUI(FirebaseUser currentUser, boolean newAccount) {
+    public void updateUI(FirebaseUser currentUser) {
         //when has user, move to next screen
-        if(currentUser != null){
-            if(newAccount){
-                Intent intent = new Intent(this, WelcomeActivity.class);
-                startActivity(intent);
-            }
-            else{
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-            }
-
+        if (currentUser != null) {
+            System.out.println("despacito"+currentUser.getUid());
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
 
 
@@ -135,21 +129,10 @@ public class SignInActivity extends AppCompatActivity {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
                                             FirebaseUser user = mAuth.getCurrentUser();
-                                            updateUI(user,false);
+                                            updateUI(user);
                                         } else {
-                                            fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).set(new User(mAuth.getCurrentUser().getEmail().split("@")[0])).addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(getApplicationContext(), "Failed:\n"+e.getMessage(),
-                                                            Toast.LENGTH_SHORT).show();
-                                                }
-                                            }).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    FirebaseUser user = mAuth.getCurrentUser();
-                                                    updateUI(user, true);
-                                                }
-                                            });
+                                            Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                            startActivity(intent);
                                         }
                                     } else {
                                         Toast.makeText(getApplicationContext(), "Failed:\n Could not update properly",
@@ -161,9 +144,9 @@ public class SignInActivity extends AppCompatActivity {
 
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(getApplicationContext(), "Sign in failed.\n"+task.getException(),
+                            Toast.makeText(getApplicationContext(), "Sign in failed.\n" + task.getException(),
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null,false);
+                            updateUI(null);
                         }
                     }
                 });

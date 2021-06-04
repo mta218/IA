@@ -74,4 +74,16 @@
         app:layout_constraintTop_toTopOf="@+id/createButton"
         android:textColor="@color/textColor"
         android:backgroundTint="@color/buttonColor"/>
+
+    <TextView
+        android:id="@+id/emptyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You don't seem to have any habits yet..."
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/allHabitRecyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/allHabitRecyclerView"
+        app:layout_constraintStart_toStartOf="@+id/allHabitRecyclerView"
+        app:layout_constraintTop_toTopOf="@+id/allHabitRecyclerView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

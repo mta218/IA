@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 
 public class User {
-    //String username;
+    String username;
     String displayName;
     ArrayList<String> habits; //stores ids
     ArrayList<String> friends; //stores ids
@@ -18,8 +18,9 @@ public class User {
     Settings settings;
     String profilePictureID;
 
-    public User(String displayName) {
+    public User(String displayName, String username) {
         this.displayName = displayName;
+        this.username = username;
         settings = new Settings();
     }
 
@@ -77,5 +78,13 @@ public class User {
 
     public void setProfilePictureID(String profilePictureID) {
         this.profilePictureID = profilePictureID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
