@@ -55,13 +55,13 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
         tagsInput = findViewById(R.id.tagsInput);
 
         Spinner freqSpinner = findViewById(R.id.freqSpinner);
-        ArrayAdapter<CharSequence> freqAdapter = ArrayAdapter.createFromResource(this, R.array.frequencies, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> freqAdapter = ArrayAdapter.createFromResource(this, R.array.frequencies, R.layout.spinner_item);
         freqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         freqSpinner.setAdapter(freqAdapter);
         freqSpinner.setOnItemSelectedListener(this);
 
         Spinner goalSpinner = findViewById(R.id.goalSpinner);
-        ArrayAdapter<CharSequence> goalAdapter = ArrayAdapter.createFromResource(this, R.array.goal_types, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> goalAdapter = ArrayAdapter.createFromResource(this, R.array.goal_types, R.layout.spinner_item);
         goalAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         goalSpinner.setAdapter(goalAdapter);
         goalSpinner.setOnItemSelectedListener(this);

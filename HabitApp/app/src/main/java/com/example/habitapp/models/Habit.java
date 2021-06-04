@@ -314,7 +314,7 @@ public class Habit {
      */
     public String lastUpdatedString() {
         if (lastUpdated == null) {
-            return "Last updated today";
+            return "New Habit!";
         }
         long days = Duration.between(lastUpdated.toInstant(), Calendar.getInstance().toInstant()).toDays();
         if (days == 0) {
@@ -335,7 +335,7 @@ public class Habit {
         } else if (days < 365) {
             return "Last updated " + Math.round(((int) days) / 30.5) + " months ago";
         } else {
-            int years = (int) Math.round(((int) days) / 365);
+            int years = Math.round(((int) days) / 365);
             if (years == 1) {
                 return "Last updated a year ago";
             }
