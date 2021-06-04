@@ -133,7 +133,7 @@
         android:backgroundTint="@color/buttonColor"/>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/changeTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change Title"
@@ -142,7 +142,7 @@
         app:layout_constraintStart_toStartOf="@+id/editTitleInput" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/changeTagsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter Tags (Seperated by Commas)"
@@ -151,7 +151,7 @@
         app:layout_constraintStart_toStartOf="@+id/editTagsInput" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/goalTypeTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change Goal Type"
@@ -161,7 +161,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/changeGoalText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change Goal"
@@ -170,7 +170,7 @@
         app:layout_constraintStart_toStartOf="@+id/editGoalInput" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/changeDateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change Date"

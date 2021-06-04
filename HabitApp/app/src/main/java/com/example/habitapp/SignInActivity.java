@@ -68,21 +68,29 @@ public class SignInActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        updateUI(currentUser, false);
     }
 
     /**
      * Brings the user to the MainActivity if they have successfully logged in.
      *
      * @param currentUser a FirebaseUser, stores the basic details of the current user. Initialised by through Firebase.
+     * @param newAccount true if it is a new account
      */
-    public void updateUI(FirebaseUser currentUser) {
+    public void updateUI(FirebaseUser currentUser, boolean newAccount) {
         //when has user, move to next screen
         if(currentUser != null){
-            //System.out.println("already signed in and user id be like: " + currentUser.getUid());
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            if(newAccount){
+                Intent intent = new Intent(this, WelcomeActivity.class);
+                startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            }
+
         }
+
 
     }
 
@@ -127,7 +135,7 @@ public class SignInActivity extends AppCompatActivity {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
                                             FirebaseUser user = mAuth.getCurrentUser();
-                                            updateUI(user);
+                                            updateUI(user,false);
                                         } else {
                                             fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).set(new User(mAuth.getCurrentUser().getEmail().split("@")[0])).addOnFailureListener(new OnFailureListener() {
                                                 @Override
@@ -138,9 +146,8 @@ public class SignInActivity extends AppCompatActivity {
                                             }).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
-                                                    //TODO: might wanna direct them to a welcome page because new account innit bruv
                                                     FirebaseUser user = mAuth.getCurrentUser();
-                                                    updateUI(user);
+                                                    updateUI(user, true);
                                                 }
                                             });
                                         }
@@ -156,7 +163,7 @@ public class SignInActivity extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(getApplicationContext(), "Sign in failed.\n"+task.getException(),
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+                            updateUI(null,false);
                         }
                     }
                 });

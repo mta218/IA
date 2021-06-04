@@ -13,9 +13,10 @@ public class User {
     //String username;
     String displayName;
     ArrayList<String> habits; //stores ids
-    ArrayList<String> friends;
-    ArrayList<String> friendRequest;
+    ArrayList<String> friends; //stores ids
+    ArrayList<FriendRequest> friendRequest; //stores friendRequest objects
     Settings settings;
+    String profilePictureID;
 
     public User(String displayName) {
         this.displayName = displayName;
@@ -49,7 +50,7 @@ public class User {
         this.friends = friends;
     }
 
-    public ArrayList<String> getFriendRequest() {
+    public ArrayList<FriendRequest> getFriendRequest() {
         return friendRequest;
     }
 
@@ -58,7 +59,7 @@ public class User {
      *
      * @param friendRequest
      */
-    public void setFriendRequest(ArrayList<String> friendRequest) {
+    public void setFriendRequest(ArrayList<FriendRequest> friendRequest) {
         this.friendRequest = friendRequest;
     }
 
@@ -68,5 +69,13 @@ public class User {
 
     public void setSettings(Settings settings) {
         this.settings = settings;
+    }
+
+    public String getProfilePictureID() {
+        return profilePictureID;
+    }
+
+    public void setProfilePictureID(String profilePictureID) {
+        this.profilePictureID = profilePictureID;
     }
 }
