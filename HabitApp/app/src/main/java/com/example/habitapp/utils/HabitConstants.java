@@ -12,4 +12,5 @@ public class HabitConstants {
 
     //Intent Tags
     public static final String HABIT_ID_INTENT = "HabitID";
+    public static final String USERNAME__INTENT = "UserID";
 }

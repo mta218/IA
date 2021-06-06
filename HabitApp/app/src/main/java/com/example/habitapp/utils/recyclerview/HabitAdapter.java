@@ -201,7 +201,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
             @Override
             public int compare(Habit h1, Habit h2) {
                 //difference in percentage
-                return (int) Math.round(h1.percentage() - h2.percentage());
+                return (int) Math.round(100*(h1.percentage() - h2.percentage()));
             }
         });
     }

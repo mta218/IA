@@ -29,8 +29,9 @@ public class Habit {
     int streak;
     Date lastUpdated;
     ArrayList<String> tags;
+    boolean hidden;
 
-    public Habit(String title, Frequency freq, int goal, Date goalDate, Goal goalType, ArrayList<String> tags, String ownerID) {
+    public Habit(String title, Frequency freq, int goal, Date goalDate, Goal goalType, ArrayList<String> tags, String ownerID, boolean hidden) {
         ID = UUID.randomUUID().toString();
         this.title = title;
         this.freq = freq;
@@ -40,9 +41,10 @@ public class Habit {
         this.tags = tags;
         lastUpdated = null;
         this.ownerID = ownerID;
+        this.hidden = hidden;
     }
 
-    public Habit(String ID, String title, Frequency freq, int goal, Date goalDate, Goal goalType, ArrayList<String> tags, String ownerID, Date lastUpated, int streak, int trackedCount) {
+    public Habit(String ID, String title, Frequency freq, int goal, Date goalDate, Goal goalType, ArrayList<String> tags, String ownerID, Date lastUpated, int streak, int trackedCount, boolean hidden) {
         this.ID = ID;
         this.title = title;
         this.freq = freq;
@@ -55,6 +57,8 @@ public class Habit {
         this.lastUpdated = lastUpated;
         this.streak = streak;
         this.trackedCount = trackedCount;
+
+        this.hidden = hidden;
     }
 
     public Habit() {
@@ -357,7 +361,7 @@ public class Habit {
      */
     public Habit copy() {
         //https://www.codevscolor.com/java-copy-string
-        return new Habit(String.copyValueOf(title.toCharArray()), freq, goal, (Date) goalDate.clone(), goalType, new ArrayList<>(tags), String.copyValueOf(ownerID.toCharArray()));
+        return new Habit(String.copyValueOf(title.toCharArray()), freq, goal, (Date) goalDate.clone(), goalType, new ArrayList<>(tags), String.copyValueOf(ownerID.toCharArray()), hidden);
     }
 
     /**
@@ -386,4 +390,11 @@ public class Habit {
         return 1;
     }
 
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
 }

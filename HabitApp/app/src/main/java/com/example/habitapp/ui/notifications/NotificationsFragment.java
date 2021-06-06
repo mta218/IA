@@ -22,7 +22,6 @@ import com.example.habitapp.CreateHabitActivity;
 import com.example.habitapp.HabitProfileActivity;
 import com.example.habitapp.R;
 import com.example.habitapp.SearchHabitActivity;
-import com.example.habitapp.enums.Goal;
 import com.example.habitapp.models.Habit;
 import com.example.habitapp.models.User;
 import com.example.habitapp.utils.HabitConstants;
@@ -44,7 +43,7 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
     //for habits
     Button createButton, searchButton;
     TextView emptyText;
-    RecyclerView urgentHabitRecyclerView, allHabitRecyclerView;
+    RecyclerView allHabitRecyclerView;
     FirebaseFirestore fRef;
     FirebaseAuth mAuth;
     ArrayList<Habit> allPendingArrayList;
@@ -125,10 +124,7 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
     public void onHabitClick(int position, String tag) {
         Intent intent = new Intent(this.getActivity(), HabitProfileActivity.class);
         Habit habit = null;
-        if (tag.equals(HabitConstants.URGENT_HABIT_RECYCLER_VIEW)) {
-            //habit = ((HabitAdapter) urgentHabitRecyclerView.getAdapter()).getHabit(position);
-        }
-        else if (tag.equals(HabitConstants.ALL_HABIT_RECYCLER_VIEW)) {
+        if (tag.equals(HabitConstants.ALL_HABIT_RECYCLER_VIEW)) {
             habit = ((HabitAdapter) allHabitRecyclerView.getAdapter()).getHabit(position);
         }
 

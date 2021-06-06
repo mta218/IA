@@ -123,11 +123,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/buttonColor"
         android:text="create habit"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateInput"
-        android:textColor="@color/textColor"
-        android:backgroundTint="@color/buttonColor"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/hiddenHabitCheckbox" />
+
+    <CheckBox
+        android:id="@+id/hiddenHabitCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Hidden Habit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateInput" />
 </androidx.constraintlayout.widget.ConstraintLayout>

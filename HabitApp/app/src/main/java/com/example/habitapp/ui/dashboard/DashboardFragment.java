@@ -1,9 +1,11 @@
 package com.example.habitapp.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.habitapp.R;
+import com.example.habitapp.SearchHabitActivity;
+import com.example.habitapp.UserSearchActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -22,9 +26,11 @@ public class DashboardFragment extends Fragment {
 
     private SocialViewModel socialViewModel;
 
-    RecyclerView urgentHabitRecyclerView, allHabitRecyclerView;
+    RecyclerView socialRecyclerView;
     FirebaseFirestore fRef;
     FirebaseAuth mAuth;
+
+    Button goToSearchButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -36,8 +42,20 @@ public class DashboardFragment extends Fragment {
         fRef = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
+        goToSearchButton = root.findViewById(R.id.goToSearchButton);
+        View.OnClickListener searchListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToSearch();
+            }
+        };
+        goToSearchButton.setOnClickListener(searchListener);
+
         return root;
+    }
 
-
+    private void goToSearch(){
+        Intent intent = new Intent(this.getActivity(), UserSearchActivity.class);
+        startActivity(intent);
     }
 }

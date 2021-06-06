@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -52,6 +53,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
     Habit habit;
     Frequency habitFreq;
     Goal habitGoal;
+    CheckBox hiddenHabitCheckbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
         editTitle = findViewById(R.id.editTitle);
         confirmButton = findViewById(R.id.confirmButton);
         editTagsInput = findViewById(R.id.editTagsInput);
+        hiddenHabitCheckbox = findViewById(R.id.hiddenHabitCheckbox);
 
         Spinner goalSpinner = findViewById(R.id.goalSpinner);
         ArrayAdapter<CharSequence> goalAdapter = ArrayAdapter.createFromResource(this, R.array.goal_types, R.layout.spinner_item);
@@ -153,6 +156,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
     private void updateUI() {
         editTitleInput.setText(habit.getTitle());
         editTagsInput.setText(habit.tagsAsString());
+        hiddenHabitCheckbox.setChecked(habit.isHidden());
 
         if (habitGoal == Goal.NONE) {
             editGoalInput.setVisibility(View.INVISIBLE);
@@ -252,7 +256,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
                 goalInputNum = Integer.parseInt(editGoalInput.getText().toString());
             }
 
-            Habit newHabit = new Habit(habitID,editTitleInput.getText().toString(),habitFreq, goalInputNum, newDate, habitGoal, getTags(), habit.getOwnerID(), habit.getLastUpdated(),habit.getStreak(),habit.getTrackedCount());
+            Habit newHabit = new Habit(habitID,editTitleInput.getText().toString(),habitFreq, goalInputNum, newDate, habitGoal, getTags(), habit.getOwnerID(), habit.getLastUpdated(),habit.getStreak(),habit.getTrackedCount(), hiddenHabitCheckbox.isChecked());
             fRef.collection(HabitConstants.HABIT_PATH).document(habitID).set(newHabit).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {

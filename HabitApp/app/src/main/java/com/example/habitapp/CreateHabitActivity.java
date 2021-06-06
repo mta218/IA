@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -42,6 +43,7 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
     EditText dateInput, goalInput, titleInput, tagsInput;
     Button submitButton;
     FirebaseAuth mAuth;
+    CheckBox hiddenHabitCheckbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
         goalInput = findViewById(R.id.goalInput);
         titleInput = findViewById(R.id.titleInput);
         tagsInput = findViewById(R.id.tagsInput);
+        hiddenHabitCheckbox = findViewById(R.id.hiddenHabitCheckbox);
 
         Spinner freqSpinner = findViewById(R.id.freqSpinner);
         ArrayAdapter<CharSequence> freqAdapter = ArrayAdapter.createFromResource(this, R.array.frequencies, R.layout.spinner_item);
@@ -141,6 +144,7 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
         String titleString = titleInput.getText().toString();
         String goalString = goalInput.getText().toString();
         String dateString = dateInput.getText().toString();
+        boolean hidden = hiddenHabitCheckbox.isChecked();
 
         if (titleString.equals("")) {
             Toast.makeText(getApplicationContext(), "Please enter a title",
@@ -150,8 +154,9 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
                 Toast.makeText(getApplicationContext(), "Please enter goal information",
                         Toast.LENGTH_SHORT).show();
             } else {
+
                 if (dateString.equals("")) {
-                    updateDatabase(new Habit(titleString.trim(), freq, Integer.parseInt(goalString), null, goal, getTags(), mAuth.getUid()));
+                    updateDatabase(new Habit(titleString.trim(), freq, Integer.parseInt(goalString), null, goal, getTags(), mAuth.getUid(), hidden));
                 } else {
                     try {
                         Date goalDate = new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
@@ -161,7 +166,7 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
                             throw new Exception();
                         }
 
-                        updateDatabase(new Habit(titleString.trim(), freq, Integer.parseInt(goalString), goalDate, goal, getTags(), mAuth.getUid()));
+                        updateDatabase(new Habit(titleString.trim(), freq, Integer.parseInt(goalString), goalDate, goal, getTags(), mAuth.getUid(), hidden));
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "Please enter a valid date",
                                 Toast.LENGTH_SHORT).show();
@@ -170,7 +175,7 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
             }
         }
         else{
-            updateDatabase(new Habit(titleString, freq, 0, null, Goal.NONE, getTags(), mAuth.getUid()));
+            updateDatabase(new Habit(titleString, freq, 0, null, Goal.NONE, getTags(), mAuth.getUid(), hidden));
         }
     }
 

@@ -1,11 +1,12 @@
 package com.example.habitapp.models;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class FriendRequest {
+    String ID;
     String requesterUserID;
     String targetUserID;
-    //Date requestSent;
 
 
     public FriendRequest() {
@@ -14,6 +15,7 @@ public class FriendRequest {
     public FriendRequest(String requesterUserID, String targetUserID) {
         this.requesterUserID = requesterUserID;
         this.targetUserID = targetUserID;
+        ID = UUID.randomUUID().toString();
     }
 
     public String getRequesterUserID() {
@@ -30,5 +32,13 @@ public class FriendRequest {
 
     public void setTargetUserID(String targetUserID) {
         this.targetUserID = targetUserID;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 }
