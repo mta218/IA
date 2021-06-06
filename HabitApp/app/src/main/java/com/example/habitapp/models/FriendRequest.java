@@ -4,18 +4,18 @@ import java.util.Date;
 import java.util.UUID;
 
 public class FriendRequest {
-    String ID;
     String requesterUserID;
     String targetUserID;
+    String requesterName;
 
 
     public FriendRequest() {
     }
 
-    public FriendRequest(String requesterUserID, String targetUserID) {
+    public FriendRequest(String requesterUserID, String targetUserID, String requesterName) {
         this.requesterUserID = requesterUserID;
         this.targetUserID = targetUserID;
-        ID = UUID.randomUUID().toString();
+        this.requesterName = requesterName;
     }
 
     public String getRequesterUserID() {
@@ -34,11 +34,11 @@ public class FriendRequest {
         this.targetUserID = targetUserID;
     }
 
-    public String getID() {
-        return ID;
+    public String getRequesterName() {
+        return requesterName;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setRequesterName(String requesterName) {
+        this.requesterName = requesterName;
     }
 }

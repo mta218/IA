@@ -16,14 +16,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.habitapp.models.FriendRequest;
 import com.example.habitapp.models.Habit;
 import com.example.habitapp.models.User;
 import com.example.habitapp.utils.HabitConstants;
 import com.example.habitapp.utils.recyclerview.HabitAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -267,6 +271,36 @@ public class UserProfileActivity extends AppCompatActivity implements HabitAdapt
     }
 
     private void addFriend(){
-        fRef
+        fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    user = document.toObject(User.class);
+
+                    FriendRequest req = new FriendRequest(mAuth.getUid(),userID, user.getDisplayName());
+                    fRef.collection(HabitConstants.USER_PATH).document(userID).update("friendRequests", FieldValue.arrayUnion(req)).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "Failed:\n"+e.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(getApplicationContext(), "Request Successfully Sent",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+                } else {
+                    Toast.makeText(getContext(), "Request could not be sent",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
     }
 }

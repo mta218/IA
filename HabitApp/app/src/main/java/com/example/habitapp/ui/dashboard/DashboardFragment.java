@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.habitapp.FriendRequestActivity;
 import com.example.habitapp.R;
 import com.example.habitapp.SearchHabitActivity;
 import com.example.habitapp.UserSearchActivity;
@@ -30,7 +31,7 @@ public class DashboardFragment extends Fragment {
     FirebaseFirestore fRef;
     FirebaseAuth mAuth;
 
-    Button goToSearchButton;
+    Button goToSearchButton, friendReqButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -51,11 +52,24 @@ public class DashboardFragment extends Fragment {
         };
         goToSearchButton.setOnClickListener(searchListener);
 
+        friendReqButton = root.findViewById(R.id.friendReqButton);
+        friendReqButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToReqs();
+            }
+        });
+
         return root;
     }
 
     private void goToSearch(){
         Intent intent = new Intent(this.getActivity(), UserSearchActivity.class);
+        startActivity(intent);
+    }
+
+    private void goToReqs(){
+        Intent intent = new Intent(this.getActivity(), FriendRequestActivity.class);
         startActivity(intent);
     }
 }

@@ -52,7 +52,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="search for user"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerView"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+
+    <Button
+        android:id="@+id/friendReqButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="view friend requests"
+        app:layout_constraintStart_toStartOf="@+id/recyclerView"
+        app:layout_constraintTop_toTopOf="@+id/goToSearchButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

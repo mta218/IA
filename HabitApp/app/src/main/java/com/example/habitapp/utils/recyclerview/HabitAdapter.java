@@ -99,7 +99,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
     /**
      * adds habit to habitsToDisplay arrayList
      *
-     * @param habitToAdd is the listing to be added
+     * @param habitToAdd is the habit to be added
      */
     public void addHabit(Habit habitToAdd) {
         habitsToDisplay.add(habitToAdd);

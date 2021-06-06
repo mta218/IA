@@ -14,7 +14,7 @@ public class User {
     String displayName;
     ArrayList<String> habits; //stores ids
     ArrayList<String> friends; //stores ids
-    ArrayList<FriendRequest> friendRequest; //stores friendRequest objects
+    ArrayList<FriendRequest> friendRequests; //stores friendRequest objects
     Settings settings;
     String profilePictureID;
 
@@ -51,17 +51,12 @@ public class User {
         this.friends = friends;
     }
 
-    public ArrayList<FriendRequest> getFriendRequest() {
-        return friendRequest;
+    public ArrayList<FriendRequest> getFriendRequests() {
+        return friendRequests;
     }
 
-    /**
-     * This is not yet implement
-     *
-     * @param friendRequest
-     */
-    public void setFriendRequest(ArrayList<FriendRequest> friendRequest) {
-        this.friendRequest = friendRequest;
+    public void setFriendRequests(ArrayList<FriendRequest> friendRequests) {
+        this.friendRequests = friendRequests;
     }
 
     public Settings getSettings() {
