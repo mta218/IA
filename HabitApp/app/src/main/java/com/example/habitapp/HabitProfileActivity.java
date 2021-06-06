@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +33,10 @@ import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
 
+import nl.dionsegijn.konfetti.KonfettiView;
+import nl.dionsegijn.konfetti.models.Shape;
+import nl.dionsegijn.konfetti.models.Size;
+
 public class HabitProfileActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
@@ -40,10 +45,11 @@ public class HabitProfileActivity extends AppCompatActivity {
     String habitID;
     Habit habit;
     String ownerID;
-    Button updateButton, editButton, copyButton;
+    Button updateButton, editButton, encouragementButton;
     ProgressBar progressBar;
-    TextView titleText, progressText, lastUpdatedText, dateText;
+    TextView titleText, progressText, lastUpdatedText, dateText, encouragementText;
     EditText updateInput;
+    KonfettiView konfettiView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +80,17 @@ public class HabitProfileActivity extends AppCompatActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 goToEditActivity();
+            }
+        });
+
+        konfettiView = findViewById(R.id.konfettiView);
+
+        encouragementText = findViewById(R.id.encouragementText);
+        encouragementButton = findViewById(R.id.encouragementButton);
+
+        encouragementButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                encourage();
             }
         });
     }
@@ -114,11 +131,19 @@ public class HabitProfileActivity extends AppCompatActivity {
             lastUpdatedText.setText(habit.lastUpdatedString());
         }
 
+        if(!isOwner){
+            updateInput.setVisibility(View.INVISIBLE);
+            editButton.setVisibility(View.INVISIBLE);
+            updateButton.setVisibility(View.INVISIBLE);
+
+            encouragementText.setVisibility(View.INVISIBLE);
+            encouragementButton.setVisibility(View.VISIBLE);
+        }
+
        getPercentage();
 
        if(habit.getGoalDate() != null){
            long days = Duration.between(Calendar.getInstance().toInstant(), habit.getGoalDate().toInstant()).toDays();
-            System.out.println("true or false (or fralse lol): "+ (days < 0));
 
            if(days < 0){
                dateText.setText("The Goal Date has passed\nYou may edit this Habit to change or remove the Goal Date");
@@ -159,8 +184,34 @@ public class HabitProfileActivity extends AppCompatActivity {
 
         if(isOwner){
             progressText.setText("You have reached " + getPercentage() + "% of your goal");
+            if(habit.getEncouragement() > 0){
+                encouragementText.setText(habit.getEncouragement() + " people have encouraged you to keep updating this habit!");
+                konfettiView.build()
+                        .addColors(Color.GREEN, Color.LTGRAY)
+                        .setDirection(0.0, 359.0)
+                        .setSpeed(1f, 5f)
+                        .setFadeOutEnabled(true)
+                        .setTimeToLive(2000L)
+                        .addShapes(Shape.Square.INSTANCE)
+                        .addSizes(new Size(12, 5f))
+                        .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
+                        .streamFor(300, 5000L);
+                fRef.collection(HabitConstants.HABIT_PATH).document(habit.getID()).update("encouragement",0).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "YAY!",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Failed:\n Could not update properly",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+            }
         }
-        else{   //TODO: make this change for not same user
+        else{
             fRef.collection(HabitConstants.USER_PATH).document(habit.getOwnerID()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -181,6 +232,8 @@ public class HabitProfileActivity extends AppCompatActivity {
             });
         }
         progressBar.setProgress(getPercentage()); //percentage
+
+
 
     }
 
@@ -271,5 +324,22 @@ public class HabitProfileActivity extends AppCompatActivity {
         }
 
     }
+
+    private void encourage(){
+        fRef.collection(HabitConstants.HABIT_PATH).document(habit.getID()).update("encouragement",FieldValue.increment(1)).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Successfully sent encouragement",
+                            Toast.LENGTH_SHORT).show();
+                    encouragementButton.setVisibility(View.INVISIBLE);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Failed:\n Could not send encouragement",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
 
 }

@@ -135,6 +135,15 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestView
         return tag;
     }
 
+    /**
+     * Removes friend request from reqsToDisplay at specified position
+     *
+     * @param position
+     */
+    public void removeFriendRequest(int position){
+        reqsToDisplay.remove(position);
+    }
+
 
 }
 

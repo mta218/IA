@@ -42,17 +42,6 @@
         android:textColor="@color/textColor"
         android:backgroundTint="@color/buttonColor"/>
 
-    <Button
-        android:id="@+id/copyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="make copy"
-        app:layout_constraintBottom_toBottomOf="@+id/editButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/updateButton"
-        android:textColor="@color/textColor"
-        android:backgroundTint="@color/buttonColor"/>
-
     <TextView
         android:id="@+id/progressText"
         android:layout_width="wrap_content"
@@ -117,5 +106,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lastUpdatedText"
         android:textColor="@color/textColor"/>
+
+    <Button
+        android:id="@+id/encouragementButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="send encouragement"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateText" />
+
+    <nl.dionsegijn.konfetti.KonfettiView
+        android:id="@+id/konfettiView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/encouragementText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="..."
+        app:layout_constraintBottom_toTopOf="@+id/updateInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

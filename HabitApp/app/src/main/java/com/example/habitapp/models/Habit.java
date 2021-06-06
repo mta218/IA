@@ -30,6 +30,7 @@ public class Habit {
     Date lastUpdated;
     ArrayList<String> tags;
     boolean hidden;
+    int encouragement;
 
     public Habit(String title, Frequency freq, int goal, Date goalDate, Goal goalType, ArrayList<String> tags, String ownerID, boolean hidden) {
         ID = UUID.randomUUID().toString();
@@ -44,7 +45,7 @@ public class Habit {
         this.hidden = hidden;
     }
 
-    public Habit(String ID, String title, Frequency freq, int goal, Date goalDate, Goal goalType, ArrayList<String> tags, String ownerID, Date lastUpated, int streak, int trackedCount, boolean hidden) {
+    public Habit(String ID, String title, Frequency freq, int goal, Date goalDate, Goal goalType, ArrayList<String> tags, String ownerID, Date lastUpated, int streak, int trackedCount, boolean hidden, int encouragement) {
         this.ID = ID;
         this.title = title;
         this.freq = freq;
@@ -59,6 +60,8 @@ public class Habit {
         this.trackedCount = trackedCount;
 
         this.hidden = hidden;
+
+        this.encouragement = encouragement;
     }
 
     public Habit() {
@@ -75,7 +78,6 @@ public class Habit {
 
     /**
      * returns true or false indicating whether the goal has been reached
-     *
      */
     public boolean goalReached() {
         if (goalType == Goal.AMOUNT) {
@@ -106,7 +108,6 @@ public class Habit {
     /**
      * checks the current date against the last updated date to see if the habit still maintains its streak,
      * updates the streak value accordingly
-     *
      */
     public void updateStreak(boolean increaseStreak) {
         Calendar today = Calendar.getInstance();
@@ -115,7 +116,7 @@ public class Habit {
         today.set(Calendar.SECOND, 0);
         boolean shouldIncrease = false;
 
-        if(lastUpdated != null){
+        if (lastUpdated != null) {
 
             if (goalType == Goal.DAILY_STREAK) {
                 if (updatedYesterday()) {
@@ -138,7 +139,7 @@ public class Habit {
             }
         }
 
-        if(shouldIncrease && increaseStreak){
+        if (shouldIncrease && increaseStreak) {
             streak++;
         }
     }
@@ -168,7 +169,6 @@ public class Habit {
 
     /**
      * called by updateStreak returns if the habit was updated in the previous week
-     *
      */
     private boolean updatedLastWeek() {
         //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
@@ -185,7 +185,6 @@ public class Habit {
 
     /**
      * called by updateStreak returns if the habit was updated in the current week
-     *
      */
     private boolean updatedThisWeek() {
         //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
@@ -201,7 +200,6 @@ public class Habit {
 
     /**
      * called by updateStreak returns if the habit was updated in the previous month
-     *
      */
     private boolean updatedLastMonth() {
         //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
@@ -218,7 +216,6 @@ public class Habit {
 
     /**
      * called by updateStreak returns if the habit was updated in the current month
-     *
      */
     private boolean updatedThisMonth() {
         //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
@@ -314,7 +311,6 @@ public class Habit {
 
     /**
      * returns a String stating when the habit was last updated
-     *
      */
     public String lastUpdatedString() {
         if (lastUpdated == null) {
@@ -357,7 +353,6 @@ public class Habit {
 
     /**
      * Returns a copy of the habit
-     *
      */
     public Habit copy() {
         //https://www.codevscolor.com/java-copy-string
@@ -366,7 +361,6 @@ public class Habit {
 
     /**
      * Returns the tags as a single string separated by commas
-     *
      */
     public String tagsAsString() {
         String temp = "";
@@ -378,13 +372,12 @@ public class Habit {
 
     /**
      * returns the how much of the goal has been completed as a decimal or 1 if there is no goal.
-     *
      */
-    public double percentage(){
+    public double percentage() {
         if (getGoalType() == Goal.AMOUNT) {
-            return  getTrackedCount() / ((double)getGoal());
+            return getTrackedCount() / ((double) getGoal());
         } else if (getGoalType() != Goal.NONE) {
-            return getStreak() / ((double)getGoal());
+            return getStreak() / ((double) getGoal());
         }
 
         return 1;
@@ -396,5 +389,13 @@ public class Habit {
 
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
+    }
+
+    public int getEncouragement() {
+        return encouragement;
+    }
+
+    public void setEncouragement(int encouragement) {
+        this.encouragement = encouragement;
     }
 }
