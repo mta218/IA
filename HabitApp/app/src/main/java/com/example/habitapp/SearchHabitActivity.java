@@ -45,7 +45,6 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
     FirebaseFirestore fRef;
     FirebaseAuth mAuth;
     ArrayList<Habit> allPendingArrayList, toBeFilteredArrayList;
-    User user;
     Spinner sorterSpinner;
     EditText editSearchTags, editSearchTitle;
 
@@ -138,6 +137,20 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
             }
 
             adapter.addHabits(toBeFilteredArrayList);
+            switch (sorted) {
+                case 0: //Urgency
+                    adapter.sortUrgency();
+                    break;
+                case 1: //Name
+                    adapter.sortAlphabetically();
+                    break;
+                case 2: //Goal (percentage)
+                    adapter.sortGoal();
+                    break;
+                case 3: //Last Updated
+                    adapter.sortLastUpdated();
+                    break;
+            }
             adapter.notifyDataSetChanged();
 
         }
@@ -186,30 +199,6 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
     }
 
 
-    /**
-     * Adds the habits to the recycler view and sort them
-     *
-     * @param habits
-     */
-    private void addHabits(ArrayList<Habit> habits){
-        HabitAdapter habitAdapter = ((HabitAdapter) searchHabitRecyclerView.getAdapter());
-        habitAdapter.addHabits(habits);
-        switch (sorted) {
-            case 0: //Urgency
-                habitAdapter.sortUrgency();
-                break;
-            case 1: //Name
-                habitAdapter.sortAlphabetically();
-                break;
-            case 2: //Goal (percentage)
-                habitAdapter.sortGoal();
-                break;
-            case 3: //Last Updated
-                habitAdapter.sortLastUpdated();
-                break;
-        }
-        habitAdapter.notifyDataSetChanged();
-    }
 
     /**
      * This is the method called when a spinner is clicked. It will change the method of sorting of the Recycler view.

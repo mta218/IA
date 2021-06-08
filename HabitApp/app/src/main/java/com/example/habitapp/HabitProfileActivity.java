@@ -218,7 +218,7 @@ public class HabitProfileActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            progressText.setText(document.toObject(User.class).getDisplayName() + " have reached " + getPercentage() + "% of your goal");
+                            progressText.setText(document.toObject(User.class).getDisplayName() + " have reached " + getPercentage() + "% of their goal");
                         } else {
                             Toast.makeText(getApplicationContext(), "Failed:\n Could not update properly",
                                     Toast.LENGTH_SHORT).show();

@@ -8,7 +8,7 @@
     tools:context=".ui.dashboard.DashboardFragment">
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/socialTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -17,7 +17,7 @@
         android:text="Social"
         android:textColor="@color/textColor"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintBottom_toTopOf="@+id/socialRecyclerView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,13 +28,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="34dp"
         android:textColor="@color/textColor"
-        app:layout_constraintBottom_toBottomOf="@+id/textView8"
+        app:layout_constraintBottom_toBottomOf="@+id/socialTitleText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toTopOf="@+id/textView8" />
+        app:layout_constraintStart_toEndOf="@+id/socialTitleText"
+        app:layout_constraintTop_toTopOf="@+id/socialTitleText" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/socialRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
@@ -52,14 +52,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="search for user"
-        app:layout_constraintEnd_toEndOf="@+id/recyclerView"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+        app:layout_constraintEnd_toEndOf="@+id/socialRecyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/socialRecyclerView" />
 
     <Button
         android:id="@+id/friendReqButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="view friend requests"
-        app:layout_constraintStart_toStartOf="@+id/recyclerView"
+        app:layout_constraintStart_toStartOf="@+id/socialRecyclerView"
         app:layout_constraintTop_toTopOf="@+id/goToSearchButton" />
+
+    <TextView
+        android:id="@+id/emptyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your friends don't seem to have any habits"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/socialRecyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/socialRecyclerView"
+        app:layout_constraintStart_toStartOf="@+id/socialRecyclerView"
+        app:layout_constraintTop_toTopOf="@+id/socialRecyclerView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

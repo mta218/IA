@@ -19,7 +19,10 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements View.OnC
 
     protected TextView titleText, updatedText;
     HabitAdapter.OnHabitListener onHabitListener;
+    FriendHabitAdapter.OnHabitListener onFriendHabitListener;
     String tag;
+    boolean friend;
+
 
     public HabitViewHolder(@NonNull View itemView, HabitAdapter.OnHabitListener onHabitListener) {
         super(itemView);
@@ -27,6 +30,19 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements View.OnC
         titleText = (TextView) itemView.findViewById(R.id.titleText);
         updatedText = (TextView) itemView.findViewById(R.id.updatedText);
         this.onHabitListener = onHabitListener;
+
+        itemView.setOnClickListener(this);
+        friend = false;
+    }
+
+    public HabitViewHolder(@NonNull View itemView, FriendHabitAdapter.OnHabitListener onFriendHabitListener) {
+        super(itemView);
+
+        titleText = (TextView) itemView.findViewById(R.id.titleText);
+        updatedText = (TextView) itemView.findViewById(R.id.updatedText);
+        this.onFriendHabitListener = onFriendHabitListener;
+
+        friend = true;
 
         itemView.setOnClickListener(this);
     }
@@ -37,7 +53,13 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements View.OnC
      * is clicked by the user.
      */
     public void onClick(View view) {
-        onHabitListener.onHabitClick(getAdapterPosition(), tag);
+        if(friend){
+            onFriendHabitListener.onHabitClick(getAdapterPosition(), tag);
+        }
+        else{
+            onHabitListener.onHabitClick(getAdapterPosition(), tag);
+        }
+
     }
 
 
