@@ -68,7 +68,7 @@ public class UserSearchActivity extends AppCompatActivity {
 
                     if(user != null){
                         Intent intent = new Intent(getActivity(), UserProfileActivity.class);
-                        intent.putExtra(HabitConstants.USERNAME__INTENT, user.getUsername());
+                        intent.putExtra(HabitConstants.USERNAME_INTENT, user.getUsername());
                         startActivity(intent);
                     }
                     else{

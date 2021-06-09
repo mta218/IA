@@ -57,7 +57,7 @@ public class UserProfileActivity extends AppCompatActivity implements HabitAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        username = getIntent().getStringExtra(HabitConstants.USERNAME__INTENT);
+        username = getIntent().getStringExtra(HabitConstants.USERNAME_INTENT);
         usernameText = findViewById(R.id.usernameText);
         nameText = findViewById(R.id.nameText);
         habitRecyclerView = findViewById(R.id.habitRecyclerView);

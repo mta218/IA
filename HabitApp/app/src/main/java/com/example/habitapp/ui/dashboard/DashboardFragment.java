@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.habitapp.FriendActivity;
 import com.example.habitapp.FriendRequestActivity;
 import com.example.habitapp.HabitProfileActivity;
 import com.example.habitapp.R;
@@ -87,6 +88,15 @@ public class DashboardFragment extends Fragment implements FriendHabitAdapter.On
             }
         });
 
+        friendsButton = root.findViewById(R.id.friendsButton);
+        friendsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToFriends();
+            }
+        });
+
+
         socialRecyclerView = root.findViewById(R.id.socialRecyclerView);
         FriendHabitAdapter adapter = new FriendHabitAdapter(new ArrayList<Habit>(), this);
         socialRecyclerView.setAdapter(adapter);
@@ -119,6 +129,11 @@ public class DashboardFragment extends Fragment implements FriendHabitAdapter.On
 
     private void goToReqs(){
         Intent intent = new Intent(this.getActivity(), FriendRequestActivity.class);
+        startActivity(intent);
+    }
+
+    private void goToFriends(){
+        Intent intent = new Intent(this.getActivity(), FriendActivity.class);
         startActivity(intent);
     }
 
