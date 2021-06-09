@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -43,6 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
     FirebaseUser currentUser;
     private FirebaseFirestore fRef;
     User user;
+    int success;
 
     TextView usernameText, displaynameText;
     EditText usernameEdit, displaynameEdit;
@@ -61,6 +64,8 @@ public class SettingsActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
         fRef = FirebaseFirestore.getInstance();
         getUserInfo();
+
+        success = 0;
 
         darkModeSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,17 +163,30 @@ public class SettingsActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             boolean exists = false;
+                            String id = "";
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 exists = true;
+                                id = document.getId();
                                 break;
                             }
 
-                            if(exists){
+                            if(exists && !id.equals(mAuth.getUid())){
                                 Toast.makeText(getApplicationContext(), "Username already exists",
                                         Toast.LENGTH_SHORT).show();
                             }
                             else{
-                                fRef.collection(HabitConstants.USER_PATH).
+                                fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).update("username",username).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        success();
+                                    }
+                                });
+                                fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).update("displayName",displayName).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        success();
+                                    }
+                                });
                             }
 
 
@@ -189,4 +207,49 @@ public class SettingsActivity extends AppCompatActivity {
     private Context getActivity(){
         return this;
     }
+
+    private void success(){
+        success++;
+        if(success == 2){
+            Toast.makeText(getApplicationContext(), "Successfully updated",
+                    Toast.LENGTH_SHORT).show();
+            success = 0;
+        }
+    }
+
+    /**
+     * Called when the back button is pressed, prompts the user with a dialogue stating that
+     * unsaved changes will be lost.
+     *
+     */
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Close Activity?");
+        builder.setMessage("Any unsaved changes will be lost.");
+        builder.setPositiveButton("Confirm",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        closeActivity();
+                    }
+                });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //cancel
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
+
+    private void closeActivity(){
+        finish();
+    }
+
 }

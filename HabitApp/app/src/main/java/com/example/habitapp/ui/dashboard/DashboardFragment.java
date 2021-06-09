@@ -52,7 +52,7 @@ public class DashboardFragment extends Fragment implements FriendHabitAdapter.On
 
     ArrayList<Habit> toBeFilteredArrayList;
 
-    Button goToSearchButton, friendReqButton;
+    Button goToSearchButton, friendReqButton,friendsButton;
 
     Spinner sorterSpinner;
 
@@ -65,6 +65,7 @@ public class DashboardFragment extends Fragment implements FriendHabitAdapter.On
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         sorted = 0;
+
 
         fRef = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
