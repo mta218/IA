@@ -29,6 +29,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+/**
+ * FriendRequestActivity is where users can view incoming friend requests in a recycler view.
+ *
+ * @author Maximilian Ta
+ * @version 0.1
+ */
+
 public class FriendRequestActivity extends AppCompatActivity implements FriendRequestAdapter.OnFriendRequestListener {
 
     RecyclerView requestRecyclerView;
@@ -61,10 +68,14 @@ public class FriendRequestActivity extends AppCompatActivity implements FriendRe
 
     }
 
-
+    /**
+     * Accepts the friend request clicked, called when the recycler view is clicked
+     *
+     * @param position the position of the request in the recycler view
+     * @param tag unused
+     */
     @Override
     public void onFriendRequestClick(final int position, String tag) {
-        Intent intent = new Intent(this, HabitProfileActivity.class);
         final FriendRequest friendRequest = ((FriendRequestAdapter) requestRecyclerView.getAdapter()).getFriendRequest(position);
 
         fRef.collection(HabitConstants.USER_PATH).document(friendRequest.getRequesterUserID()).update("friends", FieldValue.arrayUnion(friendRequest.getTargetUserID())).addOnFailureListener(new OnFailureListener() {
@@ -118,6 +129,10 @@ public class FriendRequestActivity extends AppCompatActivity implements FriendRe
 
     }
 
+    /**
+     * Updates the recycler view with the latest requests stored on Firebase
+     *
+     */
     private void refresh(){
         emptyText.setVisibility(View.GONE);
         ((FriendRequestAdapter) requestRecyclerView.getAdapter()).clearArrayList();

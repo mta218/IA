@@ -53,6 +53,10 @@ public class WelcomeActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Validates the username and display name entered, if it is valid, sets the user's username and displayname.
+     *
+     */
     private void validate(){
         final String username = inputUsername.getText().toString();
         final String displayName = inputName.getText().toString();

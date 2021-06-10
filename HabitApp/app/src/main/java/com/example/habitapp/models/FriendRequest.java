@@ -1,7 +1,12 @@
 package com.example.habitapp.models;
 
-import java.util.Date;
-import java.util.UUID;
+/**
+ * TThis is the FriendRequest class, it stores information about a friend request sent from one user to another
+ * and has functionality to manipulate the data.
+ *
+ * @author Maximilian Ta
+ * @version 0.1
+ */
 
 public class FriendRequest {
     String requesterUserID;

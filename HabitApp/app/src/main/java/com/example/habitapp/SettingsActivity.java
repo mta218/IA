@@ -112,10 +112,12 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
+    /**
+     * Retrieves the user information from firebase
+     *
+     */
     private void getUserInfo() {
         fRef.collection(HabitConstants.USER_PATH).document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -128,6 +130,10 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Updates the UI with the current user information
+     *
+     */
     private void updateUI() {
         Settings settings = user.getSettings();
         usernameText.setText(user.getUsername());
@@ -144,6 +150,11 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Called when confirmButton is pressed, validates the new username and display name, updates firebase with the new values.
+     *
+     *
+     */
     private void updateUserInfo(){
         final String username = usernameEdit.getText().toString();
         final String displayName = displaynameEdit.getText().toString();
@@ -208,6 +219,10 @@ public class SettingsActivity extends AppCompatActivity {
         return this;
     }
 
+    /**
+     * Used to display a Toast when both display name and username is successfully updated.
+     *
+     */
     private void success(){
         success++;
         if(success == 2){

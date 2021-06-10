@@ -25,6 +25,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+/**
+ * The FriendActivity class displays a recycler view of all of the current user's friends
+ *
+ * @author Maximilian Ta
+ * @version 0.1
+ */
+
 public class FriendActivity extends AppCompatActivity implements UserAdapter.OnUserListener {
 
     FirebaseFirestore fRef;
@@ -57,6 +64,10 @@ public class FriendActivity extends AppCompatActivity implements UserAdapter.OnU
         refresh();
     }
 
+    /**
+     * Updates the recycler view with the latest habit information stored on Firebase
+     *
+     */
     private void refresh(){
         emptyText.setVisibility(View.GONE);
         fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -87,6 +98,12 @@ public class FriendActivity extends AppCompatActivity implements UserAdapter.OnU
         });
     }
 
+    /**
+     * Opens UserProfileActivity for the user clicked in the recycler view, called when the recycler view is clicked
+     *
+     * @param position the position of the user in the recycler view
+     * @param tag unused
+     */
     @Override
     public void onUserClick(int position, String tag) {
         Intent intent = new Intent(this, UserProfileActivity.class);

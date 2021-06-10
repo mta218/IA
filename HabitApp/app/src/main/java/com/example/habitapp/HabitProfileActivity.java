@@ -325,6 +325,10 @@ public class HabitProfileActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Called when the encourage button is pressed, adds 1 encouragement to the habit.
+     *
+     */
     private void encourage(){
         fRef.collection(HabitConstants.HABIT_PATH).document(habit.getID()).update("encouragement",FieldValue.increment(1)).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

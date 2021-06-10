@@ -34,6 +34,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * UserProfileActivity displays all information about a user (that is not the current user)
+ *
+ * @author Maximilian Ta
+ * @version 0.1
+ */
+
+
 public class UserProfileActivity extends AppCompatActivity implements HabitAdapter.OnHabitListener, AdapterView.OnItemSelectedListener{
     User user;
     String username;
@@ -270,6 +278,11 @@ public class UserProfileActivity extends AppCompatActivity implements HabitAdapt
         startActivity(intent);
     }
 
+    /**
+     * If the displayed user is currently not friends with the current user, the add friend button will be visible.
+     * This method is called when the button is pressed, and will send a friend request to the displayed user.
+     *
+     */
     private void addFriend(){
         fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

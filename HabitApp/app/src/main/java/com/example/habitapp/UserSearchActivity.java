@@ -53,6 +53,10 @@ public class UserSearchActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Searches firebase for a user with the username entered in the edit text.
+     *
+     */
     private void search(){
         String username = usernameSearchInput.getText().toString().trim();
 

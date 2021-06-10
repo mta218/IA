@@ -114,6 +114,10 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
         searchButtonPressed();
     }
 
+    /**
+     * called when search button is pressed, searches for a habit with a corresponding title and tags.
+     *
+     */
     private void search(){
         HabitAdapter adapter =  ((HabitAdapter) searchHabitRecyclerView.getAdapter());
         adapter.clearArrayList();
@@ -235,6 +239,12 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
 
     }
 
+    /**
+     * Opens HabitProfileActivity for the habit clicked in the recycler view, called when the recycler view is clicked
+     *
+     * @param position the position of the habit in the recycler view
+     * @param tag unused
+     */
     @Override
     public void onHabitClick(int position, String tag) {
         Intent intent = new Intent(this.getActivity(), HabitProfileActivity.class);
