@@ -1,0 +1,8 @@
+com.example.habitapp
+com.example.habitapp.enums
+com.example.habitapp.models
+com.example.habitapp.ui.dashboard
+com.example.habitapp.ui.home
+com.example.habitapp.ui.notifications
+com.example.habitapp.utils
+com.example.habitapp.utils.recyclerview
