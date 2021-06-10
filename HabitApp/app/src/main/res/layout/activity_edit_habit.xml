@@ -20,7 +20,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTitleInput" />
+        app:layout_constraintTop_toBottomOf="@+id/editTitleInput"
+        android:textColorHint="@color/recyclerViewTextColor"/>
 
     <Spinner
         android:id="@+id/freqSpinner"
@@ -48,7 +49,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/editTitle"
+        android:textColorHint="@color/recyclerViewTextColor"/>
 
     <EditText
         android:id="@+id/editGoalInput"
@@ -63,7 +65,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goalSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/goalSpinner"
+        android:textColorHint="@color/recyclerViewTextColor"/>
 
     <EditText
         android:id="@+id/editDateInput"
@@ -78,7 +81,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editGoalInput" />
+        app:layout_constraintTop_toBottomOf="@+id/editGoalInput"
+        android:textColorHint="@color/recyclerViewTextColor"/>
 
     <TextView
         android:id="@+id/editTitle"
@@ -196,5 +200,6 @@
         android:text="Hidden"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/freqSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/freqSpinner"
+        android:textColor="@color/textColor"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

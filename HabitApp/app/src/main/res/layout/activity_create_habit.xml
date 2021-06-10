@@ -45,7 +45,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/textColor"/>
+        android:textColor="@color/textColor"
+        android:textColorHint="@color/recyclerViewTextColor"/>
 
     <EditText
         android:id="@+id/dateInput"
@@ -62,7 +63,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/goalInput"
-        android:textColor="@color/textColor"/>
+        android:textColor="@color/textColor"
+        android:textColorHint="@color/recyclerViewTextColor"/>
 
     <EditText
         android:id="@+id/goalInput"
@@ -78,7 +80,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/goalSpinner"
-        android:textColor="@color/textColor"/>
+        android:textColor="@color/textColor"
+        android:textColorHint="@color/recyclerViewTextColor"/>
 
     <EditText
         android:id="@+id/tagsInput"
@@ -93,7 +96,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleInput"
-        android:textColor="@color/textColor"/>
+        android:textColor="@color/textColor"
+        android:textColorHint="@color/recyclerViewTextColor"/>
 
     <Spinner
         android:id="@+id/freqSpinner"
@@ -138,5 +142,6 @@
         android:text="Hidden Habit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateInput" />
+        app:layout_constraintTop_toBottomOf="@+id/dateInput"
+        android:textColor="@color/textColor"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

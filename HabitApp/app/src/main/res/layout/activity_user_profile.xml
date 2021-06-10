@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     tools:context=".UserProfileActivity">
 
     <TextView
@@ -13,6 +14,7 @@
         android:text="This user doesn't seem to have any habits yet..."
         android:textSize="18sp"
         android:visibility="gone"
+        android:textColor="@color/textColor"
         app:layout_constraintBottom_toBottomOf="@+id/habitRecyclerView"
         app:layout_constraintEnd_toEndOf="@+id/habitRecyclerView"
         app:layout_constraintStart_toStartOf="@+id/habitRecyclerView"
@@ -24,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="name"
+        android:textColor="@color/textColor"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +40,7 @@
         android:layout_marginTop="16dp"
         android:text="Username"
         android:textSize="18sp"
+        android:textColor="@color/textColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameText" />
 
@@ -47,6 +51,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="64dp"
         android:text="username"
+        android:textColor="@color/textColor"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameText" />
@@ -57,6 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="add friend"
+        android:textColor="@color/textColor"
+        android:backgroundTint="@color/buttonColor"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +80,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTitleText" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTitleText"
+
+
+        />
 
     <Spinner
         android:id="@+id/sorterSpinner"
@@ -93,6 +103,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:text="Habits"
+        android:textColor="@color/textColor"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/friendText" />
@@ -103,6 +114,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="This user is your friend"
+        android:textColor="@color/textColor"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

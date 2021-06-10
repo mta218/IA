@@ -53,7 +53,9 @@
         android:layout_marginTop="16dp"
         android:text="search for user"
         app:layout_constraintEnd_toEndOf="@+id/socialRecyclerView"
-        app:layout_constraintTop_toBottomOf="@+id/socialRecyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/socialRecyclerView"
+        android:textColor="@color/textColor"
+        android:backgroundTint="@color/buttonColor"/>
 
     <Button
         android:id="@+id/friendReqButton"
@@ -61,7 +63,9 @@
         android:layout_height="wrap_content"
         android:text="view friend requests"
         app:layout_constraintStart_toStartOf="@+id/socialRecyclerView"
-        app:layout_constraintTop_toTopOf="@+id/goToSearchButton" />
+        app:layout_constraintTop_toTopOf="@+id/goToSearchButton"
+        android:textColor="@color/textColor"
+        android:backgroundTint="@color/buttonColor"/>
 
     <TextView
         android:id="@+id/emptyText"
@@ -83,5 +87,8 @@
         android:text="your friends"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/friendReqButton" />
+        app:layout_constraintTop_toBottomOf="@+id/friendReqButton"
+        android:textColor="@color/textColor"
+        android:backgroundTint="@color/buttonColor"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

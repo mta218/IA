@@ -37,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Settings"
+        android:textColor="@color/textColor"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginTop="32dp"
+        android:textColor="@color/textColor"
         android:text="Username"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleText" />
@@ -57,6 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="64dp"
+        android:textColor="@color/textColor"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/usernameTitleText" />
@@ -67,6 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginTop="32dp"
+        android:textColor="@color/textColor"
         android:text="Display Name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameTitleText" />
@@ -76,6 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="64dp"
+        android:textColor="@color/textColor"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/displaynameTitle" />
@@ -89,9 +94,11 @@
         android:layout_marginEnd="64dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/darkModeSwitch" />
+        app:layout_constraintTop_toBottomOf="@+id/darkModeSwitch"
+        android:textColorHint="@color/recyclerViewTextColor"/>
 
     <EditText
         android:id="@+id/displaynameEdit"
@@ -102,15 +109,18 @@
         android:layout_marginEnd="64dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameEdit"
+        android:textColorHint="@color/recyclerViewTextColor"/>
 
     <TextView
         android:id="@+id/editUsernameTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Edit Username"
+        android:textColor="@color/textColor"
         app:layout_constraintBottom_toTopOf="@+id/usernameEdit"
         app:layout_constraintStart_toStartOf="@+id/usernameEdit" />
 
@@ -119,6 +129,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Edit Display Name"
+        android:textColor="@color/textColor"
         app:layout_constraintBottom_toTopOf="@+id/displaynameEdit"
         app:layout_constraintStart_toStartOf="@+id/displaynameEdit" />
 
@@ -129,6 +140,8 @@
         android:layout_marginStart="64dp"
         android:layout_marginTop="32dp"
         android:text="confirm changes"
+        android:textColor="@color/textColor"
+        android:backgroundTint="@color/buttonColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/displaynameEdit" />
 

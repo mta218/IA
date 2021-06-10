@@ -91,7 +91,8 @@
         app:layout_constraintBottom_toTopOf="@+id/updateButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/textColor"/>
+        android:textColor="@color/textColor"
+        android:textColorHint="@color/recyclerViewTextColor"/>
 
     <TextView
         android:id="@+id/dateText"
@@ -113,6 +114,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="send encouragement"
+        android:textColor="@color/textColor"
+        android:backgroundTint="@color/buttonColor"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -128,7 +131,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="..."
+        android:text=""
+        android:textColor="@color/textColor"
         app:layout_constraintBottom_toTopOf="@+id/updateInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
