@@ -66,22 +66,21 @@ public class FriendActivity extends AppCompatActivity implements UserAdapter.OnU
 
     /**
      * Updates the recycler view with the latest habit information stored on Firebase
-     *
      */
-    private void refresh(){
+    private void refresh() {
         emptyText.setVisibility(View.GONE);
         fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     user = task.getResult().toObject(User.class);
-                    for(String friendID : user.getFriends()){
+                    for (String friendID : user.getFriends()) {
                         fRef.collection(HabitConstants.USER_PATH).document(friendID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if(task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     addPending(task.getResult().toObject(User.class));
-                                }else{
+                                } else {
                                     Toast.makeText(getContext(), "Some friends could not be loaded, try again later",
                                             Toast.LENGTH_SHORT).show();
                                 }
@@ -89,7 +88,7 @@ public class FriendActivity extends AppCompatActivity implements UserAdapter.OnU
                             }
                         });
                     }
-                }else{
+                } else {
                     Toast.makeText(getContext(), "Failed:\n Could not update properly",
                             Toast.LENGTH_SHORT).show();
                     emptyText.setVisibility(View.VISIBLE);
@@ -102,7 +101,7 @@ public class FriendActivity extends AppCompatActivity implements UserAdapter.OnU
      * Opens UserProfileActivity for the user clicked in the recycler view, called when the recycler view is clicked
      *
      * @param position the position of the user in the recycler view
-     * @param tag unused
+     * @param tag      unused
      */
     @Override
     public void onUserClick(int position, String tag) {
@@ -117,7 +116,7 @@ public class FriendActivity extends AppCompatActivity implements UserAdapter.OnU
 
     }
 
-    private Context getContext(){
+    private Context getContext() {
         return this;
     }
 
@@ -127,9 +126,9 @@ public class FriendActivity extends AppCompatActivity implements UserAdapter.OnU
      *
      * @param userToAdd The user to be added to the recycler view
      */
-    void addPending(User userToAdd){
+    void addPending(User userToAdd) {
         userArrayList.add(userToAdd);
-        if(userArrayList.size() == user.getFriends().size()){
+        if (userArrayList.size() == user.getFriends().size()) {
             UserAdapter adapter = ((UserAdapter) friendRecyclerView.getAdapter());
             adapter.addUser(userArrayList);
             adapter.sortAlphabetically();

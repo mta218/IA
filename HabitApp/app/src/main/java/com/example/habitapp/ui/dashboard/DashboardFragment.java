@@ -44,11 +44,12 @@ import java.util.ArrayList;
 
 /**
  * This is the Dashboard, it contains all UI that allows for users to interact with their friends and find other users.
+ *
  * @author Maximilian Ta
  * @version 0.1
  */
 
-public class DashboardFragment extends Fragment implements FriendHabitAdapter.OnHabitListener, AdapterView.OnItemSelectedListener{
+public class DashboardFragment extends Fragment implements FriendHabitAdapter.OnHabitListener, AdapterView.OnItemSelectedListener {
 
     private SocialViewModel socialViewModel;
 
@@ -59,7 +60,7 @@ public class DashboardFragment extends Fragment implements FriendHabitAdapter.On
 
     ArrayList<Habit> toBeFilteredArrayList;
 
-    Button goToSearchButton, friendReqButton,friendsButton;
+    Button goToSearchButton, friendReqButton, friendsButton;
 
     Spinner sorterSpinner;
 
@@ -111,7 +112,6 @@ public class DashboardFragment extends Fragment implements FriendHabitAdapter.On
         emptyText = root.findViewById(R.id.emptyText);
 
 
-
         sorterSpinner = root.findViewById(R.id.sorterSpinner2);
         ArrayAdapter<CharSequence> sorterAdapter = ArrayAdapter.createFromResource(this.getContext(), R.array.sorting_types, R.layout.spinner_item);
         sorterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -130,38 +130,34 @@ public class DashboardFragment extends Fragment implements FriendHabitAdapter.On
 
     /**
      * Called when the search button is pressed, opens UserSearchActivity
-     *
      */
-    private void goToSearch(){
+    private void goToSearch() {
         Intent intent = new Intent(this.getActivity(), UserSearchActivity.class);
         startActivity(intent);
     }
 
     /**
      * Called when the search friend request button is pressed, opens FriendRequestActivity
-     *
      */
-    private void goToReqs(){
+    private void goToReqs() {
         Intent intent = new Intent(this.getActivity(), FriendRequestActivity.class);
         startActivity(intent);
     }
 
     /**
      * Called when the friends button is pressed, opens FriendActivity
-     *
      */
-    private void goToFriends(){
+    private void goToFriends() {
         Intent intent = new Intent(this.getActivity(), FriendActivity.class);
         startActivity(intent);
     }
-
 
 
     /**
      * Opens HabitProfileActivity for the habit clicked in the recycler view, called when the recycler view is clicked
      *
      * @param position the position of the habit in the recycler view
-     * @param tag unused
+     * @param tag      unused
      */
     @Override
     public void onHabitClick(int position, String tag) {
@@ -176,9 +172,8 @@ public class DashboardFragment extends Fragment implements FriendHabitAdapter.On
 
     /**
      * Updates the recycler view with the latest habit information stored on Firebase
-     *
      */
-    private void refresh(){
+    private void refresh() {
         fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -195,7 +190,7 @@ public class DashboardFragment extends Fragment implements FriendHabitAdapter.On
                                 toBeFilteredArrayList = new ArrayList();
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Habit habit = document.toObject(Habit.class);
-                                    if(user.getFriends().contains(habit.getOwnerID()) && !habit.isHidden()){
+                                    if (user.getFriends().contains(habit.getOwnerID()) && !habit.isHidden()) {
                                         toBeFilteredArrayList.add(habit);
                                     }
                                 }
@@ -231,7 +226,6 @@ public class DashboardFragment extends Fragment implements FriendHabitAdapter.On
                 }
             }
         });
-
 
 
     }

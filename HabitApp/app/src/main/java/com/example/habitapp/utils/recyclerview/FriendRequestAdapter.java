@@ -131,7 +131,7 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestView
     }
 
 
-    public String getTag(){
+    public String getTag() {
         return tag;
     }
 
@@ -140,7 +140,7 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestView
      *
      * @param position
      */
-    public void removeFriendRequest(int position){
+    public void removeFriendRequest(int position) {
         reqsToDisplay.remove(position);
     }
 

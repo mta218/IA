@@ -145,15 +145,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> {
     }
 
 
-    public String getTag(){
+    public String getTag() {
         return tag;
     }
 
     /**
      * Sorts the usersToDisplay in alphabetical order of display name of users
-     *
      */
-    public void sortAlphabetically(){
+    public void sortAlphabetically() {
         usersToDisplay.sort(new Comparator<User>() {
             @Override
             public int compare(User u1, User u2) {

@@ -36,10 +36,11 @@ import java.util.ArrayList;
 
 /**
  * This is the HabitFragment, it contains all UI that allows for users to view, edit and update their habits.
+ *
  * @author Maximilian Ta
  * @version 0.1
  */
-public class NotificationsFragment extends Fragment implements HabitAdapter.OnHabitListener, AdapterView.OnItemSelectedListener{
+public class NotificationsFragment extends Fragment implements HabitAdapter.OnHabitListener, AdapterView.OnItemSelectedListener {
     //for habits
     Button createButton, searchButton;
     TextView emptyText;
@@ -107,7 +108,6 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
 
     /**
      * Opens the CreateHabitActivity
-     *
      */
     void addHabit() {
         Intent intent = new Intent(this.getActivity(), CreateHabitActivity.class);
@@ -118,7 +118,7 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
      * Opens HabitProfileActivity for the habit clicked in the recycler view, called when the recycler view is clicked
      *
      * @param position the position of the habit in the recycler view
-     * @param tag unused
+     * @param tag      unused
      */
     @Override
     public void onHabitClick(int position, String tag) {
@@ -134,7 +134,6 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
 
     /**
      * Updates the recycler view with the latest habit information stored on Firebase
-     *
      */
     private void refresh() {
         emptyText.setVisibility(View.GONE);
@@ -146,7 +145,7 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     user = document.toObject(User.class);
-                    if(user.getHabits() != null){
+                    if (user.getHabits() != null) {
                         for (String habitID : user.getHabits()) {
                             fRef.collection(HabitConstants.HABIT_PATH)
                                     .document(habitID)
@@ -157,7 +156,7 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
                                             if (task.isSuccessful()) {
                                                 DocumentSnapshot document = task.getResult();
                                                 Habit habit = document.toObject(Habit.class);
-                                                addPending(HabitConstants.ALL_HABIT_RECYCLER_VIEW , habit);
+                                                addPending(HabitConstants.ALL_HABIT_RECYCLER_VIEW, habit);
                                             } else {
                                                 Toast.makeText(getContext(), "Failed:\n Could not update properly",
                                                         Toast.LENGTH_SHORT).show();
@@ -166,8 +165,7 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
                                         }
                                     });
                         }
-                    }
-                    else{
+                    } else {
                         emptyText.setVisibility(View.VISIBLE);
                     }
 
@@ -185,13 +183,13 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
      * While the habits are being loaded from Firebase, since they are loaded asynchronously, sorting must occur after they all are loaded.
      * addPending will add the habits into a temporary ArrayList, sorting them and displaying them to the Recycler once all habits have been loaded.
      *
-     * @param tag A String representing the tag of the ArrayList that the incoming habits will be added to
+     * @param tag        A String representing the tag of the ArrayList that the incoming habits will be added to
      * @param habitToAdd The habit to be added to the recycler view
      */
-    void addPending(String tag, Habit habitToAdd){
-        if(tag.equals(HabitConstants.ALL_HABIT_RECYCLER_VIEW)){
+    void addPending(String tag, Habit habitToAdd) {
+        if (tag.equals(HabitConstants.ALL_HABIT_RECYCLER_VIEW)) {
             allPendingArrayList.add(habitToAdd);
-            if(allPendingArrayList.size() == user.getHabits().size()){
+            if (allPendingArrayList.size() == user.getHabits().size()) {
                 HabitAdapter habitAdapter = ((HabitAdapter) allHabitRecyclerView.getAdapter());
                 habitAdapter.addHabits(allPendingArrayList);
                 switch (sorted) {
@@ -251,9 +249,8 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
 
     /**
      * Opens the SearchHabitActivity, called when the search button is pressed
-     *
      */
-    private void goToSearch(){
+    private void goToSearch() {
         Intent intent = new Intent(this.getActivity(), SearchHabitActivity.class);
         startActivity(intent);
     }

@@ -15,7 +15,7 @@ import com.example.habitapp.R;
  * @author Maximilian Ta
  * @version 0.1
  */
-public class FriendRequestViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class FriendRequestViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     protected TextView titleText, clickText;
     FriendRequestAdapter.OnFriendRequestListener onFriendRequestListener;
@@ -46,7 +46,7 @@ public class FriendRequestViewHolder extends RecyclerView.ViewHolder implements 
      *
      * @param tag the new tag
      */
-    public void addTag(String tag){
+    public void addTag(String tag) {
         this.tag = tag;
     }
 }

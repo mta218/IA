@@ -186,7 +186,6 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
      */
     private void updateDatabase(final Habit habit) {
         FirebaseFirestore fRef = FirebaseFirestore.getInstance();
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         fRef.collection(HabitConstants.HABIT_PATH).document(habit.getID()).set(habit).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -198,7 +197,9 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
             public void onSuccess(Void aVoid) {
                 FirebaseFirestore fRef = FirebaseFirestore.getInstance();
                 FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).update("habits", FieldValue.arrayUnion(habit.getID())).addOnFailureListener(new OnFailureListener() {
+                fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid())
+                        .update("habits", FieldValue.arrayUnion(habit.getID()))
+                        .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(getApplicationContext(), "Failed:\n" + e.getMessage(),
@@ -214,7 +215,6 @@ public class CreateHabitActivity extends AppCompatActivity implements AdapterVie
                 });
             }
         });
-
     }
 
     /**

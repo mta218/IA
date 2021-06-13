@@ -35,7 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment implements HabitAdapter.OnHabitListener{
+public class HomeFragment extends Fragment implements HabitAdapter.OnHabitListener {
 
     private HomeViewModel homeViewModel;
     private Button goToSettingsButton;
@@ -46,7 +46,6 @@ public class HomeFragment extends Fragment implements HabitAdapter.OnHabitListen
     User user;
     RecyclerView urgentRecyclerView;
     TextView emptyText;
-
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -86,9 +85,8 @@ public class HomeFragment extends Fragment implements HabitAdapter.OnHabitListen
 
     /**
      * Takes the user to the SettingsActivity
-     *
      */
-    private void goToSettings(){
+    private void goToSettings() {
         Intent intent = new Intent(this.getActivity(), SettingsActivity.class);
         startActivity(intent);
     }
@@ -97,7 +95,7 @@ public class HomeFragment extends Fragment implements HabitAdapter.OnHabitListen
      * Opens HabitProfileActivity for the habit clicked in the recycler view, called when the recycler view is clicked
      *
      * @param position the position of the habit in the recycler view
-     * @param tag unused
+     * @param tag      unused
      */
     @Override
     public void onHabitClick(int position, String tag) {
@@ -111,7 +109,6 @@ public class HomeFragment extends Fragment implements HabitAdapter.OnHabitListen
 
     /**
      * Updates the recycler view with the latest habit information stored on Firebase
-     *
      */
     private void refresh() {
         emptyText.setVisibility(View.GONE);
@@ -123,7 +120,7 @@ public class HomeFragment extends Fragment implements HabitAdapter.OnHabitListen
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     user = document.toObject(User.class);
-                    if(user.getHabits() != null){
+                    if (user.getHabits() != null) {
                         for (String habitID : user.getHabits()) {
                             fRef.collection(HabitConstants.HABIT_PATH)
                                     .document(habitID)
@@ -143,8 +140,7 @@ public class HomeFragment extends Fragment implements HabitAdapter.OnHabitListen
                                         }
                                     });
                         }
-                    }
-                    else{
+                    } else {
                         emptyText.setVisibility(View.VISIBLE);
                     }
 
@@ -164,9 +160,9 @@ public class HomeFragment extends Fragment implements HabitAdapter.OnHabitListen
      *
      * @param habitToAdd The habit to be added to the recycler view
      */
-    void addPending(Habit habitToAdd){
+    void addPending(Habit habitToAdd) {
         allPendingArrayList.add(habitToAdd);
-        if(allPendingArrayList.size() == user.getHabits().size()){
+        if (allPendingArrayList.size() == user.getHabits().size()) {
             HabitAdapter habitAdapter = ((HabitAdapter) urgentRecyclerView.getAdapter());
             habitAdapter.addHabits(allPendingArrayList);
             habitAdapter.sortUrgency();

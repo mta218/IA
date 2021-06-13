@@ -15,7 +15,7 @@ import com.example.habitapp.R;
  * @author Maximilian Ta
  * @version 0.1
  */
-public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     protected TextView usernameText, displaynameText;
     UserAdapter.OnUserListener onUserListener;
@@ -49,7 +49,7 @@ public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnCl
      *
      * @param tag the new tag
      */
-    public void addTag(String tag){
+    public void addTag(String tag) {
         this.tag = tag;
     }
 }

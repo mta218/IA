@@ -80,7 +80,7 @@ public class SignInActivity extends AppCompatActivity {
     public void updateUI(FirebaseUser currentUser) {
         //when has user, move to next screen
         if (currentUser != null) {
-            System.out.println("despacito"+currentUser.getUid());
+            System.out.println("despacito" + currentUser.getUid());
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }

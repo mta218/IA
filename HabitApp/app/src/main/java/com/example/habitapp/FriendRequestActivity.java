@@ -72,7 +72,7 @@ public class FriendRequestActivity extends AppCompatActivity implements FriendRe
      * Accepts the friend request clicked, called when the recycler view is clicked
      *
      * @param position the position of the request in the recycler view
-     * @param tag unused
+     * @param tag      unused
      */
     @Override
     public void onFriendRequestClick(final int position, String tag) {
@@ -81,7 +81,7 @@ public class FriendRequestActivity extends AppCompatActivity implements FriendRe
         fRef.collection(HabitConstants.USER_PATH).document(friendRequest.getRequesterUserID()).update("friends", FieldValue.arrayUnion(friendRequest.getTargetUserID())).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "Failed:\n"+e.getMessage(),
+                Toast.makeText(getApplicationContext(), "Failed:\n" + e.getMessage(),
                         Toast.LENGTH_SHORT).show();
             }
         }).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -91,7 +91,7 @@ public class FriendRequestActivity extends AppCompatActivity implements FriendRe
                 fRef.collection(HabitConstants.USER_PATH).document(friendRequest.getTargetUserID()).update("friends", FieldValue.arrayUnion(friendRequest.getRequesterUserID())).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Failed:\n"+e.getMessage(),
+                        Toast.makeText(getApplicationContext(), "Failed:\n" + e.getMessage(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 }).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -101,7 +101,7 @@ public class FriendRequestActivity extends AppCompatActivity implements FriendRe
                         fRef.collection(HabitConstants.USER_PATH).document(friendRequest.getTargetUserID()).update("friendRequests", FieldValue.arrayRemove(friendRequest)).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(), "Failed:\n"+e.getMessage(),
+                                Toast.makeText(getApplicationContext(), "Failed:\n" + e.getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             }
                         }).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -131,9 +131,8 @@ public class FriendRequestActivity extends AppCompatActivity implements FriendRe
 
     /**
      * Updates the recycler view with the latest requests stored on Firebase
-     *
      */
-    private void refresh(){
+    private void refresh() {
         emptyText.setVisibility(View.GONE);
         ((FriendRequestAdapter) requestRecyclerView.getAdapter()).clearArrayList();
         fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -143,13 +142,12 @@ public class FriendRequestActivity extends AppCompatActivity implements FriendRe
                     FriendRequestAdapter adapter = (FriendRequestAdapter) requestRecyclerView.getAdapter();
                     DocumentSnapshot document = task.getResult();
                     user = document.toObject(User.class);
-                    if(user.getFriendRequests() != null){
+                    if (user.getFriendRequests() != null) {
                         for (FriendRequest req : user.getFriendRequests()) {
                             adapter.addFriendRequest(req);
                         }
                         adapter.notifyDataSetChanged();
-                    }
-                    else{
+                    } else {
                         emptyText.setVisibility(View.VISIBLE);
                     }
 
@@ -163,7 +161,7 @@ public class FriendRequestActivity extends AppCompatActivity implements FriendRe
 
     }
 
-    private Context getContext(){
+    private Context getContext() {
         return this;
     }
 

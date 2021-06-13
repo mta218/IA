@@ -55,22 +55,19 @@ public class WelcomeActivity extends AppCompatActivity {
 
     /**
      * Validates the username and display name entered, if it is valid, sets the user's username and displayname.
-     *
      */
-    private void validate(){
+    private void validate() {
         final String username = inputUsername.getText().toString();
         final String displayName = inputName.getText().toString();
-        if(username.equals("") || displayName.equals("")){
+        if (username.equals("") || displayName.equals("")) {
             Toast.makeText(getApplicationContext(), "Please enter a username and a name.",
                     Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             //https://www.techiedelight.com/check-string-contains-alphanumeric-characters-java/
-            if(username.length() < 4 || username.length() > 20){
+            if (username.length() < 4 || username.length() > 20) {
                 Toast.makeText(getApplicationContext(), "Username must be between 4 and 20 characters.",
                         Toast.LENGTH_SHORT).show();
-            }
-            else if(username.matches("^[a-zA-Z0-9]*$")){
+            } else if (username.matches("^[a-zA-Z0-9]*$")) {
                 fRef.collection(HabitConstants.USER_PATH).whereEqualTo("username", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -81,15 +78,14 @@ public class WelcomeActivity extends AppCompatActivity {
                                 break;
                             }
 
-                            if(exists){
+                            if (exists) {
                                 Toast.makeText(getApplicationContext(), "Username already exists",
                                         Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).set(new User(displayName,username)).addOnFailureListener(new OnFailureListener() {
+                            } else {
+                                fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).set(new User(displayName, username)).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getApplicationContext(), "Failed:\n"+e.getMessage(),
+                                        Toast.makeText(getApplicationContext(), "Failed:\n" + e.getMessage(),
                                                 Toast.LENGTH_SHORT).show();
                                     }
                                 }).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -109,8 +105,7 @@ public class WelcomeActivity extends AppCompatActivity {
                         }
                     }
                 });
-            }
-            else{
+            } else {
                 Toast.makeText(getApplicationContext(), "Username must only contain numbers and letters",
                         Toast.LENGTH_SHORT).show();
             }
@@ -119,10 +114,9 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
 
-    private Context getActivity(){
+    private Context getActivity() {
         return this;
     }
-
 
 
 }

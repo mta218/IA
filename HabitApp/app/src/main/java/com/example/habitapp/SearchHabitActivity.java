@@ -38,7 +38,7 @@ import java.util.Collections;
  * @author Maximilian Ta
  * @version 0.1
  */
-public class SearchHabitActivity extends AppCompatActivity implements HabitAdapter.OnHabitListener, AdapterView.OnItemSelectedListener{
+public class SearchHabitActivity extends AppCompatActivity implements HabitAdapter.OnHabitListener, AdapterView.OnItemSelectedListener {
 
     Button searchButton;
     RecyclerView searchHabitRecyclerView;
@@ -87,9 +87,8 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
 
     /**
      * Called when search button is pressed, and calls the appropriate search function
-     *
      */
-    private void searchButtonPressed(){
+    private void searchButtonPressed() {
         fRef.collection(HabitConstants.HABIT_PATH).whereEqualTo("ownerID", mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -116,27 +115,25 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
 
     /**
      * called when search button is pressed, searches for a habit with a corresponding title and tags.
-     *
      */
-    private void search(){
-        HabitAdapter adapter =  ((HabitAdapter) searchHabitRecyclerView.getAdapter());
+    private void search() {
+        HabitAdapter adapter = ((HabitAdapter) searchHabitRecyclerView.getAdapter());
         adapter.clearArrayList();
 
         String titleString = editSearchTitle.getText().toString();
         String tagsString = editSearchTags.getText().toString();
 
 
-        if(tagsString.equals("") && titleString.equals("")){
+        if (tagsString.equals("") && titleString.equals("")) {
 
-                Toast.makeText(this, "Please enter a title or tags",
-                        Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter a title or tags",
+                    Toast.LENGTH_SHORT).show();
 
-        }
-        else{
-            if(!tagsString.equals("")){
+        } else {
+            if (!tagsString.equals("")) {
                 searchForTag();
             }
-            if(!titleString.equals("")){
+            if (!titleString.equals("")) {
                 searchForTitle(titleString);
             }
 
@@ -160,33 +157,29 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
         }
 
 
-
     }
 
     /**
-     *
      * Searches and displays habits with the appropriate tag
-     *
      */
-    private void searchForTag(){
+    private void searchForTag() {
         ArrayList<Habit> tempArrayList = new ArrayList<>(toBeFilteredArrayList);
-        for(Habit habit : tempArrayList){
-            if(!habit.getTags().containsAll(getTags())){
+        for (Habit habit : tempArrayList) {
+            if (!habit.getTags().containsAll(getTags())) {
                 toBeFilteredArrayList.remove(habit);
             }
         }
     }
 
     /**
-     *
      * Searches and displays habits with a title that has the first few characters which matches the letters entered
      *
      * @param title the title to be searched
      */
-    private void searchForTitle(String title){
+    private void searchForTitle(String title) {
         ArrayList<Habit> tempArrayList = new ArrayList<>(toBeFilteredArrayList);
-        for(Habit habit : tempArrayList){
-            if(!habit.getTitle().toLowerCase().substring(0,title.length()).equals(title.toLowerCase().trim())){
+        for (Habit habit : tempArrayList) {
+            if (!habit.getTitle().toLowerCase().substring(0, title.length()).equals(title.toLowerCase().trim())) {
                 toBeFilteredArrayList.remove(habit);
             }
         }
@@ -198,10 +191,9 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
      *
      * @return
      */
-    private Activity getActivity(){
+    private Activity getActivity() {
         return this;
     }
-
 
 
     /**
@@ -243,7 +235,7 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
      * Opens HabitProfileActivity for the habit clicked in the recycler view, called when the recycler view is clicked
      *
      * @param position the position of the habit in the recycler view
-     * @param tag unused
+     * @param tag      unused
      */
     @Override
     public void onHabitClick(int position, String tag) {
@@ -268,7 +260,6 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
         Collections.addAll(list, temp);
         return list;
     }
-
 
 
 }

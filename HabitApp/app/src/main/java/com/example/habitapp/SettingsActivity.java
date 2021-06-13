@@ -88,7 +88,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        
+
                     }
                 });
 
@@ -116,7 +116,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     /**
      * Retrieves the user information from firebase
-     *
      */
     private void getUserInfo() {
         fRef.collection(HabitConstants.USER_PATH).document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -132,7 +131,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     /**
      * Updates the UI with the current user information
-     *
      */
     private void updateUI() {
         Settings settings = user.getSettings();
@@ -140,7 +138,6 @@ public class SettingsActivity extends AppCompatActivity {
         displaynameText.setText(user.getDisplayName());
         usernameEdit.setText(user.getUsername());
         displaynameEdit.setText(user.getDisplayName());
-
 
 
         if (settings.isDarkMode()) {
@@ -152,23 +149,19 @@ public class SettingsActivity extends AppCompatActivity {
 
     /**
      * Called when confirmButton is pressed, validates the new username and display name, updates firebase with the new values.
-     *
-     *
      */
-    private void updateUserInfo(){
+    private void updateUserInfo() {
         final String username = usernameEdit.getText().toString();
         final String displayName = displaynameEdit.getText().toString();
-        if(username.equals("") || displayName.equals("")){
+        if (username.equals("") || displayName.equals("")) {
             Toast.makeText(getApplicationContext(), "Please enter a username and a name.",
                     Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             //https://www.techiedelight.com/check-string-contains-alphanumeric-characters-java/
-            if(username.length() < 4 || username.length() > 20){
+            if (username.length() < 4 || username.length() > 20) {
                 Toast.makeText(getApplicationContext(), "Username must be between 4 and 20 characters.",
                         Toast.LENGTH_SHORT).show();
-            }
-            else if(username.matches("^[a-zA-Z0-9]*$")){
+            } else if (username.matches("^[a-zA-Z0-9]*$")) {
                 fRef.collection(HabitConstants.USER_PATH).whereEqualTo("username", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -181,18 +174,17 @@ public class SettingsActivity extends AppCompatActivity {
                                 break;
                             }
 
-                            if(exists && !id.equals(mAuth.getUid())){
+                            if (exists && !id.equals(mAuth.getUid())) {
                                 Toast.makeText(getApplicationContext(), "Username already exists",
                                         Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).update("username",username).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            } else {
+                                fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).update("username", username).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         success();
                                     }
                                 });
-                                fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).update("displayName",displayName).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).update("displayName", displayName).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         success();
@@ -207,25 +199,23 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                     }
                 });
-            }
-            else{
+            } else {
                 Toast.makeText(getApplicationContext(), "Username must only contain numbers and letters",
                         Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private Context getActivity(){
+    private Context getActivity() {
         return this;
     }
 
     /**
      * Used to display a Toast when both display name and username is successfully updated.
-     *
      */
-    private void success(){
+    private void success() {
         success++;
-        if(success == 2){
+        if (success == 2) {
             Toast.makeText(getApplicationContext(), "Successfully updated",
                     Toast.LENGTH_SHORT).show();
             success = 0;
@@ -235,7 +225,6 @@ public class SettingsActivity extends AppCompatActivity {
     /**
      * Called when the back button is pressed, prompts the user with a dialogue stating that
      * unsaved changes will be lost.
-     *
      */
     @Override
     public void onBackPressed() {
@@ -263,7 +252,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    private void closeActivity(){
+    private void closeActivity() {
         finish();
     }
 

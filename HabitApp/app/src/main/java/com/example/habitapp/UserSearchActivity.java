@@ -55,9 +55,8 @@ public class UserSearchActivity extends AppCompatActivity {
 
     /**
      * Searches firebase for a user with the username entered in the edit text.
-     *
      */
-    private void search(){
+    private void search() {
         String username = usernameSearchInput.getText().toString().trim();
 
         fRef.collection(HabitConstants.USER_PATH).whereEqualTo("username", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -70,26 +69,25 @@ public class UserSearchActivity extends AppCompatActivity {
                         break;
                     }
 
-                    if(user != null){
+                    if (user != null) {
                         Intent intent = new Intent(getActivity(), UserProfileActivity.class);
                         intent.putExtra(HabitConstants.USERNAME_INTENT, user.getUsername());
                         startActivity(intent);
-                    }
-                    else{
+                    } else {
                         Toast.makeText(getActivity(), "User was not found.",
                                 Toast.LENGTH_SHORT).show();
                     }
 
 
                 } else {
-                            Toast.makeText(getActivity(), "Data could not be loaded, try again later.",
+                    Toast.makeText(getActivity(), "Data could not be loaded, try again later.",
                             Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    private Context getActivity(){
+    private Context getActivity() {
         return this;
     }
 }

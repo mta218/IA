@@ -42,7 +42,7 @@ import java.util.ArrayList;
  */
 
 
-public class UserProfileActivity extends AppCompatActivity implements HabitAdapter.OnHabitListener, AdapterView.OnItemSelectedListener{
+public class UserProfileActivity extends AppCompatActivity implements HabitAdapter.OnHabitListener, AdapterView.OnItemSelectedListener {
     User user;
     String username;
     FirebaseAuth mAuth;
@@ -105,14 +105,13 @@ public class UserProfileActivity extends AppCompatActivity implements HabitAdapt
                         break;
                     }
 
-                    if(user != null){
+                    if (user != null) {
                         usernameText.setText(user.getUsername());
                         nameText.setText(user.getDisplayName());
-                        if(user.getFriends() != null && user.getFriends().contains(mAuth.getUid())){
+                        if (user.getFriends() != null && user.getFriends().contains(mAuth.getUid())) {
                             friendText.setVisibility(View.VISIBLE);
                             refresh();
-                        }
-                        else{
+                        } else {
                             addFriendButton.setVisibility(View.VISIBLE);
                             habitRecyclerView.setVisibility(View.GONE);
                             recyclerViewTitleText.setVisibility(View.GONE);
@@ -120,8 +119,7 @@ public class UserProfileActivity extends AppCompatActivity implements HabitAdapt
                         }
 
 
-                    }
-                    else{
+                    } else {
                         Toast.makeText(getActivity(), "User was not found.",
                                 Toast.LENGTH_SHORT).show();
                         emptyText.setVisibility(View.VISIBLE);
@@ -137,20 +135,19 @@ public class UserProfileActivity extends AppCompatActivity implements HabitAdapt
         });
     }
 
-    private Context getActivity(){
+    private Context getActivity() {
         return this;
     }
 
     /**
      * Updates the recycler view with the latest habit information stored on Firebase
-     *
      */
     private void refresh() {
         retrievedCount = 0;
         emptyText.setVisibility(View.GONE);
         ((HabitAdapter) habitRecyclerView.getAdapter()).clearArrayList();
         allPendingArrayList.clear();
-        if(user.getHabits() != null){
+        if (user.getHabits() != null) {
             for (String habitID : user.getHabits()) {
                 fRef.collection(HabitConstants.HABIT_PATH)
                         .document(habitID)
@@ -162,7 +159,7 @@ public class UserProfileActivity extends AppCompatActivity implements HabitAdapt
                                     DocumentSnapshot document = task.getResult();
                                     Habit habit = document.toObject(Habit.class);
                                     retrievedCount++;
-                                    addPending(HabitConstants.ALL_HABIT_RECYCLER_VIEW , habit);
+                                    addPending(HabitConstants.ALL_HABIT_RECYCLER_VIEW, habit);
 
 
                                 } else {
@@ -173,14 +170,13 @@ public class UserProfileActivity extends AppCompatActivity implements HabitAdapt
                             }
                         });
             }
-        }
-        else{
+        } else {
             emptyText.setVisibility(View.VISIBLE);
         }
 
     }
 
-    private Context getContext(){
+    private Context getContext() {
         return this;
     }
 
@@ -188,19 +184,18 @@ public class UserProfileActivity extends AppCompatActivity implements HabitAdapt
      * While the habits are being loaded from Firebase, since they are loaded asynchronously, sorting must occur after they all are loaded.
      * addPending will add the habits into a temporary ArrayList, sorting them and displaying them to the Recycler once all habits have been loaded.
      *
-     * @param tag A String representing the tag of the ArrayList that the incoming habits will be added to
+     * @param tag        A String representing the tag of the ArrayList that the incoming habits will be added to
      * @param habitToAdd The habit to be added to the recycler view
      */
-    void addPending(String tag, Habit habitToAdd){
-        if(tag.equals(HabitConstants.ALL_HABIT_RECYCLER_VIEW)){
-            if(!habitToAdd.isHidden()){
+    void addPending(String tag, Habit habitToAdd) {
+        if (tag.equals(HabitConstants.ALL_HABIT_RECYCLER_VIEW)) {
+            if (!habitToAdd.isHidden()) {
                 allPendingArrayList.add(habitToAdd);
             }
-            if(retrievedCount == user.getHabits().size()){
-                if(allPendingArrayList.size() == 0){
+            if (retrievedCount == user.getHabits().size()) {
+                if (allPendingArrayList.size() == 0) {
                     emptyText.setVisibility(View.VISIBLE);
-                }
-                else{
+                } else {
                     HabitAdapter habitAdapter = ((HabitAdapter) habitRecyclerView.getAdapter());
                     habitAdapter.addHabits(allPendingArrayList);
                     switch (sorted) {
@@ -264,7 +259,7 @@ public class UserProfileActivity extends AppCompatActivity implements HabitAdapt
      * Opens HabitProfileActivity for the habit clicked in the recycler view, called when the recycler view is clicked
      *
      * @param position the position of the habit in the recycler view
-     * @param tag unused
+     * @param tag      unused
      */
     @Override
     public void onHabitClick(int position, String tag) {
@@ -281,9 +276,8 @@ public class UserProfileActivity extends AppCompatActivity implements HabitAdapt
     /**
      * If the displayed user is currently not friends with the current user, the add friend button will be visible.
      * This method is called when the button is pressed, and will send a friend request to the displayed user.
-     *
      */
-    private void addFriend(){
+    private void addFriend() {
         fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -291,11 +285,11 @@ public class UserProfileActivity extends AppCompatActivity implements HabitAdapt
                     DocumentSnapshot document = task.getResult();
                     user = document.toObject(User.class);
 
-                    FriendRequest req = new FriendRequest(mAuth.getUid(),userID, user.getDisplayName());
+                    FriendRequest req = new FriendRequest(mAuth.getUid(), userID, user.getDisplayName());
                     fRef.collection(HabitConstants.USER_PATH).document(userID).update("friendRequests", FieldValue.arrayUnion(req)).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getApplicationContext(), "Failed:\n"+e.getMessage(),
+                            Toast.makeText(getApplicationContext(), "Failed:\n" + e.getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }).addOnSuccessListener(new OnSuccessListener<Void>() {

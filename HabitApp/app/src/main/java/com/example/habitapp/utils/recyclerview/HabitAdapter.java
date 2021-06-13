@@ -146,15 +146,14 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
     }
 
 
-    public String getTag(){
+    public String getTag() {
         return tag;
     }
 
     /**
      * Sorts the habitsToDisplay in alphabetical order of title of habits
-     *
      */
-    public void sortAlphabetically(){
+    public void sortAlphabetically() {
         habitsToDisplay.sort(new Comparator<Habit>() {
             @Override
             public int compare(Habit h1, Habit h2) {
@@ -167,20 +166,18 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
     /**
      * Sorts the habitsToDisplay in alphabetical order days until the goal date in ascending order
      */
-    public void sortUrgency(){
+    public void sortUrgency() {
         habitsToDisplay.sort(new Comparator<Habit>() {
             @Override
             public int compare(Habit h1, Habit h2) {
                 //difference in days to goal date
                 Calendar today = Calendar.getInstance();
 
-                if(h1.getGoalDate() == null && h2.getGoalDate() == null){
+                if (h1.getGoalDate() == null && h2.getGoalDate() == null) {
                     return 0;
-                }
-                else if(h1.getGoalDate() != null && h2.getGoalDate() == null){
+                } else if (h1.getGoalDate() != null && h2.getGoalDate() == null) {
                     return -1;
-                }
-                else if(h1.getGoalDate() == null && h2.getGoalDate() != null){
+                } else if (h1.getGoalDate() == null && h2.getGoalDate() != null) {
                     return 1;
                 }
 
@@ -196,12 +193,12 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
     /**
      * Sorts the habitsToDisplay by habit percentage (see Habit.percentage)
      */
-    public void sortGoal(){
+    public void sortGoal() {
         habitsToDisplay.sort(new Comparator<Habit>() {
             @Override
             public int compare(Habit h1, Habit h2) {
                 //difference in percentage
-                return (int) Math.round(100*(h1.percentage() - h2.percentage()));
+                return (int) Math.round(100 * (h1.percentage() - h2.percentage()));
             }
         });
     }
@@ -209,7 +206,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
     /**
      * Sorts by days from the lastUpdated date
      */
-    public void sortLastUpdated(){
+    public void sortLastUpdated() {
         habitsToDisplay.sort(new Comparator<Habit>() {
             @Override
             public int compare(Habit h1, Habit h2) {
@@ -219,10 +216,10 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
                 Date h1Date = h1.getLastUpdated();
                 Date h2Date = h2.getLastUpdated();
 
-                if(h1Date == null ){
+                if (h1Date == null) {
                     h1Date = new Date();
                 }
-                if(h2Date == null){
+                if (h2Date == null) {
                     h2Date = new Date();
                 }
 

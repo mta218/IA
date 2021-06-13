@@ -51,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
         firebaseUser = mAuth.getCurrentUser();
         fRef = FirebaseFirestore.getInstance();
 
-        //System.out.println("email haa: " + user.getEmail());
-        //System.out.println("uid be like? " + user.getUid());
-
     }
 
     /**

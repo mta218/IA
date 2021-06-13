@@ -115,23 +115,21 @@ public class HabitProfileActivity extends AppCompatActivity {
 
     /**
      * Refreshes the UI with the latest data of the habit
-     *
      */
-   private void updateUI() {
+    private void updateUI() {
         titleText.setText(habit.getTitle());
         isOwner = false;
-        if(habit.getOwnerID().equals(mAuth.getUid())){
+        if (habit.getOwnerID().equals(mAuth.getUid())) {
             isOwner = true;
         }
 
-        if(habit.getGoalType() != Goal.NONE && isOwner){
-            lastUpdatedText.setText(habit.lastUpdatedString()+"\nKeep updating this habit to reach your goal!");
-        }
-        else{
+        if (habit.getGoalType() != Goal.NONE && isOwner) {
+            lastUpdatedText.setText(habit.lastUpdatedString() + "\nKeep updating this habit to reach your goal!");
+        } else {
             lastUpdatedText.setText(habit.lastUpdatedString());
         }
 
-        if(!isOwner){
+        if (!isOwner) {
             updateInput.setVisibility(View.INVISIBLE);
             editButton.setVisibility(View.INVISIBLE);
             updateButton.setVisibility(View.INVISIBLE);
@@ -140,51 +138,44 @@ public class HabitProfileActivity extends AppCompatActivity {
             encouragementButton.setVisibility(View.VISIBLE);
         }
 
-       getPercentage();
+        getPercentage();
 
-       if(habit.getGoalDate() != null){
-           long days = Duration.between(Calendar.getInstance().toInstant(), habit.getGoalDate().toInstant()).toDays();
+        if (habit.getGoalDate() != null) {
+            long days = Duration.between(Calendar.getInstance().toInstant(), habit.getGoalDate().toInstant()).toDays();
 
-           if(days < 0){
-               dateText.setText("The Goal Date has passed\nYou may edit this Habit to change or remove the Goal Date");
-           }
-           else if(days == 0){
-               dateText.setText("Goal date is today.");
-           }
-           else if(days < 7){
-               if(days == 1){
-                   dateText.setText("1 day until Goal Date");
-               }
-               dateText.setText(days + " days until Goal Date");
-           }
-           else if(days <= 28){
-               int weeks = (int) Math.round(((int)days)/7.0);
-               if(weeks == 1){
-                   dateText.setText("1 week until Goal Date");
-               }
-               dateText.setText(weeks + " weeks until Goal Date");
-           }
-           else if(days <= 31){
-               dateText.setText("1 month until Goal Date");
-           }
-           else if(days < 365){
-               dateText.setText(Math.round(((int)days)/30.5) + " months until Goal Date");
-           }
-           else {
-               int years = (int) Math.round(((int)days)/365);
-               if(years == 1){
-                   dateText.setText("1 year until Goal Date");
-               }
-               dateText.setText(years + " years until Goal Date");
-           }
-       }
-       else{
-           dateText.setText("");
-       }
+            if (days < 0) {
+                dateText.setText("The Goal Date has passed\nYou may edit this Habit to change or remove the Goal Date");
+            } else if (days == 0) {
+                dateText.setText("Goal date is today.");
+            } else if (days < 7) {
+                if (days == 1) {
+                    dateText.setText("1 day until Goal Date");
+                }
+                dateText.setText(days + " days until Goal Date");
+            } else if (days <= 28) {
+                int weeks = (int) Math.round(((int) days) / 7.0);
+                if (weeks == 1) {
+                    dateText.setText("1 week until Goal Date");
+                }
+                dateText.setText(weeks + " weeks until Goal Date");
+            } else if (days <= 31) {
+                dateText.setText("1 month until Goal Date");
+            } else if (days < 365) {
+                dateText.setText(Math.round(((int) days) / 30.5) + " months until Goal Date");
+            } else {
+                int years = (int) Math.round(((int) days) / 365);
+                if (years == 1) {
+                    dateText.setText("1 year until Goal Date");
+                }
+                dateText.setText(years + " years until Goal Date");
+            }
+        } else {
+            dateText.setText("");
+        }
 
-        if(isOwner){
+        if (isOwner) {
             progressText.setText("You have reached " + getPercentage() + "% of your goal");
-            if(habit.getEncouragement() > 0){
+            if (habit.getEncouragement() > 0) {
                 encouragementText.setText(habit.getEncouragement() + " people have encouraged you to keep updating this habit!");
                 konfettiView.build()
                         .addColors(Color.GREEN, Color.LTGRAY)
@@ -196,7 +187,7 @@ public class HabitProfileActivity extends AppCompatActivity {
                         .addSizes(new Size(12, 5f))
                         .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
                         .streamFor(300, 5000L);
-                fRef.collection(HabitConstants.HABIT_PATH).document(habit.getID()).update("encouragement",0).addOnCompleteListener(new OnCompleteListener<Void>() {
+                fRef.collection(HabitConstants.HABIT_PATH).document(habit.getID()).update("encouragement", 0).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
@@ -210,8 +201,7 @@ public class HabitProfileActivity extends AppCompatActivity {
                 });
 
             }
-        }
-        else{
+        } else {
             fRef.collection(HabitConstants.USER_PATH).document(habit.getOwnerID()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -234,7 +224,6 @@ public class HabitProfileActivity extends AppCompatActivity {
         progressBar.setProgress(getPercentage()); //percentage
 
 
-
     }
 
     /**
@@ -242,7 +231,7 @@ public class HabitProfileActivity extends AppCompatActivity {
      *
      * @return An integer representing the percentage of the goal completion
      */
-    private int getPercentage(){
+    private int getPercentage() {
         int percentage = 0;
 
         if (habit.getGoalType() == Goal.AMOUNT) {
@@ -257,15 +246,13 @@ public class HabitProfileActivity extends AppCompatActivity {
     /**
      * Increments the trackedCount value of the habit by the value entered into the updateInput EditText,
      * displays a success/error message on completion.
-     *
      */
-    void updateHabit(){
+    void updateHabit() {
         String input = updateInput.getText().toString();
-        if(input.equals("")){
+        if (input.equals("")) {
             Toast.makeText(getApplicationContext(), "Please enter a value",
                     Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             habit.updateHabit(Integer.parseInt(input));
             fRef.collection(HabitConstants.HABIT_PATH).document(habit.getID()).set(habit).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -300,12 +287,11 @@ public class HabitProfileActivity extends AppCompatActivity {
 
     /**
      * Opens EditHabitActivity
-     *
      */
-    private void goToEditActivity(){
+    private void goToEditActivity() {
         Intent intent = new Intent(this, EditHabitActivity.class);
         intent.putExtra(HabitConstants.HABIT_ID_INTENT, habit.getID());
-        startActivityForResult(intent,1001);
+        startActivityForResult(intent, 1001);
     }
 
     /**
@@ -319,7 +305,7 @@ public class HabitProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 1001){
+        if (requestCode == 1001) {
             finish();
         }
 
@@ -327,10 +313,9 @@ public class HabitProfileActivity extends AppCompatActivity {
 
     /**
      * Called when the encourage button is pressed, adds 1 encouragement to the habit.
-     *
      */
-    private void encourage(){
-        fRef.collection(HabitConstants.HABIT_PATH).document(habit.getID()).update("encouragement",FieldValue.increment(1)).addOnCompleteListener(new OnCompleteListener<Void>() {
+    private void encourage() {
+        fRef.collection(HabitConstants.HABIT_PATH).document(habit.getID()).update("encouragement", FieldValue.increment(1)).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

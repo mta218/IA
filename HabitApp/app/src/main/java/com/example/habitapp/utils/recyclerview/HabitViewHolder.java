@@ -15,7 +15,7 @@ import com.example.habitapp.R;
  * @author Maximilian Ta
  * @version 0.1
  */
-public class HabitViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class HabitViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     protected TextView titleText, updatedText;
     HabitAdapter.OnHabitListener onHabitListener;
@@ -53,10 +53,9 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements View.OnC
      * is clicked by the user.
      */
     public void onClick(View view) {
-        if(friend){
+        if (friend) {
             onFriendHabitListener.onHabitClick(getAdapterPosition(), tag);
-        }
-        else{
+        } else {
             onHabitListener.onHabitClick(getAdapterPosition(), tag);
         }
 
@@ -68,7 +67,7 @@ public class HabitViewHolder extends RecyclerView.ViewHolder implements View.OnC
      *
      * @param tag the new tag
      */
-    public void addTag(String tag){
+    public void addTag(String tag) {
         this.tag = tag;
     }
 }

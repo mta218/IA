@@ -77,7 +77,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
         goalSpinner.setOnItemSelectedListener(this);
 
         freqSpinner = findViewById(R.id.freqSpinner);
-        ArrayAdapter<CharSequence> freqAdapter = ArrayAdapter.createFromResource(this, R.array.frequencies,R.layout.spinner_item);
+        ArrayAdapter<CharSequence> freqAdapter = ArrayAdapter.createFromResource(this, R.array.frequencies, R.layout.spinner_item);
         freqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         freqSpinner.setAdapter(freqAdapter);
         freqSpinner.setOnItemSelectedListener(this);
@@ -108,7 +108,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
                 if (task.isSuccessful()) {
                     habit = task.getResult().toObject(Habit.class);
                     habitFreq = habit.getFreq();
-                    switch (habitFreq){
+                    switch (habitFreq) {
                         case NONE:
                             freqSpinner.setSelection(0);
                             break;
@@ -125,7 +125,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
 
                     habitGoal = habit.getGoalType();
 
-                    switch (habitGoal){
+                    switch (habitGoal) {
                         case NONE:
                             goalSpinner.setSelection(0);
                             break;
@@ -151,7 +151,6 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
 
     /**
      * Refreshes the UI with the latest data of the habit
-     *
      */
     private void updateUI() {
         editTitleInput.setText(habit.getTitle());
@@ -161,12 +160,12 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
         if (habitGoal == Goal.NONE) {
             editGoalInput.setVisibility(View.INVISIBLE);
             editDateInput.setVisibility(View.INVISIBLE);
-        } else{
+        } else {
             editGoalInput.setText(habit.getGoal() + "");
             //System.out.println("peepeepoopoo " + habit.getGoal());
         }
 
-        if(habit.getGoalDate() != null){
+        if (habit.getGoalDate() != null) {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             editDateInput.setText(formatter.format(habit.getGoalDate()));
         }
@@ -209,8 +208,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
                     editGoalInput.setVisibility(View.VISIBLE);
                     break;
             }
-        }
-        else if(adapterView.getId() == R.id.freqSpinner){
+        } else if (adapterView.getId() == R.id.freqSpinner) {
             switch (i) {
                 case 0:
                     habitFreq = Frequency.NONE;
@@ -235,28 +233,26 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
 
     /**
      * Creates a new Habit from the new information entered and updates Firebase.
-     *
      */
-    public void confirmChanges(){
-        try{
+    public void confirmChanges() {
+        try {
             Date newDate;
 
-            if(editDateInput.getText().toString().equals("")){
+            if (editDateInput.getText().toString().equals("")) {
                 newDate = null;
-            }else{
+            } else {
                 newDate = new SimpleDateFormat("dd/MM/yyyy").parse(editDateInput.getText().toString());
             }
 
             int goalInputNum;
-
-            if(editGoalInput.getText().toString().equals("")){
+            if (editGoalInput.getText().toString().equals("")) {
                 goalInputNum = 0;
-            }
-            else{
+            } else {
                 goalInputNum = Integer.parseInt(editGoalInput.getText().toString());
             }
 
-            Habit newHabit = new Habit(habitID,editTitleInput.getText().toString(),habitFreq, goalInputNum, newDate, habitGoal, getTags(), habit.getOwnerID(), habit.getLastUpdated(),habit.getStreak(),habit.getTrackedCount(), hiddenHabitCheckbox.isChecked(), habit.getEncouragement());
+            Habit newHabit = new Habit(habitID, editTitleInput.getText().toString(), habitFreq, goalInputNum, newDate, habitGoal, getTags(),
+                    habit.getOwnerID(), habit.getLastUpdated(), habit.getStreak(), habit.getTrackedCount(), hiddenHabitCheckbox.isChecked(), habit.getEncouragement());
             fRef.collection(HabitConstants.HABIT_PATH).document(habitID).set(newHabit).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
@@ -271,13 +267,9 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
                     finish();
                 }
             });
-
-
-
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 
@@ -299,9 +291,8 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
 
     /**
      * Called when the delete button is pressed, attempts to remove the habit from Firebase. If unsuccessful, displays an error message.
-     *
      */
-    private void deleteHabit(){
+    private void deleteHabit() {
         //https://stackoverflow.com/questions/36747369/how-to-show-a-pop-up-in-android-studio-to-confirm-an-order
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
@@ -311,10 +302,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //confirm
-
                         FirebaseFirestore fRef = FirebaseFirestore.getInstance();
-                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
                         fRef.collection(HabitConstants.HABIT_PATH).document(habit.getID()).delete().addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -349,8 +337,6 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //cancel
-
             }
         });
 
@@ -361,7 +347,6 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
     /**
      * Called when the back button is pressed, prompts the user with a dialogue stating that
      * unsaved changes will be lost.
-     *
      */
     @Override
     public void onBackPressed() {
@@ -391,7 +376,6 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
 
     /**
      * Calls finish()
-     *
      */
     private void closeActivity() {
         finish();
@@ -399,9 +383,8 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
 
     /**
      * Called when habit is deleted to close the HabitProfileActivity
-     *
      */
-    private void closeCallingActivity(){
+    private void closeCallingActivity() {
         finishActivity(1001); //?? idk but I got this from this one dude https://stackoverflow.com/questions/10379134/finish-an-activity-from-another-activity its like one of the last replies
     }
 
