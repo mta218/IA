@@ -181,13 +181,25 @@ public class SettingsActivity extends AppCompatActivity {
                                 fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).update("username", username).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        success();
+                                        if(task.isSuccessful()){
+                                            success();
+                                        }
+                                        else{
+                                            Toast.makeText(getApplicationContext(), "Update failed, try again later.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 });
                                 fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).update("displayName", displayName).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        success();
+                                        if(task.isSuccessful()){
+                                            success();
+                                        }
+                                        else{
+                                            Toast.makeText(getApplicationContext(), "Update failed, try again later.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 });
                             }
@@ -242,8 +254,7 @@ public class SettingsActivity extends AppCompatActivity {
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //cancel
-
+                //cancel, do nothing
             }
         });
 

@@ -89,7 +89,8 @@ public class SearchHabitActivity extends AppCompatActivity implements HabitAdapt
      * Called when search button is pressed, and calls the appropriate search function
      */
     private void searchButtonPressed() {
-        fRef.collection(HabitConstants.HABIT_PATH).whereEqualTo("ownerID", mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        fRef.collection(HabitConstants.HABIT_PATH).whereEqualTo("ownerID", mAuth.getUid())
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {

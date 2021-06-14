@@ -160,8 +160,6 @@ public class UserProfileActivity extends AppCompatActivity implements HabitAdapt
                                     Habit habit = document.toObject(Habit.class);
                                     retrievedCount++;
                                     addPending(HabitConstants.ALL_HABIT_RECYCLER_VIEW, habit);
-
-
                                 } else {
                                     Toast.makeText(getContext(), "Failed:\n Could not update properly",
                                             Toast.LENGTH_SHORT).show();

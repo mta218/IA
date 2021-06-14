@@ -82,6 +82,7 @@
         android:text="You don't seem to have any habits yet..."
         android:textSize="18sp"
         android:visibility="gone"
+        android:textColor="@color/textColor"
         app:layout_constraintBottom_toBottomOf="@+id/allHabitRecyclerView"
         app:layout_constraintEnd_toEndOf="@+id/allHabitRecyclerView"
         app:layout_constraintStart_toStartOf="@+id/allHabitRecyclerView"

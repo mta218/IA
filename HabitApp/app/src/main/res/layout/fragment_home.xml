@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="You don't seem to have any habits yet"
-        android:backgroundTint="@color/buttonColor"
+        android:textColor="@color/textColor"
         android:textSize="18sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/urgentRecyclerView"

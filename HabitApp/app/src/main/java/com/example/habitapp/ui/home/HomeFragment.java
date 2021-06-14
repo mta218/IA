@@ -113,6 +113,7 @@ public class HomeFragment extends Fragment implements HabitAdapter.OnHabitListen
     private void refresh() {
         emptyText.setVisibility(View.GONE);
         ((HabitAdapter) urgentRecyclerView.getAdapter()).clearArrayList();
+        ((HabitAdapter) urgentRecyclerView.getAdapter()).notifyDataSetChanged();
         allPendingArrayList.clear();
         fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

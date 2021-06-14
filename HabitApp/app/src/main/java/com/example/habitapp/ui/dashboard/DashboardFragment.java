@@ -190,7 +190,7 @@ public class DashboardFragment extends Fragment implements FriendHabitAdapter.On
                                 toBeFilteredArrayList = new ArrayList();
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Habit habit = document.toObject(Habit.class);
-                                    if (user.getFriends().contains(habit.getOwnerID()) && !habit.isHidden()) {
+                                    if (user.getFriends() != null && user.getFriends().contains(habit.getOwnerID()) && !habit.isHidden()) {
                                         toBeFilteredArrayList.add(habit);
                                     }
                                 }

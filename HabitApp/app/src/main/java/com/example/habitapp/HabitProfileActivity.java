@@ -191,10 +191,10 @@ public class HabitProfileActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "YAY!",
+                            Toast.makeText(getApplicationContext(), "Your friends have encouraged you to complete this habit!!",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(getApplicationContext(), "Failed:\n Could not update properly",
+                            Toast.makeText(getApplicationContext(), "There was an unexpected error, try again later",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

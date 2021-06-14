@@ -160,7 +160,6 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitViewHolder> {
                 return h1.getTitle().compareTo(h2.getTitle());
             }
         });
-
     }
 
     /**

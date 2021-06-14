@@ -124,7 +124,6 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
                     }
 
                     habitGoal = habit.getGoalType();
-
                     switch (habitGoal) {
                         case NONE:
                             goalSpinner.setSelection(0);
@@ -303,7 +302,6 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         FirebaseFirestore fRef = FirebaseFirestore.getInstance();
-
                         fRef.collection(HabitConstants.HABIT_PATH).document(habit.getID()).delete().addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
@@ -337,6 +335,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                //Do nothing
             }
         });
 
@@ -364,8 +363,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //cancel
-
+                //cancel, do nothing
             }
         });
 

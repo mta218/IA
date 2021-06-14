@@ -4,7 +4,6 @@ import com.example.habitapp.enums.Frequency;
 import com.example.habitapp.enums.Goal;
 
 import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -144,7 +143,11 @@ public class Habit {
         }
     }
 
+    /**
+     * called by updateStreak returns if the habit was updated yesterday
+     */
     private boolean updatedYesterday() {
+        //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
         Calendar aWeekAgo = Calendar.getInstance();
         aWeekAgo.add(Calendar.DATE, -1);
         Calendar lastUpdatedAsCal = Calendar.getInstance();
@@ -156,6 +159,9 @@ public class Habit {
         return day == targetDay && year == targetYear;
     }
 
+    /**
+     * called by updateStreak returns if the habit was updated today
+     */
     private boolean updatedToday() {
         Calendar aWeekAgo = Calendar.getInstance();
         Calendar lastUpdatedAsCal = Calendar.getInstance();
@@ -171,7 +177,6 @@ public class Habit {
      * called by updateStreak returns if the habit was updated in the previous week
      */
     private boolean updatedLastWeek() {
-        //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
         Calendar aWeekAgo = Calendar.getInstance();
         aWeekAgo.add(Calendar.DATE, -7);
         Calendar lastUpdatedAsCal = Calendar.getInstance();
@@ -187,7 +192,6 @@ public class Habit {
      * called by updateStreak returns if the habit was updated in the current week
      */
     private boolean updatedThisWeek() {
-        //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
         Calendar today = Calendar.getInstance();
         Calendar lastUpdatedAsCal = Calendar.getInstance();
         lastUpdatedAsCal.setTime(lastUpdated);
@@ -202,7 +206,6 @@ public class Habit {
      * called by updateStreak returns if the habit was updated in the previous month
      */
     private boolean updatedLastMonth() {
-        //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
         Calendar aMonthAgo = Calendar.getInstance();
         aMonthAgo.add(Calendar.MONTH, -1);
         Calendar lastUpdatedAsCal = Calendar.getInstance();
@@ -218,7 +221,6 @@ public class Habit {
      * called by updateStreak returns if the habit was updated in the current month
      */
     private boolean updatedThisMonth() {
-        //https://stackoverflow.com/questions/10313797/how-to-check-a-day-is-in-the-current-week-in-java
         Calendar today = Calendar.getInstance();
         Calendar lastUpdatedAsCal = Calendar.getInstance();
         lastUpdatedAsCal.setTime(lastUpdated);

@@ -102,7 +102,6 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
         super.onResume();
 
         refresh();
-
     }
 
 
@@ -138,6 +137,7 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
     private void refresh() {
         emptyText.setVisibility(View.GONE);
         ((HabitAdapter) allHabitRecyclerView.getAdapter()).clearArrayList();
+        ((HabitAdapter) allHabitRecyclerView.getAdapter()).notifyDataSetChanged();
         allPendingArrayList.clear();
         fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -168,8 +168,6 @@ public class NotificationsFragment extends Fragment implements HabitAdapter.OnHa
                     } else {
                         emptyText.setVisibility(View.VISIBLE);
                     }
-
-
                 } else {
                     Toast.makeText(getContext(), "Failed:\n Could not update properly",
                             Toast.LENGTH_SHORT).show();

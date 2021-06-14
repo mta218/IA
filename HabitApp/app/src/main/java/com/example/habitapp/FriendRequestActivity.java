@@ -109,9 +109,12 @@ public class FriendRequestActivity extends AppCompatActivity implements FriendRe
                             public void onSuccess(Void aVoid) {
 
                                 FriendRequestAdapter adapter = (FriendRequestAdapter) requestRecyclerView.getAdapter();
-                                adapter.removeFriendRequest(position);
-                                adapter.notifyDataSetChanged();
+                                try{
+                                    adapter.removeFriendRequest(position);
+                                    adapter.notifyDataSetChanged();
+                                }catch (Exception e){
 
+                                }
 
                                 Toast.makeText(getApplicationContext(), "Successfully Added " + friendRequest.getRequesterName() + " as Friend",
                                         Toast.LENGTH_SHORT).show();

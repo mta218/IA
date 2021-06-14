@@ -84,8 +84,6 @@ public class SignInActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
-
-
     }
 
     private void signIn() {
@@ -121,7 +119,6 @@ public class SignInActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-
                             fRef.collection(HabitConstants.USER_PATH).document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
