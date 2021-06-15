@@ -383,7 +383,7 @@ public class EditHabitActivity extends AppCompatActivity implements AdapterView.
      * Called when habit is deleted to close the HabitProfileActivity
      */
     private void closeCallingActivity() {
-        finishActivity(1001); //?? idk but I got this from this one dude https://stackoverflow.com/questions/10379134/finish-an-activity-from-another-activity its like one of the last replies
+        finishActivity(1001); //Adapted from https://stackoverflow.com/questions/10379134/finish-an-activity-from-another-activity its like one of the last replies
     }
 
 }
